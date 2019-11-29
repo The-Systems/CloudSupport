@@ -1,0 +1,4 @@
+name: "CloudSupport"
+version: "1.0"
+author: "derrop"
+main: "eu.thesystems.cloud.loader.BukkitPlugin"
