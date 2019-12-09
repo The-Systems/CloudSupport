@@ -3,6 +3,7 @@ package eu.thesystems.cloud.cloudnet3;
  * Created by derrop on 26.10.2019
  */
 
+import com.google.gson.JsonParser;
 import de.dytanic.cloudnet.driver.event.EventListener;
 import de.dytanic.cloudnet.driver.event.events.channel.ChannelMessageReceiveEvent;
 import de.dytanic.cloudnet.driver.event.events.service.CloudServiceInfoUpdateEvent;
@@ -76,7 +77,7 @@ public class CloudNet3EventCaller {
 
     @EventListener
     public void handleChannelMessage(ChannelMessageReceiveEvent event) {
-        this.eventManager.callEvent(new eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent(event.getChannel(), event.getMessage(), event.getData().toJsonObject()));
+        this.eventManager.callEvent(new eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent(event.getChannel(), event.getMessage(), JsonParser.parseString(event.getData().toJson()).getAsJsonObject()));
     }
 
     @EventListener

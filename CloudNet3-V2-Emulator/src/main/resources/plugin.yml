@@ -1,0 +1,6 @@
+name: 'CloudNetAPI'
+version: '1.0'
+author: 'derrop'
+main: 'eu.thesystems.cloud.CloudNet2Emulator'
+depend:
+  - 'CloudSupport'

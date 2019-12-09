@@ -5,6 +5,6 @@
   "version": "1.0",
   "author": "derrop",
   "website": "https://cloudsupport.derrop.gq",
-  "main": "eu.thesystems.cloud.loader.CloudNet3NodeLoader",
+  "main": "eu.thesystems.cloud.loader.CloudNet3Module",
   "description": "With this module, you can write your modules for CloudNet 2, 3 and ReformCloud 1, 2, but don't have to use more libs than just the one for this module"
 }

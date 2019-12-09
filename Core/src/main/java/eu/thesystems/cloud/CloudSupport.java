@@ -7,6 +7,8 @@ import eu.thesystems.cloud.addon.loader.CloudAddonManager;
 import eu.thesystems.cloud.addon.loader.DefaultCloudAddonManager;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 
+import java.util.Objects;
+
 public class CloudSupport {
 
     private static CloudSupport instance;
@@ -18,18 +20,23 @@ public class CloudSupport {
     private CloudSystem selectedCloudSystem;
     private CloudAddonManager addonManager = new DefaultCloudAddonManager();
 
-    public boolean selectCloudSystem() {
+    public SupportedCloudSystem findAvailableCloudSystem() {
         System.out.println("[CloudSupport] Searching for cloud system...");
         for (SupportedCloudSystem value : SupportedCloudSystem.values()) {
             if (value.isUseable()) {
-                CloudSystem cloudSystem = value.createCloudSystem();
-                if (cloudSystem != null) {
-                    this.selectCloudSystem(cloudSystem);
-                    return true;
-                }
+                return value;
             }
         }
         System.out.println("[CloudSupport] Cannot find cloud system");
+        return null;
+    }
+
+    public boolean selectCloudSystem() {
+        SupportedCloudSystem cloudSystem = this.findAvailableCloudSystem();
+        if (cloudSystem != null) {
+            this.selectCloudSystem(Objects.requireNonNull(cloudSystem.createCloudSystem()));
+            return true;
+        }
         return false;
     }
 
