@@ -50,7 +50,7 @@ public interface CloudSystem {
     /**
      * Gets the module manager instance which is used to manage the modules loaded in the cloud
      * <p>
-     * This method is available in CloudNet 2 Master; CloudNet 3 Node and Wrapper; ReformCloud 1 Controller and Client;
+     * This method is available in CloudNet 2 Master; CloudNet 3 every component; ReformCloud 1 Controller and Client;
      * ReformCloud 2 Node, Controller and Client.
      *
      * @return the final instance of the module manager
@@ -99,8 +99,7 @@ public interface CloudSystem {
     /**
      * Gets all processes of the servers in the network.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @return a list with the infos of all servers in the network
      * @see CloudSystem#distinguishesProxiesAndServers()
@@ -110,8 +109,7 @@ public interface CloudSystem {
     /**
      * Gets all processes of the proxies in the network.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @return a list with the infos of all proxies in the network
      * @see CloudSystem#distinguishesProxiesAndServers()
@@ -121,8 +119,7 @@ public interface CloudSystem {
     /**
      * Gets the info of the server by the name.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @param name the name of the server
      * @return the server or null, if there is no server with that name in the network
@@ -133,8 +130,7 @@ public interface CloudSystem {
     /**
      * Gets the info of the proxy by the name.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @param name the name of the proxy
      * @return the proxy or null, if there is no proxy with that name in the network
@@ -166,8 +162,7 @@ public interface CloudSystem {
     /**
      * Gets all processes of the servers in the network by a specified group.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @param group the name of the group
      * @return a list with the infos of all servers in the network
@@ -178,8 +173,7 @@ public interface CloudSystem {
     /**
      * Gets all processes of the proxies in the network by a specified group.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @param group the name of the group
      * @return a list with the infos of all proxies in the network
@@ -190,8 +184,7 @@ public interface CloudSystem {
     /**
      * Gets the info of all server groups in the cloud.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @return a list with all server groups registered in the network
      * @see CloudSystem#distinguishesProxiesAndServers()
@@ -201,8 +194,7 @@ public interface CloudSystem {
     /**
      * Gets the info of all proxy groups in the cloud.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @return a list with all proxy groups registered in the network
      * @see CloudSystem#distinguishesProxiesAndServers()
@@ -221,8 +213,7 @@ public interface CloudSystem {
     /**
      * Gets the info of a server group by its name.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @param name the name of the group
      * @return the group object or null, if it does not exist
@@ -232,8 +223,7 @@ public interface CloudSystem {
     /**
      * Gets the info of a proxy group by its name.
      * <p>
-     * This only works on clouds, that distinguish between servers and proxies.
-     * This method is available in CloudNet 2 (every component); ReformCloud 1 (every component); ReformCloud 2 (every component).
+     * This method is available on every component of every cloud.
      *
      * @param name the name of the group
      * @return the group object or null, if it does not exist

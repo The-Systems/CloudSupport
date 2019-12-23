@@ -143,22 +143,30 @@ public abstract class CloudNet3 extends CloudNet {
 
     @Override
     public Collection<ServerGroup> getServerGroups() {
-        throw new CloudSupportException(this);
+        return this.cloudNetDriver.getServiceTaskProvider().getPermanentServiceTasks()
+                .stream()
+                .map(this.getConverter()::convertServerGroup)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Collection<ProxyGroup> getProxyGroups() {
-        throw new CloudSupportException(this);
+        return this.cloudNetDriver.getServiceTaskProvider().getPermanentServiceTasks()
+                .stream()
+                .map(this.getConverter()::convertProxyGroup)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     @Override
     public ServerGroup getServerGroup(String name) {
-        throw new CloudSupportException(this);
+        return this.getConverter().convertServerGroup(this.cloudNetDriver.getServiceTaskProvider().getServiceTask(name));
     }
 
     @Override
     public ProxyGroup getProxyGroup(String name) {
-        throw new CloudSupportException(this);
+        return this.getConverter().convertProxyGroup(this.cloudNetDriver.getServiceTaskProvider().getServiceTask(name));
     }
 
     @Override
