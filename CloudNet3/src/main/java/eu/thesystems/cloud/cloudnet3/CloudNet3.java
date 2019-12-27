@@ -7,6 +7,7 @@ import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.permission.IPermissionUser;
 import de.dytanic.cloudnet.driver.service.ServiceEnvironmentType;
 import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
+import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import eu.thesystems.cloud.CloudSystem;
 import eu.thesystems.cloud.cloudsystem.cloudnet.CloudNet;
 import eu.thesystems.cloud.cloudnet3.module.CloudNet3ModuleManager;
@@ -39,9 +40,9 @@ public abstract class CloudNet3 extends CloudNet {
     private final EventManager eventManager = new DefaultEventManager();
     private final ModuleManager moduleManager = new CloudNet3ModuleManager(this, this.cloudNetDriver.getModuleProvider());
 
-    public CloudNet3(SupportedCloudSystem componentType, String name, String version) {
+    public CloudNet3(SupportedCloudSystem componentType, String name, String version, IPlayerManager playerManager) {
         super(componentType, name, version);
-        this.cloudNetDriver.getEventManager().registerListener(new CloudNet3EventCaller(this, this.eventManager));
+        this.cloudNetDriver.getEventManager().registerListener(new CloudNet3EventCaller(this, this.eventManager, playerManager));
     }
 
     @Override

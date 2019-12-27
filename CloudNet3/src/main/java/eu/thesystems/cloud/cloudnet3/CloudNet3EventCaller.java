@@ -9,8 +9,11 @@ import de.dytanic.cloudnet.driver.event.events.channel.ChannelMessageReceiveEven
 import de.dytanic.cloudnet.driver.event.events.service.CloudServiceInfoUpdateEvent;
 import de.dytanic.cloudnet.driver.event.events.service.CloudServiceStartEvent;
 import de.dytanic.cloudnet.driver.event.events.service.CloudServiceStopEvent;
-import de.dytanic.cloudnet.ext.bridge.BridgePlayerManager;
-import de.dytanic.cloudnet.ext.bridge.event.*;
+import de.dytanic.cloudnet.ext.bridge.event.BridgeProxyPlayerDisconnectEvent;
+import de.dytanic.cloudnet.ext.bridge.event.BridgeProxyPlayerLoginSuccessEvent;
+import de.dytanic.cloudnet.ext.bridge.event.BridgeUpdateCloudOfflinePlayerEvent;
+import de.dytanic.cloudnet.ext.bridge.event.BridgeUpdateCloudPlayerEvent;
+import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import eu.thesystems.cloud.cloudnet3.util.CloudNet3Util;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.event.EventManager;
@@ -32,10 +35,12 @@ public class CloudNet3EventCaller {
 
     private CloudNet3 cloudNet3;
     private EventManager eventManager;
+    private IPlayerManager playerManager;
 
-    public CloudNet3EventCaller(CloudNet3 cloudNet3, EventManager eventManager) {
+    public CloudNet3EventCaller(CloudNet3 cloudNet3, EventManager eventManager, IPlayerManager playerManager) {
         this.cloudNet3 = cloudNet3;
         this.eventManager = eventManager;
+        this.playerManager = playerManager;
     }
 
     private CloudObjectConverter converter() {
@@ -93,13 +98,13 @@ public class CloudNet3EventCaller {
     @EventListener
     public void handlePlayerLogin(BridgeProxyPlayerLoginSuccessEvent event) {
         this.eventManager.callEvent(new CloudPlayerLoginEvent(this.converter().convertOnlinePlayer(event.getNetworkConnectionInfo())));
-        BridgePlayerManager.getInstance().getOnlinePlayersAsync().onComplete(onlinePlayers -> this.eventManager.callEvent(new CloudPlayerUpdateOnlineCountEvent(onlinePlayers.size()))); //todo use BridgePlayerManager#getOnlineCount in a later version
+        this.playerManager.getOnlineCountAsync().onComplete(onlineCount -> this.eventManager.callEvent(new CloudPlayerUpdateOnlineCountEvent(onlineCount)));
     }
 
     @EventListener
     public void handlePlayerLogout(BridgeProxyPlayerDisconnectEvent event) {
         this.eventManager.callEvent(new CloudPlayerLogoutEvent(this.converter().convertOnlinePlayer(event.getNetworkConnectionInfo())));
-        BridgePlayerManager.getInstance().getOnlinePlayersAsync().onComplete(onlinePlayers -> this.eventManager.callEvent(new CloudPlayerUpdateOnlineCountEvent(onlinePlayers.size()))); //todo use BridgePlayerManager#getOnlineCount in a later version
+        this.playerManager.getOnlineCountAsync().onComplete(onlineCount -> this.eventManager.callEvent(new CloudPlayerUpdateOnlineCountEvent(onlineCount)));
     }
 
     @EventListener

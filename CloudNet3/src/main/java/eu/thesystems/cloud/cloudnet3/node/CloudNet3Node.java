@@ -4,7 +4,7 @@ package eu.thesystems.cloud.cloudnet3.node;
  */
 
 import de.dytanic.cloudnet.CloudNet;
-import de.dytanic.cloudnet.driver.CloudNetDriver;
+import de.dytanic.cloudnet.ext.bridge.node.player.NodePlayerManager;
 import eu.thesystems.cloud.cloudnet3.CloudNet3;
 import eu.thesystems.cloud.cloudnet3.node.command.CloudNet3NodeCommandMap;
 import eu.thesystems.cloud.cloudnet3.node.database.CloudNet3NodeDatabaseProvider;
@@ -20,7 +20,12 @@ public class CloudNet3Node extends CloudNet3 {
     private DatabaseProvider databaseProvider = new CloudNet3NodeDatabaseProvider(this.cloudNet);
 
     public CloudNet3Node() {
-        super(SupportedCloudSystem.CLOUDNET_3_NODE, "CloudNet3-Node", CloudNet.class.getPackage().getImplementationTitle() + "-" + CloudNet.class.getPackage().getImplementationVersion());
+        super(
+                SupportedCloudSystem.CLOUDNET_3_NODE,
+                "CloudNet3-Node",
+                CloudNet.class.getPackage().getImplementationTitle() + "-" + CloudNet.class.getPackage().getImplementationVersion(),
+                NodePlayerManager.getInstance()
+        );
     }
 
     public CloudNet getCloudNet() {
