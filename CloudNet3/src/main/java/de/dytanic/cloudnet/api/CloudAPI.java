@@ -118,7 +118,6 @@ public final class CloudAPI {
                 .collect(Collectors.toList());
     }
 
-    @Deprecated
     public ICloudService getCloudService() {
         return this.cloudService;
     }

@@ -15,11 +15,14 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CloudServer implements ICloudService {
 
     private Plugin plugin;
+
+    public static CloudServer getInstance() {
+        return (CloudServer) CloudAPI.getInstance().getCloudService();
+    }
 
     @Override
     public CloudPlayer getCachedPlayer(UUID uniqueId) {
