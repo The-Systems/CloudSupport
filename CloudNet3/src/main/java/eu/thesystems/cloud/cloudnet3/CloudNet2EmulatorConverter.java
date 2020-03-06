@@ -38,6 +38,11 @@ import java.util.stream.Collectors;
 public class CloudNet2EmulatorConverter {
 
     public ICloudPlayer convertToV3OnlinePlayer(CloudPlayer cloudPlayer) {
+        ServiceInfoSnapshot proxy = CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServiceByName(cloudPlayer.getProxy());
+        ServiceInfoSnapshot server = CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServiceByName(cloudPlayer.getServer());
+        if (proxy == null || server == null) {
+            return null;
+        }
         return new de.dytanic.cloudnet.ext.bridge.player.CloudPlayer(
                 cloudPlayer.getUniqueId(),
                 cloudPlayer.getName(),
@@ -47,13 +52,13 @@ public class CloudNet2EmulatorConverter {
                 this.convertPlayerConnection(cloudPlayer.getLastPlayerConnection()),
                 new NetworkServiceInfo(
                         ServiceEnvironmentType.BUNGEECORD,
-                        null,
-                        cloudPlayer.getProxy()
+                        proxy.getServiceId(),
+                        proxy.getConfiguration().getGroups()
                 ),
                 new NetworkServiceInfo(
                         ServiceEnvironmentType.MINECRAFT_SERVER,
-                        null,
-                        cloudPlayer.getServer()
+                        server.getServiceId(),
+                        server.getConfiguration().getGroups()
                 ),
                 this.convertPlayerConnection(cloudPlayer.getPlayerConnection()),
                 new NetworkPlayerServerInfo(
@@ -68,8 +73,8 @@ public class CloudNet2EmulatorConverter {
                         null,
                         new NetworkServiceInfo(
                                 ServiceEnvironmentType.MINECRAFT_SERVER,
-                                null,
-                                cloudPlayer.getServer()
+                                server.getServiceId(),
+                                server.getConfiguration().getGroups()
                         )
                 ),
                 JsonDocument.newDocument(cloudPlayer.getMetaData().convertToJsonString())
@@ -313,7 +318,7 @@ public class CloudNet2EmulatorConverter {
     }
 
     public ServerConfig convertToServerConfig(ServiceInfoSnapshot serviceInfoSnapshot) {
-        return new de.dytanic.cloudnet.lib.server.ServerConfig(
+        return new ServerConfig(
                 ServiceInfoSnapshotUtil.isIngameService(serviceInfoSnapshot),
                 ServiceInfoSnapshotUtil.getExtra(serviceInfoSnapshot),
                 Document.load(serviceInfoSnapshot.getProperties().toJson()),
