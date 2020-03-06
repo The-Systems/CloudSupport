@@ -1,6 +1,5 @@
 package de.dytanic.cloudnet.api;
 
-import com.google.gson.reflect.TypeToken;
 import de.dytanic.cloudnet.api.database.DatabaseManager;
 import de.dytanic.cloudnet.api.handlers.NetworkHandlerProvider;
 import de.dytanic.cloudnet.api.player.PlayerExecutorBridge;
@@ -17,7 +16,6 @@ import de.dytanic.cloudnet.lib.MultiValue;
 import de.dytanic.cloudnet.lib.map.WrappedMap;
 import de.dytanic.cloudnet.lib.network.NetworkConnection;
 import de.dytanic.cloudnet.lib.network.WrapperInfo;
-import de.dytanic.cloudnet.lib.network.protocol.packet.result.Result;
 import de.dytanic.cloudnet.lib.player.CloudPlayer;
 import de.dytanic.cloudnet.lib.player.OfflinePlayer;
 import de.dytanic.cloudnet.lib.player.PlayerConnection;
@@ -35,14 +33,11 @@ import de.dytanic.cloudnet.lib.server.template.TemplateResource;
 import de.dytanic.cloudnet.lib.server.version.ProxyVersion;
 import de.dytanic.cloudnet.lib.service.ServiceId;
 import de.dytanic.cloudnet.lib.service.plugin.ServerInstallablePlugin;
-import de.dytanic.cloudnet.lib.utility.Acceptable;
-import de.dytanic.cloudnet.lib.utility.CollectionWrapper;
 import de.dytanic.cloudnet.lib.utility.document.Document;
-import de.dytanic.cloudnet.service.ICloudService;
 import de.dytanic.cloudnet.wrapper.Wrapper;
+import eu.thesystems.cloud.cloudnet3.CloudNet2EmulatorConverter;
 
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -51,6 +46,8 @@ public final class CloudAPI {
     private static CloudAPI instance;
 
     private ICloudService cloudService = null;
+
+    private CloudNet2EmulatorConverter converter = new CloudNet2EmulatorConverter();
 
     //Init
     private NetworkHandlerProvider networkHandlerProvider = new NetworkHandlerProvider();
@@ -79,324 +76,12 @@ public final class CloudAPI {
         System.exit(0);
     }
 
-    private void warnUnavailableFeature(String feature) {
+    public void warnUnavailableFeature(String feature) {
         System.err.println("The " + feature + " is not available in the CloudNet 3 Implementation!");
     }
 
-    private void warnUnavailableFeature(String feature, String reason) {
+    public void warnUnavailableFeature(String feature, String reason) {
         System.err.println("The " + feature + " is not available in the CloudNet 3 Implementation! Reason: " + reason);
-    }
-
-    private ICloudPlayer convertToV3OnlinePlayer(CloudPlayer cloudPlayer) {
-        return new de.dytanic.cloudnet.ext.bridge.player.CloudPlayer(
-                cloudPlayer.getUniqueId(),
-                cloudPlayer.getName(),
-                null,
-                cloudPlayer.getFirstLogin(),
-                cloudPlayer.getLastLogin(),
-                this.convertPlayerConnection(cloudPlayer.getLastPlayerConnection()),
-                new NetworkServiceInfo(
-                        ServiceEnvironmentType.BUNGEECORD,
-                        null,
-                        cloudPlayer.getProxy()
-                ),
-                new NetworkServiceInfo(
-                        ServiceEnvironmentType.MINECRAFT_SERVER,
-                        null,
-                        cloudPlayer.getServer()
-                ),
-                this.convertPlayerConnection(cloudPlayer.getPlayerConnection()),
-                new NetworkPlayerServerInfo(
-                        cloudPlayer.getUniqueId(),
-                        cloudPlayer.getName(),
-                        null,
-                        -1,
-                        -1,
-                        -1,
-                        -1,
-                        null,
-                        null,
-                        new NetworkServiceInfo(
-                                ServiceEnvironmentType.MINECRAFT_SERVER,
-                                null,
-                                cloudPlayer.getServer()
-                        )
-                ),
-                JsonDocument.newDocument(cloudPlayer.getMetaData().convertToJsonString())
-        );
-    }
-
-    private ICloudOfflinePlayer convertToV3OfflinePlayer(OfflinePlayer offlinePlayer) {
-        return new CloudOfflinePlayer(
-                offlinePlayer.getUniqueId(),
-                offlinePlayer.getName(),
-                null,
-                offlinePlayer.getFirstLogin(),
-                offlinePlayer.getLastLogin(),
-                this.convertPlayerConnection(offlinePlayer.getLastPlayerConnection())
-        );
-    }
-
-    private CloudPlayer convertToV2OnlinePlayer(ICloudPlayer cloudPlayer, IPermissionUser permissionUser) {
-        CloudPlayer resultPlayer = new CloudPlayer(
-                this.convertToV2OfflinePlayer(cloudPlayer, permissionUser),
-                this.convertToPlayerConnection(cloudPlayer.getNetworkConnectionInfo()),
-                cloudPlayer.getLoginService().getServerName()
-        );
-        resultPlayer.setPlayerExecutor(PlayerExecutorBridge.INSTANCE);
-        return resultPlayer;
-    }
-
-    private OfflinePlayer convertToV2OfflinePlayer(ICloudOfflinePlayer offlinePlayer, IPermissionUser permissionUser) {
-        return new OfflinePlayer(
-                offlinePlayer.getUniqueId(),
-                offlinePlayer.getName(),
-                Document.load(offlinePlayer.getProperties().toJson()),
-                offlinePlayer.getLastLoginTimeMillis(),
-                offlinePlayer.getFirstLoginTimeMillis(),
-                this.convertToPlayerConnection(offlinePlayer.getLastNetworkConnectionInfo()),
-                permissionUser == null ? null : new PermissionEntity(
-                        permissionUser.getUniqueId(),
-                        permissionUser.getPermissions()
-                                .stream()
-                                .collect(Collectors.toMap(permission -> permission.getName().toLowerCase(), permission -> permission.getPotency() >= 0)),
-                        null,
-                        null,
-                        permissionUser.getGroups()
-                                .stream()
-                                .map(groupInfo -> new GroupEntityData(groupInfo.getGroup(), groupInfo.getTimeOutMillis()))
-                                .collect(Collectors.toList())
-                )
-        );
-    }
-
-    private NetworkConnectionInfo convertPlayerConnection(PlayerConnection connection) {
-        return new NetworkConnectionInfo(
-                connection.getUniqueId(),
-                connection.getName(),
-                connection.getVersion(),
-                new HostAndPort(
-                        connection.getHost(),
-                        connection.getPort()
-                ),
-                null,
-                connection.isOnlineMode(),
-                connection.isLegacy(),
-                null
-        );
-    }
-
-    private PlayerConnection convertToPlayerConnection(NetworkConnectionInfo connectionInfo) {
-        return new PlayerConnection(
-                connectionInfo.getUniqueId(),
-                connectionInfo.getName(),
-                connectionInfo.getVersion(),
-                connectionInfo.getAddress().getHost(),
-                connectionInfo.getAddress().getPort(),
-                connectionInfo.isOnlineMode(),
-                connectionInfo.isLegacy()
-        );
-    }
-
-    private Collection<ServiceRemoteInclusion> convertToIncludes(Collection<ServerInstallablePlugin> plugins) {
-        return plugins.stream()
-                .filter(serverInstallablePlugin -> serverInstallablePlugin.getUrl() != null)
-                .map(serverInstallablePlugin -> new ServiceRemoteInclusion(serverInstallablePlugin.getUrl(), "plugins/" + serverInstallablePlugin.getName() + ".jar"))
-                .collect(Collectors.toList());
-    }
-
-    private ProxyGroup convertToProxyGroup(ServiceTask serviceTask) {
-        BridgeConfiguration bridgeConfiguration = BridgeConfigurationProvider.load();
-
-        ProxyFallbackConfiguration fallbackConfiguration = bridgeConfiguration.getBungeeFallbackConfigurations()
-                .stream()
-                .filter(configuration -> serviceTask.getGroups().contains(configuration.getTargetGroup()))
-                .findFirst().orElse(null);
-
-        return new ProxyGroup(
-                serviceTask.getName(),
-                serviceTask.getAssociatedNodes(),
-                serviceTask.getTemplates().stream().findFirst()
-                        .map(template -> new Template(template.getName(), TemplateResource.LOCAL, null, new String[0], Collections.emptyList()))
-                        .orElseThrow(() -> new IllegalStateException("No template provided for the task " + serviceTask.getName())),
-                ProxyVersion.BUNGEECORD,
-                serviceTask.getStartPort(),
-                serviceTask.getMinServiceCount(),
-                serviceTask.getProcessConfiguration().getMaxHeapMemorySize(),
-                new ProxyConfig(
-                        false,
-                        false,
-                        Collections.emptyList(),
-                        new Motd("", ""),
-                        "",
-                        -1,
-                        false,
-                        new AutoSlot(
-                                0,
-                                false
-                        ),
-                        new TabList(
-                                false,
-                                "",
-                                ""
-                        ),
-                        new String[0],
-                        Collections.emptyList(),
-                        new DynamicFallback(
-                                fallbackConfiguration == null ? null : fallbackConfiguration.getDefaultFallbackTask(),
-                                fallbackConfiguration == null ? null : fallbackConfiguration.getFallbacks().stream()
-                                        .map(proxyFallback -> new ServerFallback(proxyFallback.getTask(), proxyFallback.getPermission()))
-                                        .collect(Collectors.toList())
-                        )
-                ),
-                serviceTask.isStaticServices() ? ProxyGroupMode.STATIC : ProxyGroupMode.DYNAMIC,
-                serviceTask.getProperties().toInstanceOf(WrappedMap.class)
-        );
-    }
-
-    private ServerGroup convertToServerGroup(ServiceTask serviceTask) {
-        return new ServerGroup(
-                serviceTask.getName(),
-                serviceTask.getAssociatedNodes(),
-                true,
-                serviceTask.getProcessConfiguration().getMaxHeapMemorySize(),
-                0,
-                0,
-                serviceTask.isMaintenance(),
-                serviceTask.getMinServiceCount(),
-                0,
-                0,
-                300,
-                0,
-                100,
-                100,
-                ServerGroupType.BUKKIT,
-                serviceTask.isStaticServices() ? ServerGroupMode.STATIC : ServerGroupMode.DYNAMIC, //todo when signs enabled, use lobby mode?
-                serviceTask.getTemplates()
-                        .stream()
-                        .map(template -> new Template(template.getName(), TemplateResource.LOCAL, null, new String[0], Collections.emptyList()))
-                        .collect(Collectors.toList()),
-                new AdvancedServerConfig(
-                        true,
-                        true,
-                        true,
-                        !serviceTask.isStaticServices()
-                )
-        );
-    }
-
-    private ServiceTask convertToTask(ServerGroup serverGroup) {
-        return new ServiceTask(
-                Collections.emptyList(),
-                Collections.emptyList(),
-                Collections.emptyList(),
-                serverGroup.getName(),
-                "jvm",
-                serverGroup.isMaintenance(),
-                true,
-                serverGroup.getGroupMode() == ServerGroupMode.STATIC || serverGroup.getGroupMode() == ServerGroupMode.STATIC_LOBBY,
-                serverGroup.getWrapper(),
-                Collections.singletonList(serverGroup.getName()),
-                Collections.emptyList(),
-                new ProcessConfiguration(
-                        ServiceEnvironmentType.MINECRAFT_SERVER,
-                        serverGroup.getMemory(),
-                        Collections.emptyList()
-                ),
-                41570,
-                serverGroup.getMinOnlineServers()
-        );
-    }
-
-    private ServiceTask convertToTask(ProxyGroup proxyGroup) {
-        return new ServiceTask(
-                Collections.emptyList(),
-                Collections.emptyList(),
-                Collections.emptyList(),
-                proxyGroup.getName(),
-                "jvm",
-                proxyGroup.getProxyConfig().isEnabled() && proxyGroup.getProxyConfig().isMaintenance(),
-                true,
-                proxyGroup.getProxyGroupMode() == ProxyGroupMode.STATIC,
-                proxyGroup.getWrapper(),
-                Collections.singletonList(proxyGroup.getName()),
-                Collections.emptyList(),
-                new ProcessConfiguration(
-                        ServiceEnvironmentType.BUNGEECORD,
-                        proxyGroup.getMemory(),
-                        Collections.emptyList()
-                ),
-                proxyGroup.getStartPort(),
-                proxyGroup.getStartup()
-        );
-    }
-
-    private ServiceInfoSnapshot convertServerInfo(ServerInfo serverInfo) {
-        return CloudNetDriver.getInstance().getCloudServiceProvider().getCloudService(serverInfo.getServiceId().getUniqueId());
-    }
-
-    private ServerInfo convertToServerInfo(ServiceInfoSnapshot serviceInfoSnapshot) {
-        Collection<JsonDocument> players = ServiceInfoSnapshotUtil.getPlayers(serviceInfoSnapshot);
-        ServerState state = this.convertServerState(ServiceInfoSnapshotUtil.getState(serviceInfoSnapshot));
-
-        return new ServerInfo(
-                this.convertServiceId(serviceInfoSnapshot.getServiceId()),
-                serviceInfoSnapshot.getAddress().getHost(),
-                serviceInfoSnapshot.getAddress().getPort(),
-                ServiceInfoSnapshotUtil.isOnline(serviceInfoSnapshot),
-                players == null ? Collections.emptyList() : players.stream().map(document -> document.getString("name")).collect(Collectors.toList()),
-                serviceInfoSnapshot.getConfiguration().getProcessConfig().getMaxHeapMemorySize(),
-                ServiceInfoSnapshotUtil.getMotd(serviceInfoSnapshot),
-                ServiceInfoSnapshotUtil.getOnlineCount(serviceInfoSnapshot),
-                ServiceInfoSnapshotUtil.getMaxPlayers(serviceInfoSnapshot),
-                state,
-                new de.dytanic.cloudnet.lib.server.ServerConfig(
-                        state == ServerState.INGAME,
-                        "",
-                        new Document(),
-                        serviceInfoSnapshot.getCreationTime()
-                ),
-                Arrays.stream(serviceInfoSnapshot.getConfiguration().getTemplates())
-                        .findFirst()
-                        .map(template -> new Template(template.getName(), TemplateResource.LOCAL, null, new String[0], Collections.emptyList()))
-                        .orElse(null)
-        );
-    }
-
-    private ProxyInfo convertProxyInfo(ServiceInfoSnapshot serviceInfoSnapshot) {
-        Collection<JsonDocument> players = ServiceInfoSnapshotUtil.getPlayers(serviceInfoSnapshot);
-        return new ProxyInfo(
-                this.convertServiceId(serviceInfoSnapshot.getServiceId()),
-                serviceInfoSnapshot.getAddress().getHost(),
-                serviceInfoSnapshot.getAddress().getPort(),
-                ServiceInfoSnapshotUtil.isOnline(serviceInfoSnapshot),
-                players == null ? Collections.emptyList() :
-                        players.stream().map(document -> new MultiValue<>(document.get("uniqueId", UUID.class), document.getString("name")))
-                                .collect(Collectors.toList()),
-                serviceInfoSnapshot.getConfiguration().getProcessConfig().getMaxHeapMemorySize(),
-                ServiceInfoSnapshotUtil.getOnlineCount(serviceInfoSnapshot)
-        );
-    }
-
-    private ServiceId convertServiceId(de.dytanic.cloudnet.driver.service.ServiceId serviceId) {
-        return new ServiceId(
-                serviceId.getTaskName(),
-                serviceId.getTaskServiceId(),
-                serviceId.getUniqueId(),
-                serviceId.getNodeUniqueId(),
-                serviceId.getName()
-        );
-    }
-
-    private ServerState convertServerState(String state) {
-        if (state == null) {
-            return ServerState.OFFLINE;
-        }
-        state = state.toLowerCase();
-        if (state.contains("ingame") || state.contains("running") || state.contains("playing")) {
-            return ServerState.INGAME;
-        }
-        return ServerState.LOBBY;
     }
 
     public CloudAPI update(ServerInfo serverInfo) {
@@ -429,7 +114,7 @@ public final class CloudAPI {
     public Collection<ServerInfo> getServers(String group) {
         return CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServicesByGroup(group)
                 .stream()
-                .map(this::convertToServerInfo)
+                .map(this.converter::convertToServerInfo)
                 .collect(Collectors.toList());
     }
 
@@ -457,6 +142,10 @@ public final class CloudAPI {
         cloudNetwork.setWebPort(-1);
         cloudNetwork.setWrappers(this.getWrappers());
         return cloudNetwork;
+    }
+
+    public CloudNet2EmulatorConverter getConverter() {
+        return this.converter;
     }
 
     /**
@@ -499,7 +188,7 @@ public final class CloudAPI {
      * Returns the ServiceId from this instance
      */
     public ServiceId getServiceId() {
-        return this.convertServiceId(Wrapper.getInstance().getServiceId());
+        return this.converter.convertServiceId(Wrapper.getInstance().getServiceId());
     }
 
     /**
@@ -551,7 +240,7 @@ public final class CloudAPI {
      */
     public SimpleServerGroup getServerGroupData(String group) {
         ServiceTask serviceTask = CloudNetDriver.getInstance().getServiceTaskProvider().getServiceTask(group);
-        return serviceTask != null ? this.convertToServerGroup(serviceTask).toSimple() : null;
+        return serviceTask != null ? this.converter.convertToServerGroup(serviceTask).toSimple() : null;
     }
 
     /**
@@ -561,23 +250,21 @@ public final class CloudAPI {
      */
     public ProxyGroup getProxyGroupData(String group) {
         ServiceTask serviceTask = CloudNetDriver.getInstance().getServiceTaskProvider().getServiceTask(group);
-        return serviceTask != null ? this.convertToProxyGroup(serviceTask) : null;
+        return serviceTask != null ? this.converter.convertToProxyGroup(serviceTask) : null;
     }
 
     /**
      * Returns the global onlineCount
      */
     public int getOnlineCount() {
-        return 0;
-        //return BridgePlayerManager.getInstance().getOnlineCount(); todo CloudNet 3.2
+        return BridgePlayerManager.getInstance().getOnlineCount();
     }
 
     /**
      * Returns the amount of players that are registered in the Cloud
      */
     public int getRegisteredPlayerCount() {
-        return 0;
-        //return BridgePlayerManager.getInstance().getRegisteredPlayerCount(); todo CloudNet 3.2
+        return (int) BridgePlayerManager.getInstance().getRegisteredCount();
     }
 
     /**
@@ -635,28 +322,32 @@ public final class CloudAPI {
      * Sends the data of the custom channel message to all proxys
      */
     public void sendCustomSubProxyMessage(String channel, String message, Document value) {
-        //CloudNetDriver.getInstance().getMessenger().sendChannelMessage(); todo CloudNet 3.2 with the ServiceEnvironments
+        //CloudNetDriver.getInstance().getMessenger().sendChannelMessage(); todo CloudNet 3.3 with the ServiceEnvironments
     }
 
     /**
      * Sends the data of the custom channel message to all server
      */
     public void sendCustomSubServerMessage(String channel, String message, Document value) {
-        //CloudNetDriver.getInstance().getMessenger().sendChannelMessage(); todo CloudNet 3.2 with the ServiceEnvironments
+        //CloudNetDriver.getInstance().getMessenger().sendChannelMessage(); todo CloudNet 3.3 with the ServiceEnvironments
     }
 
     /**
      * Sends the data of the custom channel message to one server
      */
     public void sendCustomSubServerMessage(String channel, String message, Document value, String serverName) {
-        //CloudNetDriver.getInstance().getMessenger().sendChannelMessage(); todo CloudNet 3.2 with the ServiceEnvironments
+        CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServiceByNameAsync(serverName).onComplete(serviceInfoSnapshot -> {
+            if (serviceInfoSnapshot != null) {
+                CloudNetDriver.getInstance().getMessenger().sendChannelMessage(serviceInfoSnapshot, channel, message, JsonDocument.newDocument(value.convertToJsonString()));
+            }
+        });
     }
 
     /**
      * Sends the data of the custom channel message to proxy server
      */
     public void sendCustomSubProxyMessage(String channel, String message, Document value, String serverName) {
-        //CloudNetDriver.getInstance().getMessenger().sendChannelMessage(); todo CloudNet 3.2 with the ServiceEnvironments
+        this.sendCustomSubServerMessage(channel, message, value, serverName);
     }
 
     /**
@@ -665,7 +356,7 @@ public final class CloudAPI {
      * @param serverGroup
      */
     public void updateServerGroup(ServerGroup serverGroup) {
-        CloudNetDriver.getInstance().getServiceTaskProvider().addPermanentServiceTask(this.convertToTask(serverGroup));
+        CloudNetDriver.getInstance().getServiceTaskProvider().addPermanentServiceTask(this.converter.convertToTask(serverGroup));
     }
 
     /**
@@ -685,7 +376,7 @@ public final class CloudAPI {
      * @param proxyGroup
      */
     public void updateProxyGroup(ProxyGroup proxyGroup) {
-        CloudNetDriver.getInstance().getServiceTaskProvider().addPermanentServiceTask(this.convertToTask(proxyGroup));
+        CloudNetDriver.getInstance().getServiceTaskProvider().addPermanentServiceTask(this.converter.convertToTask(proxyGroup));
     }
 
     /**
@@ -718,14 +409,14 @@ public final class CloudAPI {
     public Map<String, SimpleServerGroup> getServerGroupMap() {
         return CloudNetDriver.getInstance().getServiceTaskProvider().getPermanentServiceTasks()
                 .stream()
-                .map(serviceTask -> this.convertToServerGroup(serviceTask).toSimple())
+                .map(serviceTask -> this.converter.convertToServerGroup(serviceTask).toSimple())
                 .collect(Collectors.toMap(SimpleServerGroup::getName, simpleServerGroup -> simpleServerGroup));
     }
 
     public Map<String, ProxyGroup> getProxyGroupMap() {
         return CloudNetDriver.getInstance().getServiceTaskProvider().getPermanentServiceTasks()
                 .stream()
-                .map(this::convertToProxyGroup)
+                .map(this.converter::convertToProxyGroup)
                 .collect(Collectors.toMap(ProxyGroup::getName, proxyGroup -> proxyGroup));
     }
 
@@ -766,7 +457,7 @@ public final class CloudAPI {
      * @param proxyGroup
      */
     public void startProxy(ProxyGroup proxyGroup) {
-        CloudNetDriver.getInstance().getCloudServiceFactory().createCloudServiceAsync(this.convertToTask(proxyGroup))
+        CloudNetDriver.getInstance().getCloudServiceFactory().createCloudServiceAsync(this.converter.convertToTask(proxyGroup))
                 .onComplete(this::startService);
     }
 
@@ -860,7 +551,7 @@ public final class CloudAPI {
                 "jvm",
                 true,
                 proxyGroup.getProxyGroupMode() == ProxyGroupMode.STATIC,
-                this.convertToIncludes(plugins),
+                this.converter.convertToIncludes(plugins),
                 Collections.singletonList(new ServiceTemplate(proxyGroup.getName(), proxyGroup.getTemplate().getName(), "local")),
                 Collections.emptyList(),
                 Collections.singletonList(proxyGroup.getName()),
@@ -1087,7 +778,7 @@ public final class CloudAPI {
                                 "jvm",
                                 true,
                                 simpleServerGroup.getMode() == ServerGroupMode.STATIC || simpleServerGroup.getMode() == ServerGroupMode.STATIC_LOBBY,
-                                this.convertToIncludes(plugins),
+                                this.converter.convertToIncludes(plugins),
                                 Collections.singletonList(new ServiceTemplate(simpleServerGroup.getName(), template.getName(), "local")),
                                 Collections.emptyList(),
                                 Collections.singletonList(simpleServerGroup.getName()),
@@ -1403,7 +1094,7 @@ public final class CloudAPI {
                                 "jvm",
                                 true,
                                 simpleServerGroup.getMode() == ServerGroupMode.STATIC || simpleServerGroup.getMode() == ServerGroupMode.STATIC_LOBBY,
-                                this.convertToIncludes(plugins),
+                                this.converter.convertToIncludes(plugins),
                                 Collections.singletonList(new ServiceTemplate(simpleServerGroup.getName(), template.getName(), "local")),
                                 Collections.emptyList(),
                                 Collections.singletonList(simpleServerGroup.getName()),
@@ -1487,7 +1178,7 @@ public final class CloudAPI {
      * @param cloudPlayer
      */
     public void updatePlayer(CloudPlayer cloudPlayer) {
-        BridgePlayerManager.getInstance().updateOnlinePlayer(this.convertToV3OnlinePlayer(cloudPlayer));
+        BridgePlayerManager.getInstance().updateOnlinePlayer(this.converter.convertToV3OnlinePlayer(cloudPlayer));
     }
 
     /**
@@ -1496,7 +1187,7 @@ public final class CloudAPI {
      * @param offlinePlayer
      */
     public void updatePlayer(OfflinePlayer offlinePlayer) {
-        BridgePlayerManager.getInstance().updateOfflinePlayer(this.convertToV3OfflinePlayer(offlinePlayer));
+        BridgePlayerManager.getInstance().updateOfflinePlayer(this.converter.convertToV3OfflinePlayer(offlinePlayer));
     }
 
     /**
@@ -1505,7 +1196,7 @@ public final class CloudAPI {
     public Collection<ServerInfo> getServers() {
         return CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServices(ServiceEnvironmentType.MINECRAFT_SERVER)
                 .stream()
-                .map(this::convertToServerInfo)
+                .map(this.converter::convertToServerInfo)
                 .collect(Collectors.toList());
     }
 
@@ -1523,7 +1214,7 @@ public final class CloudAPI {
     public Collection<ProxyInfo> getProxys() {
         return CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServices(ServiceEnvironmentType.BUNGEECORD)
                 .stream()
-                .map(this::convertProxyInfo)
+                .map(this.converter::convertProxyInfo)
                 .collect(Collectors.toList());
     }
 
@@ -1536,7 +1227,7 @@ public final class CloudAPI {
         return CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServices(ServiceEnvironmentType.BUNGEECORD)
                 .stream()
                 .filter(serviceInfoSnapshot -> serviceInfoSnapshot.getServiceId().getTaskName().equalsIgnoreCase(group))
-                .map(this::convertProxyInfo)
+                .map(this.converter::convertProxyInfo)
                 .collect(Collectors.toList());
     }
 
@@ -1548,13 +1239,13 @@ public final class CloudAPI {
                 .stream()
                 .map(cloudPlayer -> {
                     IPermissionUser permissionUser = CloudNetDriver.getInstance().getPermissionProvider().getUser(cloudPlayer.getUniqueId());
-                    return this.convertToV2OnlinePlayer(cloudPlayer, permissionUser);
+                    return this.converter.convertToV2OnlinePlayer(cloudPlayer, permissionUser);
                 })
                 .collect(Collectors.toList());
     }
 
     /**
-     * Retuns a online CloudPlayer on network or null if the player isn't online
+     * Retunrs an online CloudPlayer on network or null if the player isn't online
      */
     public CloudPlayer getOnlinePlayer(UUID uniqueId) {
         ICloudPlayer cloudPlayer = BridgePlayerManager.getInstance().getOnlinePlayer(uniqueId);
@@ -1564,7 +1255,21 @@ public final class CloudAPI {
 
         IPermissionUser permissionUser = CloudNetDriver.getInstance().getPermissionProvider().getUser(cloudPlayer.getUniqueId());
 
-        return this.convertToV2OnlinePlayer(cloudPlayer, permissionUser);
+        return this.converter.convertToV2OnlinePlayer(cloudPlayer, permissionUser);
+    }
+
+    /**
+     * Retunrs an online CloudPlayer on network or null if the player isn't online
+     */
+    public CloudPlayer getOnlinePlayer(String name) {
+        ICloudPlayer cloudPlayer = BridgePlayerManager.getInstance().getFirstOnlinePlayer(name);
+        if (cloudPlayer == null) {
+            return null;
+        }
+
+        IPermissionUser permissionUser = CloudNetDriver.getInstance().getPermissionProvider().getUser(cloudPlayer.getUniqueId());
+
+        return this.converter.convertToV2OnlinePlayer(cloudPlayer, permissionUser);
     }
 
     /**
@@ -1580,7 +1285,7 @@ public final class CloudAPI {
 
         IPermissionUser permissionUser = CloudNetDriver.getInstance().getPermissionProvider().getUser(cloudPlayer.getUniqueId());
 
-        return this.convertToV2OfflinePlayer(cloudPlayer, permissionUser);
+        return this.converter.convertToV2OfflinePlayer(cloudPlayer, permissionUser);
     }
 
     /**
@@ -1596,7 +1301,7 @@ public final class CloudAPI {
 
         IPermissionUser permissionUser = CloudNetDriver.getInstance().getPermissionProvider().getUser(cloudPlayer.getUniqueId());
 
-        return this.convertToV2OfflinePlayer(cloudPlayer, permissionUser);
+        return this.converter.convertToV2OfflinePlayer(cloudPlayer, permissionUser);
     }
 
     /**
@@ -1606,14 +1311,15 @@ public final class CloudAPI {
      */
     public ServerGroup getServerGroup(String name) {
         ServiceTask serviceTask = CloudNetDriver.getInstance().getServiceTaskProvider().getServiceTask(name);
-        return serviceTask != null ? this.convertToServerGroup(serviceTask) : null;
+        return serviceTask != null ? this.converter.convertToServerGroup(serviceTask) : null;
     }
 
     /**
      * Returns from a registerd Player the uniqueId or null if the player doesn't exists
      */
     public UUID getPlayerUniqueId(String name) {
-        return BridgePlayerManager.getInstance().getOfflinePlayer(name).stream().findFirst().map(ICloudOfflinePlayer::getUniqueId).orElse(null); //todo use getFirstOfflinePlayer(String) (CloudNet 3.2)
+        ICloudOfflinePlayer offlinePlayer = BridgePlayerManager.getInstance().getFirstOfflinePlayer(name);
+        return offlinePlayer != null ? offlinePlayer.getUniqueId() : null;
     }
 
     /**
@@ -1629,7 +1335,7 @@ public final class CloudAPI {
      */
     public ServerInfo getServerInfo(String serverName) {
         ServiceInfoSnapshot serviceInfoSnapshot = CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServiceByName(serverName);
-        return serviceInfoSnapshot != null ? this.convertToServerInfo(serviceInfoSnapshot) : null;
+        return serviceInfoSnapshot != null ? this.converter.convertToServerInfo(serviceInfoSnapshot) : null;
     }
 
     /**
@@ -1658,7 +1364,7 @@ public final class CloudAPI {
     private Map<UUID, OfflinePlayer> getRegisteredPlayers() {
         return BridgePlayerManager.getInstance().getRegisteredPlayers()
                 .stream()
-                .map(offlinePlayer -> this.convertToV2OfflinePlayer(
+                .map(offlinePlayer -> this.converter.convertToV2OfflinePlayer(
                         offlinePlayer,
                         CloudNetDriver.getInstance().getPermissionProvider().getUser(offlinePlayer.getUniqueId())
                 ))

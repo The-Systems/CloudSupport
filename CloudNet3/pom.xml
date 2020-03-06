@@ -13,6 +13,9 @@
     <artifactId>cloudnet3</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <cloudnet3.version>3.3.0-SNAPSHOT</cloudnet3.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -32,42 +35,42 @@
         <dependency>
             <groupId>de.dytanic.cloudnet</groupId>
             <artifactId>cloudnet-driver</artifactId>
-            <version>3.2.0-RELEASE</version>
+            <version>${cloudnet3.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>de.dytanic.cloudnet</groupId>
             <artifactId>cloudnet-common</artifactId>
-            <version>3.2.0-RELEASE</version>
+            <version>${cloudnet3.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>de.dytanic.cloudnet</groupId>
             <artifactId>cloudnet</artifactId>
-            <version>3.2.0-RELEASE</version>
+            <version>${cloudnet3.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>de.dytanic.cloudnet</groupId>
             <artifactId>cloudnet-wrapper-jvm</artifactId>
-            <version>3.2.0-RELEASE</version>
+            <version>${cloudnet3.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>de.dytanic.cloudnet</groupId>
             <artifactId>cloudnet-bridge</artifactId>
-            <version>3.2.0-RELEASE</version>
+            <version>${cloudnet3.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>de.dytanic.cloudnet</groupId>
             <artifactId>cloudnet-cloudperms</artifactId>
-            <version>3.2.0-RELEASE</version>
+            <version>${cloudnet3.version}</version>
             <scope>provided</scope>
         </dependency>
 

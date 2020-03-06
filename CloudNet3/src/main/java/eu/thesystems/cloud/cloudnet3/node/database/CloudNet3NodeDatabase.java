@@ -19,12 +19,12 @@ public class CloudNet3NodeDatabase implements Database {
 
     @Override
     public void insert(String key, JsonObject data) {
-        this.database.insert(key, new JsonDocument(data));
+        this.database.insert(key, JsonDocument.newDocument(data.toString()));
     }
 
     @Override
     public void update(String key, JsonObject data) {
-        this.database.update(key, new JsonDocument(data));
+        this.database.update(key, JsonDocument.newDocument(data.toString()));
     }
 
     @Override
