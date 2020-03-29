@@ -110,6 +110,7 @@ public class DefaultCloudAddonManager implements CloudAddonManager {
         if (!addon.isEnabled()) {
             return;
         }
+        System.out.println("Disabling addon " + addon.getAddonInfo().getName() + "...");
         try {
             addon.onDisable();
         } catch (Throwable throwable) {

@@ -83,6 +83,8 @@ public class CloudAddonLoader {
 
     public CloudAddon loadAddon(URL url) throws IOException, InvalidAddonInfoException, ReflectiveOperationException {
         CloudAddonInfo addonInfo = this.loadAddonInfo(url);
+        System.out.println("Loading addon " + addonInfo.getName() + " (Version " + addonInfo.getVersion() + " by " + String.join(", ", addonInfo.getAuthors()) + ") from " + url + "...");
+
         List<URL> urls = new ArrayList<>();
         if (addonInfo.getDependencies() != null) {
             for (MavenDependency dependency : addonInfo.getDependencies()) {
