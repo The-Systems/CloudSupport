@@ -4,21 +4,16 @@ package eu.thesystems.cloud.cloudnet3.wrapper.database;
  */
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import de.dytanic.cloudnet.common.document.gson.JsonDocument;
-import de.dytanic.cloudnet.wrapper.Wrapper;
 import de.dytanic.cloudnet.wrapper.database.IDatabase;
-import eu.thesystems.cloud.cloudnet3.CloudNet3;
 import eu.thesystems.cloud.global.database.Database;
 
 public class CloudNet3WrapperDatabase implements Database {
 
-    private CloudNet3 cloudNet3;
-    private Wrapper wrapper;
     private IDatabase database;
 
-    public CloudNet3WrapperDatabase(CloudNet3 cloudNet3, Wrapper wrapper, IDatabase database) {
-        this.cloudNet3 = cloudNet3;
-        this.wrapper = wrapper;
+    public CloudNet3WrapperDatabase(IDatabase database) {
         this.database = database;
     }
 
@@ -39,12 +34,13 @@ public class CloudNet3WrapperDatabase implements Database {
 
     @Override
     public void clear() {
-
+        this.database.clear();
     }
 
     @Override
     public JsonObject get(String key) {
-        return null;
+        JsonDocument document = this.database.get(key);
+        return document != null ? JsonParser.parseString(document.toJson()).getAsJsonObject() : null;
     }
 
     @Override

@@ -13,7 +13,7 @@ import eu.thesystems.cloud.global.database.DatabaseProvider;
 public class CloudNet3Wrapper extends CloudNet3 {
 
     private final Wrapper wrapper = Wrapper.getInstance();
-    private final DatabaseProvider databaseProvider = new CloudNet3WrapperDatabaseProvider(this, this.wrapper);
+    private final DatabaseProvider databaseProvider = new CloudNet3WrapperDatabaseProvider(this.wrapper);
 
     public CloudNet3Wrapper(SupportedCloudSystem supportedCloudSystem) {
         super(

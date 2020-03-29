@@ -10,22 +10,20 @@ import eu.thesystems.cloud.global.database.DatabaseProvider;
 
 import java.util.Collection;
 
-public class CloudNet3WrapperDatabaseProvider implements DatabaseProvider {//todo
-    private CloudNet3 cloudNet3;
+public class CloudNet3WrapperDatabaseProvider implements DatabaseProvider {//todo not tested
     private Wrapper wrapper;
 
-    public CloudNet3WrapperDatabaseProvider(CloudNet3 cloudNet3, Wrapper wrapper) {
-        this.cloudNet3 = cloudNet3;
+    public CloudNet3WrapperDatabaseProvider(Wrapper wrapper) {
         this.wrapper = wrapper;
     }
 
     @Override
     public Database getDatabase(String name) {
-        return new CloudNet3WrapperDatabase(this.cloudNet3, this.wrapper, this.wrapper.getDatabaseProvider().getDatabase(name));
+        return new CloudNet3WrapperDatabase(this.wrapper.getDatabaseProvider().getDatabase(name));
     }
 
     @Override
     public Collection<String> getDatabases() {
-        return null;
+        return this.wrapper.getDatabaseProvider().getDatabaseNames();
     }
 }
