@@ -14,6 +14,11 @@ public class InvalidAddonInfoException extends RuntimeException {
         this.url = url;
     }
 
+    public InvalidAddonInfoException(URL url, String message, Throwable cause) {
+        super(message, cause);
+        this.url = url;
+    }
+
     public URL getUrl() {
         return this.url;
     }

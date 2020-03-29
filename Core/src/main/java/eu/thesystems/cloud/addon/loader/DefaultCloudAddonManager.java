@@ -86,7 +86,7 @@ public class DefaultCloudAddonManager implements CloudAddonManager {
                 this.addons.add(addon);
                 return addon;
             }
-        } catch (IOException | ReflectiveOperationException exception) {
+        } catch (Throwable exception) {
             exception.printStackTrace();
         }
         return null;

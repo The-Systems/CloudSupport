@@ -4,6 +4,8 @@ package eu.thesystems.cloud.addon.loader;
  */
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import eu.thesystems.cloud.addon.CloudAddon;
 import eu.thesystems.cloud.addon.CloudAddonFactory;
 import eu.thesystems.cloud.addon.CloudAddonInfo;
@@ -46,9 +48,10 @@ public class CloudAddonLoader {
             while ((zipEntry = inputStream.getNextEntry()) != null) {
                 if (zipEntry.getName().equals("addon.json")) {
                     Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                    addonInfo = this.gson.fromJson(reader, CloudAddonInfo.class);
-                    if (addonInfo == null) {
-                        throw new InvalidAddonInfoException(url, "addon.json contains malformed json");
+                    try {
+                        addonInfo = this.gson.fromJson(reader, CloudAddonInfo.class);
+                    } catch (JsonSyntaxException exception) {
+                        throw new InvalidAddonInfoException(url, "addon.json contains malformed json", exception);
                     }
                 }
 
