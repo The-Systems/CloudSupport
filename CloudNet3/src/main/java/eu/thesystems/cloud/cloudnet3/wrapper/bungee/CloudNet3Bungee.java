@@ -11,6 +11,5 @@ public class CloudNet3Bungee extends CloudNet3Wrapper {
     public CloudNet3Bungee() {
         super(SupportedCloudSystem.CLOUDNET_3_BUNGEE);
         new CloudAPI().bootstrap();
-        System.out.println(CloudAPI.getInstance().getServers());
     }
 }

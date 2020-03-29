@@ -31,10 +31,6 @@ public enum SupportedCloudSystem {
             () -> checkClassExists("net.md_5.bungee.api.ProxyServer") &&
                     checkClassExists("de.dytanic.cloudnet.ext.bridge.bungee.BungeeCloudNetBridgePlugin")
     ),
-    CLOUDNET_3_VELOCITY(() -> createCloudSystem("eu.thesystems.cloud.cloudnet3.wrapper.velocity.CloudNet3Velocity"),
-            () -> checkClassExists("") &&
-                    checkClassExists("de.dytanic.cloudnet.ext.bridge.velocity.VelocityCloudNetBridgePlugin")
-    ),
     CLOUDNET_3_NODE(() -> createCloudSystem("eu.thesystems.cloud.cloudnet3.node.CloudNet3Node"), () -> checkClassExists("de.dytanic.cloudnet.CloudNet")),
 
     REFORMCLOUD_2_BUKKIT(() -> createCloudSystem("eu.thesystems.cloud."),
@@ -42,10 +38,6 @@ public enum SupportedCloudSystem {
                     getReformCloud2ExecutorType().equals("API")
     ),
     REFORMCLOUD_2_BUNGEE(() -> createCloudSystem("eu.thesystems.cloud."),
-            () -> checkClassExists("net.md_5.bungee.api.ProxyServer") &&
-                    getReformCloud2ExecutorType().equals("API")
-    ),
-    REFORMCLOUD_2_VELOCITY(() -> createCloudSystem("eu.thesystems.cloud."),
             () -> checkClassExists("net.md_5.bungee.api.ProxyServer") &&
                     getReformCloud2ExecutorType().equals("API")
     ),
