@@ -20,6 +20,7 @@ import eu.thesystems.cloud.exception.CloudSupportException;
 import eu.thesystems.cloud.global.info.*;
 import eu.thesystems.cloud.global.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
+import eu.thesystems.cloud.proxy.ProxyManagement;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,6 +41,7 @@ public abstract class CloudNet3 extends CloudNet {
 
     private final EventManager eventManager = new DefaultEventManager();
     private final ChannelMessenger channelMessenger = new CloudNet3ChannelMessenger();
+    private final ProxyManagement proxyManagement = new CloudNet3ProxyManagement();
     private final ModuleManager moduleManager = new CloudNet3ModuleManager(this, this.cloudNetDriver.getModuleProvider());
 
     public CloudNet3(SupportedCloudSystem componentType, String name, String version, IPlayerManager playerManager) {
@@ -60,6 +62,11 @@ public abstract class CloudNet3 extends CloudNet {
     @Override
     public EventManager getEventManager() {
         return this.eventManager;
+    }
+
+    @Override
+    public ProxyManagement getProxyManagement() {
+        return this.proxyManagement;
     }
 
     @Override

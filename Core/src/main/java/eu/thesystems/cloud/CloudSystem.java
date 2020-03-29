@@ -12,6 +12,7 @@ import eu.thesystems.cloud.global.database.DatabaseProvider;
 import eu.thesystems.cloud.global.info.*;
 import eu.thesystems.cloud.global.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
+import eu.thesystems.cloud.proxy.ProxyManagement;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -84,6 +85,15 @@ public interface CloudSystem {
      * @return the final {@link ChannelMessenger} instance
      */
     ChannelMessenger getChannelMessenger();
+
+    /**
+     * Gets the proxy manager which is used to get and modify the motd and tablist configurations for the proxies.
+     * <p>
+     * This method is available on every component of every cloud.
+     *
+     * @return the final {@link ProxyManagement} instance
+     */
+    ProxyManagement getProxyManagement();
 
     /**
      * Gets the converter instance which converts all cloud-specific objects to our global objects

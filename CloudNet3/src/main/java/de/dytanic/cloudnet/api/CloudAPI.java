@@ -102,7 +102,7 @@ public final class CloudAPI {
     public int getOnlineCount(String group) {
         return CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServicesByGroup(group)
                 .stream()
-                .mapToInt(ServiceInfoSnapshotUtil::getOnlineCount)
+                .mapToInt(serviceInfoSnapshot -> serviceInfoSnapshot.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0))
                 .sum();
     }
 
@@ -1293,7 +1293,7 @@ public final class CloudAPI {
      * @param name
      */
     public OfflinePlayer getOfflinePlayer(String name) {
-        ICloudOfflinePlayer cloudPlayer = BridgePlayerManager.getInstance().getOfflinePlayer(name).stream().findFirst().orElse(null); //todo Replace with getFirstOfflinePlayer(String) in CloudNet 3.2
+        ICloudOfflinePlayer cloudPlayer = BridgePlayerManager.getInstance().getFirstOfflinePlayer(name);
         if (cloudPlayer == null) {
             return null;
         }

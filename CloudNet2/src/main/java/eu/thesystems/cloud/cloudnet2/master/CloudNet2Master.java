@@ -21,6 +21,7 @@ import eu.thesystems.cloud.global.info.ServerInfo;
 import eu.thesystems.cloud.global.permission.PermissionUser;
 import eu.thesystems.cloud.loader.CloudNet2MasterLoader;
 import eu.thesystems.cloud.modules.ModuleManager;
+import eu.thesystems.cloud.proxy.ProxyManagement;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -30,10 +31,11 @@ public class CloudNet2Master extends CloudNet2 {
 
     private final CloudNet cloudNet = CloudNet.getInstance();
 
-    private CommandMap commandMap = new CloudNet2MasterCommandMap(this);
-    private ChannelMessenger channelMessenger = new CloudNet2MasterChannelMessenger();
-    private ModuleManager moduleManager = new CloudNet2ModuleManager(this.cloudNet, this);
-    private DatabaseProvider databaseProvider = new CloudNet2MasterDatabaseProvider(this, this.cloudNet);
+    private final CommandMap commandMap = new CloudNet2MasterCommandMap(this);
+    private final ChannelMessenger channelMessenger = new CloudNet2MasterChannelMessenger();
+    private final ModuleManager moduleManager = new CloudNet2ModuleManager(this.cloudNet, this);
+    private final DatabaseProvider databaseProvider = new CloudNet2MasterDatabaseProvider(this, this.cloudNet);
+    private final ProxyManagement proxyManagement = new CloudNet2MasterProxyManagement();
     private CloudNet2MasterEventCaller eventCaller = new CloudNet2MasterEventCaller();
 
     public CloudNet2Master() {
@@ -66,6 +68,11 @@ public class CloudNet2Master extends CloudNet2 {
     @Override
     public ChannelMessenger getChannelMessenger() {
         return this.channelMessenger;
+    }
+
+    @Override
+    public ProxyManagement getProxyManagement() {
+        return this.proxyManagement;
     }
 
     @Override

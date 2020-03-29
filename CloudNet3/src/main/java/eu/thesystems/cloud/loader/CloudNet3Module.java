@@ -20,8 +20,8 @@ public class CloudNet3Module extends DriverModule {
                     Class.forName(this.getClass().getPackage().getName() + ".CloudNet3NodeLoader") :
                     Class.forName(this.getClass().getPackage().getName() + ".CloudNet3WrapperLoader");
 
-            this.loader = (CloudNet3Loader) clazz.newInstance();
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException exception) {
+            this.loader = (CloudNet3Loader) clazz.getConstructor().newInstance();
+        } catch (ReflectiveOperationException exception) {
             exception.printStackTrace();
         }
 

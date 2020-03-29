@@ -75,8 +75,8 @@ public enum SupportedCloudSystem {
 
     private static CloudSystem createCloudSystem(String className) {
         try {
-            return (CloudSystem) Class.forName(className).newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            return (CloudSystem) Class.forName(className).getConstructor().newInstance();
+        } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
         return null;

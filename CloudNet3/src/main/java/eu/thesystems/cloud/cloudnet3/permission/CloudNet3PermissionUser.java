@@ -4,7 +4,7 @@ package eu.thesystems.cloud.cloudnet3.permission;
  */
 
 import de.dytanic.cloudnet.driver.permission.IPermissionUser;
-import de.dytanic.cloudnet.ext.cloudperms.CloudPermissionsPermissionManagement;
+import de.dytanic.cloudnet.ext.cloudperms.CloudPermissionsManagement;
 import eu.thesystems.cloud.global.permission.PermissionUser;
 
 import java.util.Collection;
@@ -19,7 +19,7 @@ public class CloudNet3PermissionUser implements PermissionUser {
 
     @Override
     public boolean hasPermission(String permission) {
-        return CloudPermissionsPermissionManagement.getInstance().hasPermission(this.permissionUser, permission);
+        return CloudPermissionsManagement.getInstance().hasPermission(this.permissionUser, permission);
     }
 
     @Override

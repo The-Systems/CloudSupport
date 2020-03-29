@@ -81,7 +81,7 @@ public class CloudAddonLoader {
         return this.loadAddonInfo(path.toUri().toURL());
     }
 
-    public CloudAddon loadAddon(URL url) throws IOException, InvalidAddonInfoException, IllegalAccessException, InstantiationException {
+    public CloudAddon loadAddon(URL url) throws IOException, InvalidAddonInfoException, ReflectiveOperationException {
         CloudAddonInfo addonInfo = this.loadAddonInfo(url);
         List<URL> urls = new ArrayList<>();
         if (addonInfo.getDependencies() != null) {
@@ -106,7 +106,7 @@ public class CloudAddonLoader {
         return this.addonFactory.createAddon(mainClazz, addonInfo);
     }
 
-    public CloudAddon loadAddon(Path path) throws IOException, InvalidAddonInfoException, IllegalAccessException, InstantiationException {
+    public CloudAddon loadAddon(Path path) throws IOException, InvalidAddonInfoException, ReflectiveOperationException {
         return this.loadAddon(path.toUri().toURL());
     }
 

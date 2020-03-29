@@ -11,10 +11,12 @@ import de.dytanic.cloudnet.driver.permission.IPermissionUser;
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
 import de.dytanic.cloudnet.driver.service.ServiceTask;
 import de.dytanic.cloudnet.driver.service.ServiceTemplate;
+import de.dytanic.cloudnet.ext.bridge.BridgeServiceProperty;
 import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import de.dytanic.cloudnet.ext.bridge.player.ICloudOfflinePlayer;
 import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
 import de.dytanic.cloudnet.ext.bridge.player.NetworkConnectionInfo;
+import de.dytanic.cloudnet.ext.bridge.player.ServicePlayer;
 import eu.thesystems.cloud.cloudnet3.permission.CloudNet3PermissionUser;
 import eu.thesystems.cloud.cloudnet3.player.CloudNet3Player;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
@@ -49,7 +51,7 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
             return null;
         }
         ServiceInfoSnapshot serviceInfoSnapshot = (ServiceInfoSnapshot) cloudProcessInfo;
-        Collection<JsonDocument> players = ServiceInfoSnapshotUtil.getPlayers(serviceInfoSnapshot);
+        Collection<ServicePlayer> players = serviceInfoSnapshot.getProperty(BridgeServiceProperty.PLAYERS).orElse(Collections.emptyList());
         return new ProcessInfo(
                 serviceInfoSnapshot.getServiceId().getTaskName(),
                 serviceInfoSnapshot.getServiceId().getName(),
@@ -57,7 +59,7 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
                 serviceInfoSnapshot.getServiceId().getNodeUniqueId(),
                 new NetworkAddress(serviceInfoSnapshot.getAddress().getHost(), serviceInfoSnapshot.getAddress().getPort()),
                 Arrays.stream(serviceInfoSnapshot.getConfiguration().getTemplates()).map(this::mapTemplate).collect(Collectors.toList()),
-                players != null ? players.stream().map(document -> document.getString("name")).filter(Objects::nonNull).collect(Collectors.toList()) : Collections.emptyList(),
+                players.stream().map(ServicePlayer::getName).collect(Collectors.toList()),
                 this.gson.toJsonTree(serviceInfoSnapshot).getAsJsonObject()
         );
     }
@@ -70,7 +72,7 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
         ServiceInfoSnapshot serviceInfoSnapshot = (ServiceInfoSnapshot) cloudServerInfo;
         if (serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftJavaServer() ||
                 serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftBedrockServer()) {
-            Collection<JsonDocument> players = ServiceInfoSnapshotUtil.getPlayers(serviceInfoSnapshot);
+            Collection<ServicePlayer> players = serviceInfoSnapshot.getProperty(BridgeServiceProperty.PLAYERS).orElse(Collections.emptyList());
             return new ServerInfo(
                     serviceInfoSnapshot.getServiceId().getTaskName(),
                     serviceInfoSnapshot.getServiceId().getName(),
@@ -78,11 +80,11 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
                     serviceInfoSnapshot.getServiceId().getNodeUniqueId(),
                     new NetworkAddress(serviceInfoSnapshot.getAddress().getHost(), serviceInfoSnapshot.getAddress().getPort()),
                     Arrays.stream(serviceInfoSnapshot.getConfiguration().getTemplates()).map(this::mapTemplate).collect(Collectors.toList()),
-                    players != null ? players.stream().map(document -> document.getString("name")).filter(Objects::nonNull).collect(Collectors.toList()) : Collections.emptyList(),
-                    ServiceInfoSnapshotUtil.getMaxPlayers(serviceInfoSnapshot),
+                    players.stream().map(ServicePlayer::getName).collect(Collectors.toList()),
+                    serviceInfoSnapshot.getProperty(BridgeServiceProperty.MAX_PLAYERS).orElse(0),
                     this.gson.toJsonTree(serviceInfoSnapshot).getAsJsonObject(),
-                    ServiceInfoSnapshotUtil.getMotd(serviceInfoSnapshot),
-                    ServiceInfoSnapshotUtil.getState(serviceInfoSnapshot)
+                    serviceInfoSnapshot.getProperty(BridgeServiceProperty.MOTD).orElse(null),
+                    serviceInfoSnapshot.getProperty(BridgeServiceProperty.STATE).orElse(null)
             );
         }
         return null;
@@ -134,7 +136,7 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
         ServiceInfoSnapshot serviceInfoSnapshot = (ServiceInfoSnapshot) cloudProxyInfo;
         if (serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftJavaProxy() ||
                 serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftBedrockProxy()) {
-            Collection<JsonDocument> players = ServiceInfoSnapshotUtil.getPlayers(serviceInfoSnapshot);
+            Collection<ServicePlayer> players = serviceInfoSnapshot.getProperty(BridgeServiceProperty.PLAYERS).orElse(Collections.emptyList());
             return new ProxyInfo(
                     serviceInfoSnapshot.getServiceId().getTaskName(),
                     serviceInfoSnapshot.getServiceId().getName(),
@@ -142,7 +144,7 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
                     serviceInfoSnapshot.getServiceId().getNodeUniqueId(),
                     new NetworkAddress(serviceInfoSnapshot.getAddress().getHost(), serviceInfoSnapshot.getAddress().getPort()),
                     Arrays.stream(serviceInfoSnapshot.getConfiguration().getTemplates()).map(this::mapTemplate).collect(Collectors.toList()),
-                    players != null ? players.stream().map(document -> document.getString("name")).filter(Objects::nonNull).collect(Collectors.toList()) : Collections.emptyList(),
+                    players.stream().map(ServicePlayer::getName).collect(Collectors.toList()),
                     this.gson.toJsonTree(serviceInfoSnapshot).getAsJsonObject()
             );
         }

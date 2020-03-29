@@ -5,8 +5,8 @@ package eu.thesystems.cloud.addon;
 
 public class CloudAddonFactory {
 
-    public CloudAddon createAddon(Class<?> clazz, CloudAddonInfo addonInfo) throws IllegalAccessException, InstantiationException {
-        CloudAddon cloudAddon = (CloudAddon) clazz.newInstance();
+    public CloudAddon createAddon(Class<?> clazz, CloudAddonInfo addonInfo) throws ReflectiveOperationException {
+        CloudAddon cloudAddon = (CloudAddon) clazz.getConstructor().newInstance();
         cloudAddon.addonInfo = addonInfo;
         return cloudAddon;
     }

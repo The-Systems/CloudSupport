@@ -6,10 +6,7 @@ import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.network.HostAndPort;
 import de.dytanic.cloudnet.driver.permission.IPermissionUser;
 import de.dytanic.cloudnet.driver.service.*;
-import de.dytanic.cloudnet.ext.bridge.BridgeConfiguration;
-import de.dytanic.cloudnet.ext.bridge.BridgeConfigurationProvider;
-import de.dytanic.cloudnet.ext.bridge.ProxyFallbackConfiguration;
-import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
+import de.dytanic.cloudnet.ext.bridge.*;
 import de.dytanic.cloudnet.ext.bridge.player.*;
 import de.dytanic.cloudnet.lib.MultiValue;
 import de.dytanic.cloudnet.lib.map.WrappedMap;
@@ -291,19 +288,19 @@ public class CloudNet2EmulatorConverter {
     }
 
     public ServerInfo convertToServerInfo(ServiceInfoSnapshot serviceInfoSnapshot) {
-        Collection<JsonDocument> players = ServiceInfoSnapshotUtil.getPlayers(serviceInfoSnapshot);
-        ServerState state = this.convertServerState(ServiceInfoSnapshotUtil.getState(serviceInfoSnapshot));
+        Collection<ServicePlayer> players = serviceInfoSnapshot.getProperty(BridgeServiceProperty.PLAYERS).orElse(Collections.emptyList());
+        ServerState state = this.convertServerState(serviceInfoSnapshot.getProperty(BridgeServiceProperty.STATE).orElse(null));
 
         return new ServerInfo(
                 this.convertServiceId(serviceInfoSnapshot.getServiceId()),
                 serviceInfoSnapshot.getAddress().getHost(),
                 serviceInfoSnapshot.getAddress().getPort(),
-                ServiceInfoSnapshotUtil.isOnline(serviceInfoSnapshot),
-                players == null ? Collections.emptyList() : players.stream().map(document -> document.getString("name")).collect(Collectors.toList()),
+                serviceInfoSnapshot.getProperty(BridgeServiceProperty.IS_ONLINE).orElse(false),
+                players.stream().map(ServicePlayer::getName).collect(Collectors.toList()),
                 serviceInfoSnapshot.getConfiguration().getProcessConfig().getMaxHeapMemorySize(),
-                ServiceInfoSnapshotUtil.getMotd(serviceInfoSnapshot),
-                ServiceInfoSnapshotUtil.getOnlineCount(serviceInfoSnapshot),
-                ServiceInfoSnapshotUtil.getMaxPlayers(serviceInfoSnapshot),
+                serviceInfoSnapshot.getProperty(BridgeServiceProperty.MOTD).orElse(null),
+                serviceInfoSnapshot.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0),
+                serviceInfoSnapshot.getProperty(BridgeServiceProperty.MAX_PLAYERS).orElse(0),
                 state,
                 this.convertToServerConfig(serviceInfoSnapshot),
                 this.convertToTemplate(serviceInfoSnapshot)
@@ -319,25 +316,24 @@ public class CloudNet2EmulatorConverter {
 
     public ServerConfig convertToServerConfig(ServiceInfoSnapshot serviceInfoSnapshot) {
         return new ServerConfig(
-                ServiceInfoSnapshotUtil.isIngameService(serviceInfoSnapshot),
-                ServiceInfoSnapshotUtil.getExtra(serviceInfoSnapshot),
+                serviceInfoSnapshot.getProperty(BridgeServiceProperty.IS_IN_GAME).orElse(false),
+                serviceInfoSnapshot.getProperty(BridgeServiceProperty.EXTRA).orElse(null),
                 Document.load(serviceInfoSnapshot.getProperties().toJson()),
                 serviceInfoSnapshot.getConnectedTime()
         );
     }
 
     public ProxyInfo convertProxyInfo(ServiceInfoSnapshot serviceInfoSnapshot) {
-        Collection<JsonDocument> players = ServiceInfoSnapshotUtil.getPlayers(serviceInfoSnapshot);
+        Collection<ServicePlayer> players = serviceInfoSnapshot.getProperty(BridgeServiceProperty.PLAYERS).orElse(Collections.emptyList());
         return new ProxyInfo(
                 this.convertServiceId(serviceInfoSnapshot.getServiceId()),
                 serviceInfoSnapshot.getAddress().getHost(),
                 serviceInfoSnapshot.getAddress().getPort(),
-                ServiceInfoSnapshotUtil.isOnline(serviceInfoSnapshot),
-                players == null ? Collections.emptyList() :
-                        players.stream().map(document -> new MultiValue<>(document.get("uniqueId", UUID.class), document.getString("name")))
-                                .collect(Collectors.toList()),
+                serviceInfoSnapshot.getProperty(BridgeServiceProperty.IS_ONLINE).orElse(false),
+                players.stream().map(player -> new MultiValue<>(player.getUniqueId(), player.getName()))
+                        .collect(Collectors.toList()),
                 serviceInfoSnapshot.getConfiguration().getProcessConfig().getMaxHeapMemorySize(),
-                ServiceInfoSnapshotUtil.getOnlineCount(serviceInfoSnapshot)
+                serviceInfoSnapshot.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0)
         );
     }
 

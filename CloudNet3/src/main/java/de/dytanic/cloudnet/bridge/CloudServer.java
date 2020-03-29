@@ -2,6 +2,7 @@ package de.dytanic.cloudnet.bridge;
 
 import de.dytanic.cloudnet.api.CloudAPI;
 import de.dytanic.cloudnet.api.ICloudService;
+import de.dytanic.cloudnet.ext.bridge.BridgeServiceProperty;
 import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import de.dytanic.cloudnet.ext.bridge.bukkit.BukkitCloudNetHelper;
 import de.dytanic.cloudnet.lib.player.CloudPlayer;
@@ -118,7 +119,7 @@ public class CloudServer implements ICloudService {
      * @return
      */
     public ServerState getServerState() {
-        return CloudAPI.getInstance().getConverter().convertServerState(ServiceInfoSnapshotUtil.getState(Wrapper.getInstance().getCurrentServiceInfoSnapshot()));
+        return CloudAPI.getInstance().getConverter().convertServerState(Wrapper.getInstance().getCurrentServiceInfoSnapshot().getProperty(BridgeServiceProperty.STATE).orElse(null));
     }
 
     /**

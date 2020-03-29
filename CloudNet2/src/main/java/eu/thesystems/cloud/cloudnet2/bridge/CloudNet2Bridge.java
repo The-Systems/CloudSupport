@@ -17,8 +17,8 @@ import eu.thesystems.cloud.global.info.ServerGroup;
 import eu.thesystems.cloud.global.info.ServerInfo;
 import eu.thesystems.cloud.global.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
+import eu.thesystems.cloud.proxy.ProxyManagement;
 
-import javax.naming.directory.SearchResult;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,6 +28,7 @@ public class CloudNet2Bridge extends CloudNet2 {
     private final CloudAPI cloudAPI = CloudAPI.getInstance();
     private final ChannelMessenger channelMessenger = new CloudNet2BridgeChannelMessenger();
     private final DatabaseProvider databaseProvider = new CloudNet2BridgeDatabaseProvider(this.cloudAPI, this);
+    private final ProxyManagement proxyManagement = new CloudNet2BridgeProxyManagement();
 
     public CloudNet2Bridge(SupportedCloudSystem supportedCloudSystem) {
         super(supportedCloudSystem, "CloudNet2-Bridge");
@@ -47,6 +48,11 @@ public class CloudNet2Bridge extends CloudNet2 {
     @Override
     public ChannelMessenger getChannelMessenger() {
         return this.channelMessenger;
+    }
+
+    @Override
+    public ProxyManagement getProxyManagement() {
+        return this.proxyManagement;
     }
 
     @Override
