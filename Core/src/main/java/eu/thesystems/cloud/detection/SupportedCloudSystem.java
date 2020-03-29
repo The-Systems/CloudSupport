@@ -34,19 +34,19 @@ public enum SupportedCloudSystem {
 
     REFORMCLOUD_2_BUKKIT(() -> createCloudSystem("eu.thesystems.cloud."),
             () -> checkClassExists("org.bukkit.Bukkit") &&
-                    checkClassExists("")
+                    getReformCloud2ExecutorType().equals("API")
     ),
     REFORMCLOUD_2_BUNGEE(() -> createCloudSystem("eu.thesystems.cloud."),
             () -> checkClassExists("net.md_5.bungee.api.ProxyServer") &&
-                    checkClassExists("")
+                    getReformCloud2ExecutorType().equals("API")
     ),
     REFORMCLOUD_2_VELOCITY(() -> createCloudSystem("eu.thesystems.cloud."),
             () -> checkClassExists("net.md_5.bungee.api.ProxyServer") &&
-                    checkClassExists("")
+                    getReformCloud2ExecutorType().equals("API")
     ),
-    REFORMCLOUD_2_NODE(() -> createCloudSystem("eu.thesystems.cloud."), () -> checkClassExists("")),
-    REFORMCLOUD_2_CLIENT(() -> createCloudSystem("eu.thesystems.cloud."), () -> checkClassExists("")),
-    REFORMCLOUD_2_CONTROLLER(() -> createCloudSystem("eu.thesystems.cloud."), () -> checkClassExists(""));
+    REFORMCLOUD_2_NODE(() -> createCloudSystem("eu.thesystems.cloud."), () -> getReformCloud2ExecutorType().equals("NODE")),
+    REFORMCLOUD_2_CLIENT(() -> createCloudSystem("eu.thesystems.cloud."), () -> getReformCloud2ExecutorType().equals("CLIENT")),
+    REFORMCLOUD_2_CONTROLLER(() -> createCloudSystem("eu.thesystems.cloud."), () -> getReformCloud2ExecutorType().equals("CONTROLLER"));
 
     private Supplier<CloudSystem> cloudSystemSupplier;
     private Supplier<Boolean> tester;
@@ -80,6 +80,16 @@ public enum SupportedCloudSystem {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static String getReformCloud2ExecutorType() {
+        try {
+            Class<?> executorClass = Class.forName("systems.reformcloud.reformcloud2.executor.api.common.ExecutorAPI");
+            Object executor = executorClass.getDeclaredMethod("getInstance").invoke(null);
+            return String.valueOf(executorClass.getDeclaredMethod("getType").invoke(executor));
+        } catch (ReflectiveOperationException ignored) {
+        }
+        return "";
     }
 
 }
