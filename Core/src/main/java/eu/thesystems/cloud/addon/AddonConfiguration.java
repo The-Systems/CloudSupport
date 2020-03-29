@@ -16,6 +16,10 @@ public class AddonConfiguration {
     private CloudAddon addon;
     private JsonObject config;
 
+    public AddonConfiguration(CloudAddon addon) {
+        this.addon = addon;
+    }
+
     public Gson getGson() {
         return this.gson;
     }
@@ -51,7 +55,7 @@ public class AddonConfiguration {
     }
 
     public final <T> void reloadConfig(T defaultConfig) {
-        this.reloadConfig(this.getGson().toJsonTree(defaultConfig));
+        this.reloadConfig(this.getGson().toJsonTree(defaultConfig).getAsJsonObject());
     }
 
     public final void reloadConfig(JsonObject defaultConfig) {

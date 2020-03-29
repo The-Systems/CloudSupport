@@ -15,7 +15,7 @@ public abstract class CloudAddon {
 
     Path dataDirectory;
 
-    private AddonConfiguration configuration = new AddonConfiguration();
+    private AddonConfiguration configuration = new AddonConfiguration(this);
 
     public abstract void onEnable();
 
