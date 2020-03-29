@@ -5,6 +5,7 @@ package eu.thesystems.cloud.cloudnet2.bridge;
 
 import de.dytanic.cloudnet.api.CloudAPI;
 import de.dytanic.cloudnet.lib.DefaultType;
+import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.bridge.database.CloudNet2BridgeDatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class CloudNet2Bridge extends CloudNet2 {
 
     private final CloudAPI cloudAPI = CloudAPI.getInstance();
+    private final ChannelMessenger channelMessenger = new CloudNet2BridgeChannelMessenger();
     private final DatabaseProvider databaseProvider = new CloudNet2BridgeDatabaseProvider(this.cloudAPI, this);
 
     public CloudNet2Bridge(SupportedCloudSystem supportedCloudSystem) {
@@ -40,6 +42,11 @@ public class CloudNet2Bridge extends CloudNet2 {
     @Override
     public DatabaseProvider getDatabaseProvider() {
         return this.databaseProvider;
+    }
+
+    @Override
+    public ChannelMessenger getChannelMessenger() {
+        return this.channelMessenger;
     }
 
     @Override

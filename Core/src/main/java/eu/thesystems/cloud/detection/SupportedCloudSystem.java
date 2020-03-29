@@ -17,6 +17,7 @@ public enum SupportedCloudSystem {
                     checkClassExists("de.dytanic.cloudnet.bridge.CloudProxy")
     ),
     CLOUDNET_2_MASTER(() -> createCloudSystem("eu.thesystems.cloud.cloudnet2.master.CloudNet2Master"), () -> checkClassExists("de.dytanic.cloudnetcore.CloudNet")),
+
     CLOUDNET_3_BUKKIT(() -> createCloudSystem("eu.thesystems.cloud.cloudnet3.wrapper.bukkit.CloudNet3Bukkit"),
             () -> checkClassExists("org.bukkit.Bukkit") &&
                     checkClassExists("de.dytanic.cloudnet.ext.bridge.bukkit.BukkitCloudNetBridgePlugin")
@@ -30,11 +31,16 @@ public enum SupportedCloudSystem {
                     checkClassExists("de.dytanic.cloudnet.ext.bridge.velocity.VelocityCloudNetBridgePlugin")
     ),
     CLOUDNET_3_NODE(() -> createCloudSystem("eu.thesystems.cloud.cloudnet3.node.CloudNet3Node"), () -> checkClassExists("de.dytanic.cloudnet.CloudNet")),
+
     REFORMCLOUD_2_BUKKIT(() -> createCloudSystem("eu.thesystems.cloud."),
             () -> checkClassExists("org.bukkit.Bukkit") &&
                     checkClassExists("")
     ),
     REFORMCLOUD_2_BUNGEE(() -> createCloudSystem("eu.thesystems.cloud."),
+            () -> checkClassExists("net.md_5.bungee.api.ProxyServer") &&
+                    checkClassExists("")
+    ),
+    REFORMCLOUD_2_VELOCITY(() -> createCloudSystem("eu.thesystems.cloud."),
             () -> checkClassExists("net.md_5.bungee.api.ProxyServer") &&
                     checkClassExists("")
     ),

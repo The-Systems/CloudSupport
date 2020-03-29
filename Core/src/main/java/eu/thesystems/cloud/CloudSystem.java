@@ -60,14 +60,30 @@ public interface CloudSystem {
 
     /**
      * Gets the event manager instance which is used to call and listen to events called on this component.
-     *
+     * <p>
      * This method is available on every component of every cloud
      *
-     * @return the {@link EventManager} of this class
+     * @return the final {@link EventManager} instance
      */
     EventManager getEventManager();
 
+    /**
+     * Gets the database provider instance which is used to manage the internal database of the cloud.
+     * <p>
+     * This method is available on every component of every cloud
+     *
+     * @return the final {@link EventManager} instance
+     */
     DatabaseProvider getDatabaseProvider();
+
+    /**
+     * Gets the channel messenger which is used to send channel messages over the whole network.
+     * <p>
+     * This method is available on every component of every cloud.
+     *
+     * @return the final {@link ChannelMessenger} instance
+     */
+    ChannelMessenger getChannelMessenger();
 
     /**
      * Gets the converter instance which converts all cloud-specific objects to our global objects

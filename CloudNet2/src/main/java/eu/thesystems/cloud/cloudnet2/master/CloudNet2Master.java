@@ -6,6 +6,7 @@ package eu.thesystems.cloud.cloudnet2.master;
 import de.dytanic.cloudnetcore.CloudNet;
 import de.dytanic.cloudnetcore.network.components.MinecraftServer;
 import de.dytanic.cloudnetcore.network.components.ProxyServer;
+import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.master.command.CloudNet2MasterCommandMap;
 import eu.thesystems.cloud.cloudnet2.master.database.CloudNet2MasterDatabaseProvider;
@@ -30,6 +31,7 @@ public class CloudNet2Master extends CloudNet2 {
     private final CloudNet cloudNet = CloudNet.getInstance();
 
     private CommandMap commandMap = new CloudNet2MasterCommandMap(this);
+    private ChannelMessenger channelMessenger = new CloudNet2MasterChannelMessenger();
     private ModuleManager moduleManager = new CloudNet2ModuleManager(this.cloudNet, this);
     private DatabaseProvider databaseProvider = new CloudNet2MasterDatabaseProvider(this, this.cloudNet);
     private CloudNet2MasterEventCaller eventCaller = new CloudNet2MasterEventCaller();
@@ -59,6 +61,11 @@ public class CloudNet2Master extends CloudNet2 {
     @Override
     public DatabaseProvider getDatabaseProvider() {
         return this.databaseProvider;
+    }
+
+    @Override
+    public ChannelMessenger getChannelMessenger() {
+        return this.channelMessenger;
     }
 
     @Override

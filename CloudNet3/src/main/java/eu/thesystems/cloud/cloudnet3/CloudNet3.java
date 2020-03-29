@@ -8,6 +8,7 @@ import de.dytanic.cloudnet.driver.permission.IPermissionUser;
 import de.dytanic.cloudnet.driver.service.ServiceEnvironmentType;
 import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
+import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.CloudSystem;
 import eu.thesystems.cloud.cloudsystem.cloudnet.CloudNet;
 import eu.thesystems.cloud.cloudnet3.module.CloudNet3ModuleManager;
@@ -38,6 +39,7 @@ public abstract class CloudNet3 extends CloudNet {
     private final CloudObjectConverter cloudObjectConverter = new CloudNet3ObjectConverter(this.cloudNetDriver, this);
 
     private final EventManager eventManager = new DefaultEventManager();
+    private final ChannelMessenger channelMessenger = new CloudNet3ChannelMessenger();
     private final ModuleManager moduleManager = new CloudNet3ModuleManager(this, this.cloudNetDriver.getModuleProvider());
 
     public CloudNet3(SupportedCloudSystem componentType, String name, String version, IPlayerManager playerManager) {
@@ -58,6 +60,11 @@ public abstract class CloudNet3 extends CloudNet {
     @Override
     public EventManager getEventManager() {
         return this.eventManager;
+    }
+
+    @Override
+    public ChannelMessenger getChannelMessenger() {
+        return this.channelMessenger;
     }
 
     @Override
