@@ -3,6 +3,7 @@ package eu.thesystems.cloud.addon.loader;
  * Created by derrop on 16.11.2019
  */
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.MalformedJsonException;
@@ -19,9 +20,11 @@ import java.io.Reader;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -84,7 +87,7 @@ public class CloudAddonLoader {
         return this.loadAddonInfo(path.toUri().toURL());
     }
 
-    public CloudAddon loadAddon(URL url) throws IOException, InvalidAddonInfoException, ReflectiveOperationException {
+    public CloudAddon loadAddon(URL url, Function<CloudAddonInfo, Path> dataDirectoryProvider) throws IOException, InvalidAddonInfoException, ReflectiveOperationException {
         CloudAddonInfo addonInfo = this.loadAddonInfo(url);
         System.out.println("Loading addon " + addonInfo.getName() + " (Version " + addonInfo.getVersion() + " by " + String.join(", ", addonInfo.getAuthors()) + ") from " + url + "...");
 
@@ -108,11 +111,17 @@ public class CloudAddonLoader {
         if (!CloudAddon.class.isAssignableFrom(mainClazz)) {
             throw new AddonLoadException(addonInfo, classLoader, "Main class \"" + addonInfo.getMain() + "\" has to extend from CloudAddon");
         }
-        return this.addonFactory.createAddon(mainClazz, addonInfo);
+
+        Path dataDirectory = dataDirectoryProvider.apply(addonInfo);
+        Preconditions.checkNotNull(dataDirectory, "dataDirectory");
+
+        CloudAddon addon = this.addonFactory.createAddon(mainClazz, addonInfo, dataDirectory);
+        Files.createDirectories(dataDirectory);
+        return addon;
     }
 
-    public CloudAddon loadAddon(Path path) throws IOException, InvalidAddonInfoException, ReflectiveOperationException {
-        return this.loadAddon(path.toUri().toURL());
+    public CloudAddon loadAddon(Path path, Function<CloudAddonInfo, Path> dataDirectoryProvider) throws IOException, InvalidAddonInfoException, ReflectiveOperationException {
+        return this.loadAddon(path.toUri().toURL(), dataDirectoryProvider);
     }
 
 }

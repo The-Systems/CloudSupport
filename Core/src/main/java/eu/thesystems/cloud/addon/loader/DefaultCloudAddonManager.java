@@ -81,7 +81,7 @@ public class DefaultCloudAddonManager implements CloudAddonManager {
     @Override
     public CloudAddon loadAddon(URL url) {
         try {
-            CloudAddon addon = this.addonLoader.loadAddon(url);
+            CloudAddon addon = this.addonLoader.loadAddon(url, cloudAddonInfo -> this.defaultAddonDirectory.resolve(cloudAddonInfo.getName()));
             if (addon != null) {
                 this.addons.add(addon);
                 return addon;

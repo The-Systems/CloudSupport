@@ -6,10 +6,16 @@ package eu.thesystems.cloud.addon;
 import eu.thesystems.cloud.CloudSupport;
 import eu.thesystems.cloud.CloudSystem;
 
+import java.nio.file.Path;
+
 public abstract class CloudAddon {
 
     CloudAddonInfo addonInfo;
     boolean enabled = false;
+
+    Path dataDirectory;
+
+    private AddonConfiguration configuration = new AddonConfiguration();
 
     public abstract void onEnable();
 
@@ -19,11 +25,19 @@ public abstract class CloudAddon {
         return this.addonInfo;
     }
 
-    public final CloudSystem getCloud() {
-        return CloudSupport.getInstance().getSelectedCloudSystem();
+    public final Path getDataDirectory() {
+        return this.dataDirectory;
+    }
+
+    public final AddonConfiguration getConfiguration() {
+        return this.configuration;
     }
 
     public final boolean isEnabled() {
         return this.enabled;
+    }
+
+    public final CloudSystem getCloud() {
+        return CloudSupport.getInstance().getSelectedCloudSystem();
     }
 }
