@@ -35,7 +35,7 @@ public class CloudNet2Master extends CloudNet2 {
     private final ChannelMessenger channelMessenger = new CloudNet2MasterChannelMessenger();
     private final ModuleManager moduleManager = new CloudNet2ModuleManager(this.cloudNet, this);
     private final DatabaseProvider databaseProvider = new CloudNet2MasterDatabaseProvider(this, this.cloudNet);
-    private final ProxyManagement proxyManagement = new CloudNet2MasterProxyManagement();
+    private final ProxyManagement proxyManagement = new CloudNet2MasterProxyManagement(this.cloudNet);
     private CloudNet2MasterEventCaller eventCaller = new CloudNet2MasterEventCaller();
 
     public CloudNet2Master() {

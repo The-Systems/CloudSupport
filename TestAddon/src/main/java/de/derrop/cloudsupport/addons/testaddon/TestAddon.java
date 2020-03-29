@@ -6,6 +6,8 @@ package de.derrop.cloudsupport.addons.testaddon;
 import eu.thesystems.cloud.addon.CloudAddon;
 import eu.thesystems.cloud.proxy.ProxyLoginConfig;
 import eu.thesystems.cloud.proxy.ProxyMOTD;
+import eu.thesystems.cloud.proxy.ProxyTabList;
+import eu.thesystems.cloud.proxy.ProxyTabListConfig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +23,14 @@ public class TestAddon extends CloudAddon {
                 Arrays.asList(new ProxyMOTD("e", "f", true, new String[]{"c", "d"}, "test", false, 1)),
                 true
         ));
+        this.getCloud().getProxyManagement().addTabListConfig(new ProxyTabListConfig(
+                "Test",
+                new ProxyTabList[]{new ProxyTabList("a", "b")},
+                1D
+        ));
+
         System.out.println(Arrays.toString(this.getCloud().getProxyManagement().getLoginConfigs()));
+        System.out.println(Arrays.toString(this.getCloud().getProxyManagement().getTabListConfigs()));
     }
 
     @Override
