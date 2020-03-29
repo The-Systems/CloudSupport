@@ -14,13 +14,11 @@ public class CloudNet3Util {
     }
 
     public static boolean isServer(ServiceInfoSnapshot serviceInfoSnapshot) {
-        return serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftJavaServer() ||
-                serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftBedrockServer();
+        return serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftServer();
     }
 
     public static boolean isProxy(ServiceInfoSnapshot serviceInfoSnapshot) {
-        return serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftJavaProxy() ||
-                serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftBedrockProxy();
+        return serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment().isMinecraftProxy();
     }
 
     public static ProcessInfo getProcessInfoFromService(CloudObjectConverter converter, ServiceInfoSnapshot serviceInfoSnapshot) {
