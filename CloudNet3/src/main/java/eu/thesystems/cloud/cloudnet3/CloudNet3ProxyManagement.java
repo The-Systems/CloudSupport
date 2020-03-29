@@ -92,7 +92,8 @@ public class CloudNet3ProxyManagement implements ProxyManagement {
                 configuration.getEntries().stream()
                         .map(syncProxyTabList -> new ProxyTabList(syncProxyTabList.getHeader(), syncProxyTabList.getFooter()))
                         .toArray(ProxyTabList[]::new),
-                configuration.getAnimationsPerSecond()
+                configuration.getAnimationsPerSecond(),
+                true
         );
     }
 

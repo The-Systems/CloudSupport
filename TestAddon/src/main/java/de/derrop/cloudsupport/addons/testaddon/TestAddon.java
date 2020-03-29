@@ -26,7 +26,8 @@ public class TestAddon extends CloudAddon {
         this.getCloud().getProxyManagement().addTabListConfig(new ProxyTabListConfig(
                 "Test",
                 new ProxyTabList[]{new ProxyTabList("a", "b")},
-                1D
+                1D,
+                true
         ));
 
         System.out.println(Arrays.toString(this.getCloud().getProxyManagement().getLoginConfigs()));

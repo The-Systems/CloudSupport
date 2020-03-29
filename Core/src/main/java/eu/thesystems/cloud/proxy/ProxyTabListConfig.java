@@ -10,11 +10,13 @@ public class ProxyTabListConfig {
     private String targetGroup;
     private ProxyTabList[] tabLists;
     private double animationsPerSecond;
+    private boolean supportsMultipleTabLists;
 
-    public ProxyTabListConfig(String targetGroup, ProxyTabList[] tabLists, double animationsPerSecond) {
+    public ProxyTabListConfig(String targetGroup, ProxyTabList[] tabLists, double animationsPerSecond, boolean supportsMultipleTabLists) {
         this.targetGroup = targetGroup;
         this.tabLists = tabLists;
         this.animationsPerSecond = animationsPerSecond;
+        this.supportsMultipleTabLists = supportsMultipleTabLists;
     }
 
     public String getTargetGroup() {
@@ -27,6 +29,10 @@ public class ProxyTabListConfig {
 
     public double getAnimationsPerSecond() {
         return animationsPerSecond;
+    }
+
+    public boolean supportsMultipleTabLists() {
+        return supportsMultipleTabLists;
     }
 
     public void setTargetGroup(String targetGroup) {

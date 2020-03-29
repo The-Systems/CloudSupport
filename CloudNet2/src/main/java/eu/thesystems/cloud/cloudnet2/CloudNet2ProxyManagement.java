@@ -8,9 +8,7 @@ import de.dytanic.cloudnet.lib.server.template.Template;
 import de.dytanic.cloudnet.lib.server.template.TemplateResource;
 import de.dytanic.cloudnet.lib.server.version.ProxyVersion;
 import de.dytanic.cloudnetcore.CloudNet;
-import eu.thesystems.cloud.proxy.ProxyLoginConfig;
-import eu.thesystems.cloud.proxy.ProxyMOTD;
-import eu.thesystems.cloud.proxy.ProxyManagement;
+import eu.thesystems.cloud.proxy.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,4 +72,12 @@ public abstract class CloudNet2ProxyManagement implements ProxyManagement {
         );
     }
 
+    protected ProxyTabListConfig convertFromCloudNetTabList(String group, TabList tabList) {
+        return new ProxyTabListConfig(
+                group,
+                tabList != null && tabList.isEnabled() ? new ProxyTabList[]{new ProxyTabList(tabList.getHeader(), tabList.getFooter())} : new ProxyTabList[0],
+                0,
+                false
+        );
+    }
 }

@@ -1,20 +1,16 @@
 package eu.thesystems.cloud.cloudnet2.master;
 
 import com.google.common.base.Preconditions;
-import de.dytanic.cloudnet.lib.map.WrappedMap;
-import de.dytanic.cloudnet.lib.proxylayout.*;
+import de.dytanic.cloudnet.lib.proxylayout.AutoSlot;
+import de.dytanic.cloudnet.lib.proxylayout.Motd;
+import de.dytanic.cloudnet.lib.proxylayout.TabList;
 import de.dytanic.cloudnet.lib.server.ProxyGroup;
-import de.dytanic.cloudnet.lib.server.ProxyGroupMode;
-import de.dytanic.cloudnet.lib.server.template.Template;
-import de.dytanic.cloudnet.lib.server.template.TemplateResource;
-import de.dytanic.cloudnet.lib.server.version.ProxyVersion;
 import de.dytanic.cloudnetcore.CloudNet;
 import eu.thesystems.cloud.cloudnet2.CloudNet2ProxyManagement;
 import eu.thesystems.cloud.proxy.ProxyLoginConfig;
 import eu.thesystems.cloud.proxy.ProxyMOTD;
 import eu.thesystems.cloud.proxy.ProxyTabListConfig;
 
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class CloudNet2MasterProxyManagement extends CloudNet2ProxyManagement {
@@ -106,21 +102,49 @@ public class CloudNet2MasterProxyManagement extends CloudNet2ProxyManagement {
 
     @Override
     public ProxyTabListConfig[] getTabListConfigs() {
-        return new ProxyTabListConfig[0];
+        return this.cloudNet.getProxyGroups().values().stream()
+                .map(proxyGroup -> super.convertFromCloudNetTabList(proxyGroup.getName(), proxyGroup.getProxyConfig().getTabList()))
+                .toArray(ProxyTabListConfig[]::new);
     }
 
     @Override
     public ProxyTabListConfig getTabListConfig(String targetProxyGroup) {
-        return null;
+        Preconditions.checkNotNull(targetProxyGroup, "targetProxyGroup");
+
+        ProxyGroup proxyGroup = this.cloudNet.getProxyGroup(targetProxyGroup);
+        return proxyGroup != null && proxyGroup.getProxyConfig().isEnabled() ? super.convertFromCloudNetTabList(proxyGroup.getName(), proxyGroup.getProxyConfig().getTabList()) : null;
     }
 
     @Override
     public void addTabListConfig(ProxyTabListConfig config) {
+        Preconditions.checkNotNull(config, "config");
 
+        ProxyGroup proxyGroup = this.cloudNet.getProxyGroup(config.getTargetGroup());
+        if (proxyGroup == null) {
+            proxyGroup = super.createDefaultProxyGroup(config.getTargetGroup());
+        }
+
+        this.updateTabListConfig(proxyGroup, config);
     }
 
     @Override
     public void updateTabListConfig(ProxyTabListConfig config) {
+        Preconditions.checkNotNull(config, "config");
 
+        ProxyGroup proxyGroup = this.cloudNet.getProxyGroup(config.getTargetGroup());
+        if (proxyGroup != null) {
+            this.updateTabListConfig(proxyGroup, config);
+        }
     }
+
+    private void updateTabListConfig(ProxyGroup proxyGroup, ProxyTabListConfig config) {
+        proxyGroup.getProxyConfig().setEnabled(true);
+        proxyGroup.getProxyConfig().setTabList(config.getTabLists().length == 0 ?
+                new TabList(false, "", "") :
+                new TabList(true, config.getTabLists()[0].getHeader(), config.getTabLists()[0].getFooter())
+        );
+
+        this.cloudNet.getConfig().createGroup(proxyGroup);
+    }
+
 }
