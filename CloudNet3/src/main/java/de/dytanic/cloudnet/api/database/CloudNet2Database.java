@@ -72,7 +72,7 @@ public class CloudNet2Database implements Database {
 
     @Override
     public int size() {
-        return 0; //todo CloudNet 3.2
+        return (int) this.database.getDocumentsCount();
     }
 
     @Override

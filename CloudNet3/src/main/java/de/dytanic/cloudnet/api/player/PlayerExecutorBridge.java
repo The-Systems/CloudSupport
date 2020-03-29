@@ -29,7 +29,7 @@ public class PlayerExecutorBridge extends PlayerExecutor {
             return;
         }
 
-        //BridgePlayerManager.getInstance().proxySendPlayer(cloudPlayer.getUniqueId(), server); todo CloudNet 3.2
+        BridgePlayerManager.getInstance().getPlayerExecutor(cloudPlayer.getUniqueId()).connect(server);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class PlayerExecutorBridge extends PlayerExecutor {
             return;
         }
 
-        //BridgePlayerManager.getInstance().proxyKickPlayer(cloudPlayer.getUniqueId(), reason); todo CloudNet 3.2
+        BridgePlayerManager.getInstance().getPlayerExecutor(cloudPlayer.getUniqueId()).kick(reason);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class PlayerExecutorBridge extends PlayerExecutor {
             return;
         }
 
-        //BridgePlayerManager.getInstance().proxySendPlayerMessage(cloudPlayer.getUniqueId(), message); todo CloudNet 3.2
+        BridgePlayerManager.getInstance().getPlayerExecutor(cloudPlayer.getUniqueId()).sendChatMessage(message);
     }
 
     @Override
