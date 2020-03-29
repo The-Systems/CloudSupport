@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class CloudNet2Bridge extends CloudNet2 {
 
     private final CloudAPI cloudAPI = CloudAPI.getInstance();
-    private final ChannelMessenger channelMessenger = new CloudNet2BridgeChannelMessenger();
+    private final ChannelMessenger channelMessenger = new CloudNet2BridgeChannelMessenger(this.cloudAPI);
     private final DatabaseProvider databaseProvider = new CloudNet2BridgeDatabaseProvider(this.cloudAPI, this);
     private final ProxyManagement proxyManagement = new CloudNet2BridgeProxyManagement();
 
