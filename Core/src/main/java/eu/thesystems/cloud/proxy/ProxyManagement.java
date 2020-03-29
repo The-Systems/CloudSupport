@@ -1,16 +1,18 @@
 package eu.thesystems.cloud.proxy;
 
-import java.util.Map;
-
 public interface ProxyManagement {
 
-    Map<String, ProxyMOTD[]> getMOTDs();
+    boolean isAvailable();
 
-    ProxyMOTD[] getMOTDs(String targetProxyGroup);
+    ProxyLoginConfig[] getLoginConfigs();
 
-    void addMOTD(String targetProxyGroup, ProxyMOTD motd);
+    ProxyLoginConfig getLoginConfig(String targetProxyGroup);
 
-    void updateMOTDs(String targetProxyGroup, ProxyMOTD[] motds);
+    void addLoginConfig(ProxyLoginConfig config);
+
+    void updateLoginConfig(ProxyLoginConfig config);
+
+    void updateLoginConfigs(ProxyLoginConfig[] configs);
 
     ProxyTabListConfig[] getTabListConfigs();
 

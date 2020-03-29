@@ -76,6 +76,13 @@
 
         <dependency>
             <groupId>de.dytanic.cloudnet</groupId>
+            <artifactId>cloudnet-syncproxy</artifactId>
+            <version>${cloudnet3.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dytanic.cloudnet</groupId>
             <artifactId>cloudnet-lib</artifactId>
             <version>dev-snapshot</version>
             <scope>compile</scope>

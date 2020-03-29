@@ -1,29 +1,37 @@
 package eu.thesystems.cloud.cloudnet2.master;
 
-import eu.thesystems.cloud.proxy.ProxyMOTD;
+import eu.thesystems.cloud.proxy.ProxyLoginConfig;
 import eu.thesystems.cloud.proxy.ProxyManagement;
 import eu.thesystems.cloud.proxy.ProxyTabListConfig;
 
-import java.util.Map;
-
 public class CloudNet2MasterProxyManagement implements ProxyManagement {
     @Override
-    public Map<String, ProxyMOTD[]> getMOTDs() {
+    public boolean isAvailable() {
+        return false;
+    }
+
+    @Override
+    public ProxyLoginConfig[] getLoginConfigs() {
+        return new ProxyLoginConfig[0];
+    }
+
+    @Override
+    public ProxyLoginConfig getLoginConfig(String targetProxyGroup) {
         return null;
     }
 
     @Override
-    public ProxyMOTD[] getMOTDs(String targetProxyGroup) {
-        return new ProxyMOTD[0];
-    }
-
-    @Override
-    public void addMOTD(String targetProxyGroup, ProxyMOTD motd) {
+    public void addLoginConfig(ProxyLoginConfig config) {
 
     }
 
     @Override
-    public void updateMOTDs(String targetProxyGroup, ProxyMOTD[] motds) {
+    public void updateLoginConfig(ProxyLoginConfig config) {
+
+    }
+
+    @Override
+    public void updateLoginConfigs(ProxyLoginConfig[] configs) {
 
     }
 

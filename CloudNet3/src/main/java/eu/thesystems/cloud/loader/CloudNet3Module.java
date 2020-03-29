@@ -14,7 +14,6 @@ public class CloudNet3Module extends DriverModule {
 
     @ModuleTask(event = ModuleLifeCycle.STARTED)
     public void onEnable() {
-
         try {
             Class<?> clazz = super.getDriver().getDriverEnvironment() == DriverEnvironment.CLOUDNET ?
                     Class.forName(this.getClass().getPackage().getName() + ".CloudNet3NodeLoader") :

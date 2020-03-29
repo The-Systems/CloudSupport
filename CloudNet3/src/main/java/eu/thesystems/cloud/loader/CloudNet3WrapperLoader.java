@@ -5,8 +5,6 @@ package eu.thesystems.cloud.loader;
 
 import de.dytanic.cloudnet.driver.service.ServiceEnvironmentType;
 import de.dytanic.cloudnet.wrapper.Wrapper;
-import eu.thesystems.cloud.CloudSupport;
-import eu.thesystems.cloud.detection.SupportedCloudSystem;
 
 import java.io.IOException;
 import java.io.InputStream;
