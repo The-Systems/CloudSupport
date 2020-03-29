@@ -77,7 +77,7 @@
         <dependency>
             <groupId>de.dytanic.cloudnet</groupId>
             <artifactId>cloudnet-lib</artifactId>
-            <version>2.1.17</version>
+            <version>dev-snapshot</version>
             <scope>compile</scope>
         </dependency>
 

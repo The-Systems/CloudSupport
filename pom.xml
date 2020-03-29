@@ -27,7 +27,6 @@
         <module>CloudNet2</module>
         <module>CloudNet3</module>
         <module>CloudNet3-V2-Emulator</module>
-        <module>ReformCloud1</module>
         <module>ReformCloud2</module>
         <module>TestAddon</module>
     </modules>
