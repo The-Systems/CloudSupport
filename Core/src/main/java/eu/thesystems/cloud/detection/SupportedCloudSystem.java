@@ -10,13 +10,18 @@ import java.util.function.Supplier;
 public enum SupportedCloudSystem {
     CLOUDNET_2_BUKKIT(() -> createCloudSystem("eu.thesystems.cloud.cloudnet2.bridge.bukkit.CloudNet2Bukkit"),
             () -> checkClassExists("org.bukkit.Bukkit") &&
-                    checkClassExists("de.dytanic.cloudnet.bridge.CloudServer")
+                    checkClassExists("de.dytanic.cloudnet.bridge.CloudServer") &&
+                    !checkClassExists("de.dytanic.cloudnet.EmulatedCloudNet2")
     ),
     CLOUDNET_2_BUNGEE(() -> createCloudSystem("eu.thesystems.cloud.cloudnet2.bridge.bungee.CloudNet2Bungee"),
             () -> checkClassExists("net.md_5.bungee.api.ProxyServer") &&
-                    checkClassExists("de.dytanic.cloudnet.bridge.CloudProxy")
+                    checkClassExists("de.dytanic.cloudnet.bridge.CloudProxy") &&
+                    !checkClassExists("de.dytanic.cloudnet.EmulatedCloudNet2")
     ),
-    CLOUDNET_2_MASTER(() -> createCloudSystem("eu.thesystems.cloud.cloudnet2.master.CloudNet2Master"), () -> checkClassExists("de.dytanic.cloudnetcore.CloudNet")),
+    CLOUDNET_2_MASTER(() -> createCloudSystem("eu.thesystems.cloud.cloudnet2.master.CloudNet2Master"), () ->
+            checkClassExists("de.dytanic.cloudnetcore.CloudNet") &&
+                    !checkClassExists("de.dytanic.cloudnet.EmulatedCloudNet2")
+    ),
 
     CLOUDNET_3_BUKKIT(() -> createCloudSystem("eu.thesystems.cloud.cloudnet3.wrapper.bukkit.CloudNet3Bukkit"),
             () -> checkClassExists("org.bukkit.Bukkit") &&
