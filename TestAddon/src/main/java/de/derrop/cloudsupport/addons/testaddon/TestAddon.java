@@ -32,12 +32,14 @@ public class TestAddon extends CloudAddon {
                 if (this.getCloud().getComponentType() != SupportedCloudSystem.CLOUDNET_2_MASTER) {
                     try {
                         System.out.println("Response from master: " + this.getCloud().getChannelMessenger().sendQueryChannelMessageToCloud(
-                                "test-master-channel", "msg to to master from " + this.getCloud().getOwnComponentName(),
+                                "test-master-channel", "msg to master from " + this.getCloud().getOwnComponentName(),
                                 new JsonObject()).get()
                         );
                     } catch (InterruptedException | ExecutionException exception) {
                         exception.printStackTrace();
                     }
+
+                    this.getCloud().getChannelMessenger().sendChannelMessageToCloud("test master channel without query", "non query msg to master from " + this.getCloud().getOwnComponentName(), new JsonObject());
                 } else {
                     for (ProcessInfo process : this.getCloud().getProcesses()) {
                         try {
@@ -81,10 +83,12 @@ public class TestAddon extends CloudAddon {
     public void handle(ChannelMessageReceiveEvent event) {
         System.out.println("received message: " + event.getChannel() + ": " + event.getMessage() + " -> " + event.getData());
         System.out.println("query: " + event.isQuery());
-        JsonObject result = new JsonObject();
-        result.addProperty(UUID.randomUUID().toString(), UUID.randomUUID().toString());
-        System.out.println("set result to: " + result);
-        event.setQueryResult(result);
+        if (event.isQuery()) {
+            JsonObject result = new JsonObject();
+            result.addProperty(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+            System.out.println("set result to: " + result);
+            event.setQueryResult(result);
+        }
     }
 
     @Override

@@ -10,7 +10,7 @@ import de.dytanic.cloudnetcore.network.components.MinecraftServer;
 import de.dytanic.cloudnetcore.network.components.ProxyServer;
 import de.dytanic.cloudnetcore.network.packet.out.PacketOutCustomSubChannelMessage;
 import eu.thesystems.cloud.ChannelMessenger;
-import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterQueryChannelMessage;
+import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
 import eu.thesystems.cloud.exception.CloudSupportException;
 
 import java.util.concurrent.CompletableFuture;
@@ -66,6 +66,11 @@ public class CloudNet2MasterChannelMessenger implements ChannelMessenger {
     }
 
     @Override
+    public void sendChannelMessageToCloud(String channel, String message, JsonObject data) {
+        throw new CloudSupportException(this.master);
+    }
+
+    @Override
     public CompletableFuture<JsonObject> sendQueryChannelMessage(String targetServer, String channel, String message, JsonObject data) {
         INetworkComponent component = this.getServerOrProxy(targetServer);
         if (component == null) {
@@ -74,7 +79,7 @@ public class CloudNet2MasterChannelMessenger implements ChannelMessenger {
 
         CompletableFuture<JsonObject> future = new CompletableFuture<>();
         this.executorService.execute(() -> {
-            Result result = this.cloudNet.getPacketManager().sendQuery(new PacketOutMasterQueryChannelMessage(channel, message, data), component);
+            Result result = this.cloudNet.getPacketManager().sendQuery(new PacketOutMasterChannelMessage(channel, message, data, true), component);
             future.complete(result.getResult().contains("data") ? result.getResult().get("data").getAsJsonObject() : null);
         });
 

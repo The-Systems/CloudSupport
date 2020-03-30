@@ -7,8 +7,8 @@ import de.dytanic.cloudnet.api.CloudAPI;
 import de.dytanic.cloudnet.lib.DefaultType;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.bridge.database.CloudNet2BridgeDatabaseProvider;
-import eu.thesystems.cloud.cloudnet2.network.PacketInMasterQueryChannelMessage;
-import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterQueryChannelMessage;
+import eu.thesystems.cloud.cloudnet2.network.PacketInMasterChannelMessage;
+import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.exception.CloudSupportException;
 import eu.thesystems.cloud.global.database.DatabaseProvider;
@@ -34,7 +34,7 @@ public class CloudNet2Bridge extends CloudNet2 {
     public CloudNet2Bridge(SupportedCloudSystem supportedCloudSystem) {
         super(supportedCloudSystem, "CloudNet2-Bridge");
         this.cloudAPI.getNetworkHandlerProvider().registerHandler(new CloudNet2BridgeEventCaller(this.getEventManager(), this, this.getConverter()));
-        this.cloudAPI.getNetworkConnection().getPacketManager().registerHandler(PacketOutMasterQueryChannelMessage.ID, PacketInMasterQueryChannelMessage.class);
+        this.cloudAPI.getNetworkConnection().getPacketManager().registerHandler(PacketOutMasterChannelMessage.ID, PacketInMasterChannelMessage.class);
     }
 
     public CloudAPI getCloudAPI() {

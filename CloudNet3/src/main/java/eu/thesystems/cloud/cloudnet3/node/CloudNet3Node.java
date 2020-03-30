@@ -5,6 +5,7 @@ package eu.thesystems.cloud.cloudnet3.node;
 
 import de.dytanic.cloudnet.CloudNet;
 import de.dytanic.cloudnet.ext.bridge.node.player.NodePlayerManager;
+import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.cloudnet3.CloudNet3;
 import eu.thesystems.cloud.cloudnet3.node.command.CloudNet3NodeCommandMap;
 import eu.thesystems.cloud.cloudnet3.node.database.CloudNet3NodeDatabaseProvider;
@@ -15,7 +16,8 @@ public class CloudNet3Node extends CloudNet3 {
 
     private final CloudNet cloudNet = CloudNet.getInstance();
 
-    private DatabaseProvider databaseProvider = new CloudNet3NodeDatabaseProvider(this.cloudNet);
+    private final DatabaseProvider databaseProvider = new CloudNet3NodeDatabaseProvider(this.cloudNet);
+    private final ChannelMessenger channelMessenger = new CloudNet3NodeChannelMessenger(this.cloudNet);
 
     public CloudNet3Node() {
         super(
@@ -39,5 +41,10 @@ public class CloudNet3Node extends CloudNet3 {
     @Override
     public DatabaseProvider getDatabaseProvider() {
         return this.databaseProvider;
+    }
+
+    @Override
+    public ChannelMessenger getChannelMessenger() {
+        return this.channelMessenger;
     }
 }

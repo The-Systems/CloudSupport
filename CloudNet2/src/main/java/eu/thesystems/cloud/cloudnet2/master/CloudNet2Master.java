@@ -11,8 +11,8 @@ import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.master.command.CloudNet2MasterCommandMap;
 import eu.thesystems.cloud.cloudnet2.master.database.CloudNet2MasterDatabaseProvider;
 import eu.thesystems.cloud.cloudnet2.master.module.CloudNet2ModuleManager;
-import eu.thesystems.cloud.cloudnet2.network.PacketInMasterQueryChannelMessage;
-import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterQueryChannelMessage;
+import eu.thesystems.cloud.cloudnet2.network.PacketInMasterChannelMessage;
+import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.global.database.DatabaseProvider;
 import eu.thesystems.cloud.global.info.ProxyGroup;
@@ -41,7 +41,7 @@ public class CloudNet2Master extends CloudNet2 {
     public CloudNet2Master() {
         super(SupportedCloudSystem.CLOUDNET_2_MASTER, "CloudNet2-Master");
         super.commandMap = new CloudNet2MasterCommandMap(this);
-        this.cloudNet.getPacketManager().registerHandler(PacketOutMasterQueryChannelMessage.ID, PacketInMasterQueryChannelMessage.class);
+        this.cloudNet.getPacketManager().registerHandler(PacketOutMasterChannelMessage.ID, PacketInMasterChannelMessage.class);
     }
 
     public void init(CloudNet2MasterLoader loader) {

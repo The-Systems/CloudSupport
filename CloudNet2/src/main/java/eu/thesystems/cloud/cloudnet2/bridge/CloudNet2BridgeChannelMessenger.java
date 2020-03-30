@@ -10,7 +10,7 @@ import de.dytanic.cloudnet.lib.utility.document.Document;
 import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.CloudNet2ChannelMessageType;
-import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterQueryChannelMessage;
+import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 
 import java.util.Map;
@@ -71,6 +71,11 @@ public class CloudNet2BridgeChannelMessenger implements ChannelMessenger {
     }
 
     @Override
+    public void sendChannelMessageToCloud(String channel, String message, JsonObject data) {
+        this.cloudAPI.getNetworkConnection().sendPacket(new PacketOutMasterChannelMessage(channel, message, data, false));
+    }
+
+    @Override
     public CompletableFuture<JsonObject> sendQueryChannelMessage(String targetServer, String channel, String message, JsonObject data) {
         UUID queryId = UUID.randomUUID();
 
@@ -95,7 +100,7 @@ public class CloudNet2BridgeChannelMessenger implements ChannelMessenger {
         CompletableFuture<JsonObject> future = new CompletableFuture<>();
         this.executorService.execute(() -> {
             Result result = this.cloudAPI.getNetworkConnection().getPacketManager().sendQuery(
-                    new PacketOutMasterQueryChannelMessage(channel, message, data),
+                    new PacketOutMasterChannelMessage(channel, message, data, true),
                     this.cloudAPI.getNetworkConnection()
             );
             future.complete(result.getResult().contains("data") ? result.getResult().get("data").getAsJsonObject() : null);

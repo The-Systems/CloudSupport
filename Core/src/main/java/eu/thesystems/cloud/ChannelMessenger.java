@@ -17,6 +17,8 @@ public interface ChannelMessenger { // todo not tested
 
     void sendChannelMessageToGroup(String targetGroup, String channel, String message, JsonObject data);
 
+    void sendChannelMessageToCloud(String channel, String message, JsonObject data);
+
     /**
      * Sends a channel message to a specific process (calling the {@link ChannelMessageReceiveEvent}) and waits
      * for the result by the server. On some CloudSystems, this might take a few seconds (e. g. on CloudNet 2, it times
