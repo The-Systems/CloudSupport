@@ -5,6 +5,8 @@ package eu.thesystems.cloud.global.command;
 
 public interface CloudCommandSender {
 
+    boolean isPlayer();
+
     void sendMessage(String message);
 
     void sendMessage(String... messages);

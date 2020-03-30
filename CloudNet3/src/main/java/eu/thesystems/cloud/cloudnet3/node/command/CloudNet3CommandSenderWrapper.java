@@ -19,6 +19,11 @@ public class CloudNet3CommandSenderWrapper implements CloudCommandSender {
     }
 
     @Override
+    public boolean isPlayer() {
+        return false;
+    }
+
+    @Override
     public void sendMessage(String message) {
         this.sender.sendMessage(message);
     }

@@ -6,8 +6,13 @@ package eu.thesystems.cloud.cloudnet2.master.command;
 import eu.thesystems.cloud.cloudnet2.master.CloudNet2Master;
 import eu.thesystems.cloud.global.command.CloudCommand;
 import eu.thesystems.cloud.global.command.CommandMap;
+import eu.thesystems.cloud.global.command.EmptyCommandMap;
 
-public class CloudNet2MasterCommandMap implements CommandMap {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.function.Consumer;
+
+public class CloudNet2MasterCommandMap extends EmptyCommandMap {
 
     private CloudNet2Master cloudNet2Master;
 
@@ -17,6 +22,7 @@ public class CloudNet2MasterCommandMap implements CommandMap {
 
     @Override
     public void registerCommand(CloudCommand command) {
+        super.registerCommand(command);
         this.cloudNet2Master.getCloudNet().getCommandManager().registerCommand(new CloudNet2MasterCommandWrapper(command));
     }
 }

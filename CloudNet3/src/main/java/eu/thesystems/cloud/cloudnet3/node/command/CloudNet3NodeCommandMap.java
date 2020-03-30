@@ -6,8 +6,9 @@ package eu.thesystems.cloud.cloudnet3.node.command;
 import eu.thesystems.cloud.cloudnet3.node.CloudNet3Node;
 import eu.thesystems.cloud.global.command.CloudCommand;
 import eu.thesystems.cloud.global.command.CommandMap;
+import eu.thesystems.cloud.global.command.EmptyCommandMap;
 
-public class CloudNet3NodeCommandMap implements CommandMap {
+public class CloudNet3NodeCommandMap extends EmptyCommandMap {
 
     private CloudNet3Node cloudNet3Node;
 
@@ -17,6 +18,7 @@ public class CloudNet3NodeCommandMap implements CommandMap {
 
     @Override
     public void registerCommand(CloudCommand command) {
+        super.registerCommand(command);
         this.cloudNet3Node.getCloudNet().getCommandMap().registerCommand(new CloudNet3CommandWrapper(command));
     }
 }

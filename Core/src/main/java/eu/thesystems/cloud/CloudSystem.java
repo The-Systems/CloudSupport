@@ -42,7 +42,8 @@ public interface CloudSystem {
     /**
      * Gets the command map of this cloud to register console commands.
      * <p>
-     * This method is available on every cloud, but not on any spigot, bungee, etc.
+     * This method is available on every component of every cloud. On bungee and spigot it will only register commands
+     * which can be executed by players.
      *
      * @return the {@link CommandMap} instance for this cloud
      */

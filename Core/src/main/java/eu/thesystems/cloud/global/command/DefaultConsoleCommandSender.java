@@ -5,6 +5,11 @@ package eu.thesystems.cloud.global.command;
 
 public class DefaultConsoleCommandSender implements CloudCommandSender {
     @Override
+    public boolean isPlayer() {
+        return false;
+    }
+
+    @Override
     public void sendMessage(String message) {
         System.out.println(message);
     }

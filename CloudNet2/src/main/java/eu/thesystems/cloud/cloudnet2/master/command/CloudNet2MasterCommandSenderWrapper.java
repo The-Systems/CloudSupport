@@ -15,6 +15,11 @@ public class CloudNet2MasterCommandSenderWrapper implements CloudCommandSender {
     }
 
     @Override
+    public boolean isPlayer() {
+        return false;
+    }
+
+    @Override
     public void sendMessage(String message) {
         this.sender.sendMessage(message);
     }

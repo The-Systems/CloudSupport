@@ -9,14 +9,12 @@ import eu.thesystems.cloud.cloudnet3.CloudNet3;
 import eu.thesystems.cloud.cloudnet3.node.command.CloudNet3NodeCommandMap;
 import eu.thesystems.cloud.cloudnet3.node.database.CloudNet3NodeDatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
-import eu.thesystems.cloud.global.command.CommandMap;
 import eu.thesystems.cloud.global.database.DatabaseProvider;
 
 public class CloudNet3Node extends CloudNet3 {
 
     private final CloudNet cloudNet = CloudNet.getInstance();
 
-    private CommandMap commandMap = new CloudNet3NodeCommandMap(this);
     private DatabaseProvider databaseProvider = new CloudNet3NodeDatabaseProvider(this.cloudNet);
 
     public CloudNet3Node() {
@@ -26,6 +24,7 @@ public class CloudNet3Node extends CloudNet3 {
                 CloudNet.class.getPackage().getImplementationTitle() + "-" + CloudNet.class.getPackage().getImplementationVersion(),
                 NodePlayerManager.getInstance()
         );
+        super.commandMap = new CloudNet3NodeCommandMap(this);
     }
 
     public CloudNet getCloudNet() {
@@ -35,10 +34,5 @@ public class CloudNet3Node extends CloudNet3 {
     @Override
     public DatabaseProvider getDatabaseProvider() {
         return this.databaseProvider;
-    }
-
-    @Override
-    public CommandMap getCommandMap() {
-        return this.commandMap;
     }
 }

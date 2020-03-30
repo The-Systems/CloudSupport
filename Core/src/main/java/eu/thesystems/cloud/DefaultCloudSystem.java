@@ -7,6 +7,7 @@ import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.event.EventManager;
 import eu.thesystems.cloud.exception.CloudSupportException;
 import eu.thesystems.cloud.global.command.CommandMap;
+import eu.thesystems.cloud.global.command.EmptyCommandMap;
 
 public abstract class DefaultCloudSystem implements CloudSystem {
 
@@ -14,6 +15,7 @@ public abstract class DefaultCloudSystem implements CloudSystem {
     private EventManager eventManager;
     private String name;
     private String version;
+    protected CommandMap commandMap = new EmptyCommandMap();
 
     public DefaultCloudSystem(SupportedCloudSystem componentType, EventManager eventManager, String name, String version) {
         this.componentType = componentType;
@@ -44,6 +46,6 @@ public abstract class DefaultCloudSystem implements CloudSystem {
 
     @Override
     public CommandMap getCommandMap() {
-        throw new CloudSupportException(this);
+        return this.commandMap;
     }
 }

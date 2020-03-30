@@ -101,6 +101,7 @@ public class CloudAddonLoader {
             }
         }
         urls.add(url);
+
         URLClassLoader classLoader = new CloudAddonClassLoader(urls.toArray(new URL[0]), addonInfo, this.parentClassLoader);
         Class<?> mainClazz = null;
         try {
