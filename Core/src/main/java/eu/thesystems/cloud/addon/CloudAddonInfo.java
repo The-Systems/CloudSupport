@@ -4,6 +4,7 @@ package eu.thesystems.cloud.addon;
  */
 
 import eu.thesystems.cloud.addon.dependency.MavenDependency;
+import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class CloudAddonInfo {
     private String main;
     private String[] authors;
     private Collection<MavenDependency> dependencies;
+    private SupportedCloudSystem[] availableCloudSystems; // todo should throw an exception if this addon is loaded on a cloud system that is not supported (only if this array is not null)
     private transient URL url;
     private transient URLClassLoader classLoader;
 

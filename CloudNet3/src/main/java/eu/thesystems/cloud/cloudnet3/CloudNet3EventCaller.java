@@ -82,7 +82,7 @@ public class CloudNet3EventCaller {
 
     @EventListener
     public void handleChannelMessage(ChannelMessageReceiveEvent event) {
-        this.eventManager.callEvent(new eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent(event.getChannel(), event.getMessage(), JsonParser.parseString(event.getData().toJson()).getAsJsonObject()));
+        this.eventManager.callEvent(new eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent(event.getChannel(), event.getMessage(), JsonParser.parseString(event.getData().toJson()).getAsJsonObject(), false, null));
     }
 
     @EventListener

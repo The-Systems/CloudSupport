@@ -20,6 +20,8 @@ import java.util.Collection;
  */
 public abstract class CloudNet2 extends CloudNet {
 
+    public static final String CLOUD_SUPPORT_CHANNEL = "CloudSupport";
+
     private final CloudObjectConverter cloudObjectConverter = new CloudNet2ObjectConverter();
 
     public CloudNet2(SupportedCloudSystem componentType, String name) {

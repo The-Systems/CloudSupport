@@ -5,9 +5,10 @@ package eu.thesystems.cloud.cloudnet2.bridge;
 
 import de.dytanic.cloudnet.api.CloudAPI;
 import de.dytanic.cloudnet.lib.DefaultType;
-import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.bridge.database.CloudNet2BridgeDatabaseProvider;
+import eu.thesystems.cloud.cloudnet2.network.PacketInMasterQueryChannelMessage;
+import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterQueryChannelMessage;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.exception.CloudSupportException;
 import eu.thesystems.cloud.global.database.DatabaseProvider;
@@ -26,13 +27,23 @@ import java.util.stream.Collectors;
 public class CloudNet2Bridge extends CloudNet2 {
 
     private final CloudAPI cloudAPI = CloudAPI.getInstance();
-    private final ChannelMessenger channelMessenger = new CloudNet2BridgeChannelMessenger(this.cloudAPI);
+    private final CloudNet2BridgeChannelMessenger channelMessenger = new CloudNet2BridgeChannelMessenger(this, this.cloudAPI);
     private final DatabaseProvider databaseProvider = new CloudNet2BridgeDatabaseProvider(this.cloudAPI, this);
     private final ProxyManagement proxyManagement = new CloudNet2BridgeProxyManagement();
 
     public CloudNet2Bridge(SupportedCloudSystem supportedCloudSystem) {
         super(supportedCloudSystem, "CloudNet2-Bridge");
-        this.cloudAPI.getNetworkHandlerProvider().registerHandler(new CloudNet2BridgeEventCaller(this.getEventManager(), this.getConverter()));
+        this.cloudAPI.getNetworkHandlerProvider().registerHandler(new CloudNet2BridgeEventCaller(this.getEventManager(), this, this.getConverter()));
+        this.cloudAPI.getNetworkConnection().getPacketManager().registerHandler(PacketOutMasterQueryChannelMessage.ID, PacketInMasterQueryChannelMessage.class);
+    }
+
+    public CloudAPI getCloudAPI() {
+        return this.cloudAPI;
+    }
+
+    @Override
+    public String getOwnComponentName() {
+        return this.cloudAPI.getServerId();
     }
 
     @Override
@@ -46,7 +57,7 @@ public class CloudNet2Bridge extends CloudNet2 {
     }
 
     @Override
-    public ChannelMessenger getChannelMessenger() {
+    public CloudNet2BridgeChannelMessenger getChannelMessenger() {
         return this.channelMessenger;
     }
 

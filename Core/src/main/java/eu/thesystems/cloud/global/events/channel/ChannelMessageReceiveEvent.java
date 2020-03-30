@@ -10,10 +10,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class ChannelMessageReceiveEvent extends CloudEvent {
     private String channel;
     private String message;
     private JsonObject data;
+    private boolean query;
+    private JsonObject queryResult;
+
+    public void setQueryResult(JsonObject queryResult) {
+        this.queryResult = queryResult;
+    }
 }

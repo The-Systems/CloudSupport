@@ -11,7 +11,7 @@ public class CloudNet2MasterCommandWrapper extends Command {
     private CloudCommand wrapped;
 
     protected CloudNet2MasterCommandWrapper(CloudCommand wrapped) {
-        super(wrapped.getName(), wrapped.getPermission(), wrapped.getAliases());
+        super(wrapped.getName(), wrapped.getPermission(), wrapped.getAliases() != null ? wrapped.getAliases() : new String[0]);
         this.wrapped = wrapped;
     }
 

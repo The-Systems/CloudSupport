@@ -31,6 +31,15 @@ public interface CloudSystem {
     String getName();
 
     /**
+     * Gets the name of this component in the network (e. g. "Lobby-1")
+     * <p>
+     * This method is available on every component of every cloud.
+     *
+     * @return the name of this component
+     */
+    String getOwnComponentName();
+
+    /**
      * Gets the version of this cloud (e. g. "Tsunami 3.0.0-RELEASE-964f47f")
      * <p>
      * This method is available on every component of every cloud.

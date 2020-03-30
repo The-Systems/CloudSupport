@@ -10,7 +10,6 @@ import de.dytanic.cloudnet.ext.bridge.*;
 import de.dytanic.cloudnet.ext.bridge.player.*;
 import de.dytanic.cloudnet.lib.MultiValue;
 import de.dytanic.cloudnet.lib.map.WrappedMap;
-import de.dytanic.cloudnet.lib.player.CloudPlayer;
 import de.dytanic.cloudnet.lib.player.OfflinePlayer;
 import de.dytanic.cloudnet.lib.player.PlayerConnection;
 import de.dytanic.cloudnet.lib.player.permission.GroupEntityData;
@@ -34,13 +33,13 @@ import java.util.stream.Collectors;
 
 public class CloudNet2EmulatorConverter {
 
-    public ICloudPlayer convertToV3OnlinePlayer(CloudPlayer cloudPlayer) {
+    public ICloudPlayer convertToV3OnlinePlayer(de.dytanic.cloudnet.lib.player.CloudPlayer cloudPlayer) {
         ServiceInfoSnapshot proxy = CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServiceByName(cloudPlayer.getProxy());
         ServiceInfoSnapshot server = CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServiceByName(cloudPlayer.getServer());
         if (proxy == null || server == null) {
             return null;
         }
-        return new de.dytanic.cloudnet.ext.bridge.player.CloudPlayer(
+        return new CloudPlayer(
                 cloudPlayer.getUniqueId(),
                 cloudPlayer.getName(),
                 null,
@@ -89,8 +88,8 @@ public class CloudNet2EmulatorConverter {
         );
     }
 
-    public CloudPlayer convertToV2OnlinePlayer(ICloudPlayer cloudPlayer, IPermissionUser permissionUser) {
-        CloudPlayer resultPlayer = new CloudPlayer(
+    public de.dytanic.cloudnet.lib.player.CloudPlayer convertToV2OnlinePlayer(ICloudPlayer cloudPlayer, IPermissionUser permissionUser) {
+        de.dytanic.cloudnet.lib.player.CloudPlayer resultPlayer = new de.dytanic.cloudnet.lib.player.CloudPlayer(
                 this.convertToV2OfflinePlayer(cloudPlayer, permissionUser),
                 this.convertToPlayerConnection(cloudPlayer.getNetworkConnectionInfo()),
                 cloudPlayer.getLoginService().getServerName()

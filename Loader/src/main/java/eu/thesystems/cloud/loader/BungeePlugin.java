@@ -31,5 +31,12 @@ public class BungeePlugin extends Plugin {
                                 }
                             }
                         }));
+
+        CloudSupport.getInstance().startAddons();
+    }
+
+    @Override
+    public void onDisable() {
+        CloudSupport.getInstance().stopAddons();
     }
 }

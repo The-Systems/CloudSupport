@@ -17,7 +17,7 @@ import java.util.Collections;
 
 public class BukkitPlugin extends JavaPlugin {
     @Override
-    public void onLoad() {
+    public void onEnable() {
         if (!CloudSupport.getInstance().selectCloudSystem()) {
             System.out.println("[CloudSupport] Cannot find cloud system, disabling...");
             this.getServer().getPluginManager().disablePlugin(this);
@@ -50,5 +50,12 @@ public class BukkitPlugin extends JavaPlugin {
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException exception) {
             exception.printStackTrace();
         }
+
+        CloudSupport.getInstance().startAddons();
+    }
+
+    @Override
+    public void onDisable() {
+        CloudSupport.getInstance().stopAddons();
     }
 }

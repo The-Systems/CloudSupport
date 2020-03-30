@@ -25,6 +25,11 @@ public class CloudNet3Wrapper extends CloudNet3 {
     }
 
     @Override
+    public String getOwnComponentName() {
+        return this.wrapper.getServiceId().getName();
+    }
+
+    @Override
     public DatabaseProvider getDatabaseProvider() {
         return this.databaseProvider;
     }

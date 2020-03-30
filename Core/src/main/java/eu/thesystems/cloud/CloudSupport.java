@@ -52,7 +52,7 @@ public class CloudSupport {
     }
 
     public boolean isDebugging() {//todo
-        return true;
+        return false;
     }
 
     public CloudAddonManager getAddonManager() {

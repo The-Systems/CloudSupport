@@ -26,14 +26,14 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
+                        <!--<configuration>
                             <relocations>
                                 <relocation>
                                     <pattern>com.google.gson</pattern>
                                     <shadedPattern>eu.thesystems.cloud.relocate.gson</shadedPattern>
                                 </relocation>
                             </relocations>
-                        </configuration>
+                        </configuration>-->
                     </execution>
                 </executions>
             </plugin>

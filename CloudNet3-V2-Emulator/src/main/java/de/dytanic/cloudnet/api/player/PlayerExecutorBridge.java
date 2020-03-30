@@ -4,11 +4,9 @@
 
 package de.dytanic.cloudnet.api.player;
 
-import de.dytanic.cloudnet.api.CloudAPI;
 import de.dytanic.cloudnet.ext.bridge.BridgePlayerManager;
 import de.dytanic.cloudnet.lib.player.CloudPlayer;
 import de.dytanic.cloudnet.lib.player.PlayerExecutor;
-import de.dytanic.cloudnet.lib.utility.document.Document;
 
 /**
  * Created by Tareko on 27.08.2017.

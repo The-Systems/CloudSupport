@@ -6,6 +6,8 @@ import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.service.ServiceEnvironmentType;
 import eu.thesystems.cloud.ChannelMessenger;
 
+import java.util.concurrent.CompletableFuture;
+
 public class CloudNet3ChannelMessenger implements ChannelMessenger {
 
     private CloudNetDriver cloudNetDriver;
@@ -47,5 +49,15 @@ public class CloudNet3ChannelMessenger implements ChannelMessenger {
                         CloudNetDriver.getInstance().getMessenger().sendChannelMessage(serviceTask, channel, message, JsonDocument.newDocument(data.toString()));
                     }
                 });
+    }
+
+    @Override
+    public CompletableFuture<JsonObject> sendQueryChannelMessage(String targetServer, String channel, String message, JsonObject data) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<JsonObject> sendQueryChannelMessageToCloud(String channel, String message, JsonObject data) {
+        return null;
     }
 }

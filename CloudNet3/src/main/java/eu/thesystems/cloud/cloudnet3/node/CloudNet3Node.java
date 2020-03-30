@@ -32,6 +32,11 @@ public class CloudNet3Node extends CloudNet3 {
     }
 
     @Override
+    public String getOwnComponentName() {
+        return this.cloudNet.getCurrentNetworkClusterNodeInfoSnapshot().getNode().getUniqueId();
+    }
+
+    @Override
     public DatabaseProvider getDatabaseProvider() {
         return this.databaseProvider;
     }

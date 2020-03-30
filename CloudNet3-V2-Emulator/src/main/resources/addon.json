@@ -1,0 +1,6 @@
+{
+  "name": "CloudNet2-Emulator",
+  "version": "1.0",
+  "authors": ["derrop"],
+  "main": "eu.thesystems.cloud.CloudNet2EmulatorAddon"
+}

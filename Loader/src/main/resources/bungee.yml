@@ -2,3 +2,5 @@ name: "CloudSupport"
 version: "1.0"
 author: "derrop"
 main: "eu.thesystems.cloud.loader.BungeePlugin"
+softdepends:
+  - 'CloudNetAPI' # CloudNet 2 Bridge

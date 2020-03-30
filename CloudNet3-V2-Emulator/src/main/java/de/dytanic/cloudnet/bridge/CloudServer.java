@@ -3,7 +3,6 @@ package de.dytanic.cloudnet.bridge;
 import de.dytanic.cloudnet.api.CloudAPI;
 import de.dytanic.cloudnet.api.ICloudService;
 import de.dytanic.cloudnet.ext.bridge.BridgeServiceProperty;
-import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import de.dytanic.cloudnet.ext.bridge.bukkit.BukkitCloudNetHelper;
 import de.dytanic.cloudnet.lib.player.CloudPlayer;
 import de.dytanic.cloudnet.lib.server.ServerConfig;
