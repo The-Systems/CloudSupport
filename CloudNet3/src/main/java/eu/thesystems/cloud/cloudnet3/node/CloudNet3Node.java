@@ -4,9 +4,12 @@ package eu.thesystems.cloud.cloudnet3.node;
  */
 
 import de.dytanic.cloudnet.CloudNet;
+import de.dytanic.cloudnet.driver.network.protocol.IPacketListenerRegistry;
 import de.dytanic.cloudnet.ext.bridge.node.player.NodePlayerManager;
-import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.cloudnet3.CloudNet3;
+import eu.thesystems.cloud.cloudnet3.CloudNet3ChannelMessenger;
+import eu.thesystems.cloud.cloudnet3.node.cluster.ClusterPacketProvider;
+import eu.thesystems.cloud.cloudnet3.node.cluster.node.NodeClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.node.command.CloudNet3NodeCommandMap;
 import eu.thesystems.cloud.cloudnet3.node.database.CloudNet3NodeDatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
@@ -17,7 +20,8 @@ public class CloudNet3Node extends CloudNet3 {
     private final CloudNet cloudNet = CloudNet.getInstance();
 
     private final DatabaseProvider databaseProvider = new CloudNet3NodeDatabaseProvider(this.cloudNet);
-    private final ChannelMessenger channelMessenger = new CloudNet3NodeChannelMessenger(this.cloudNet);
+    private final CloudNet3ChannelMessenger channelMessenger = new CloudNet3NodeChannelMessenger(this);
+    private final ClusterPacketProvider clusterPacketProvider = new NodeClusterPacketProvider(this.cloudNet);
 
     public CloudNet3Node() {
         super(
@@ -44,7 +48,17 @@ public class CloudNet3Node extends CloudNet3 {
     }
 
     @Override
-    public ChannelMessenger getChannelMessenger() {
+    public IPacketListenerRegistry getPacketRegistry() {
+        return this.cloudNet.getNetworkServer().getPacketRegistry();
+    }
+
+    @Override
+    public ClusterPacketProvider getClusterPacketProvider() {
+        return this.clusterPacketProvider;
+    }
+
+    @Override
+    public CloudNet3ChannelMessenger getChannelMessenger() {
         return this.channelMessenger;
     }
 }

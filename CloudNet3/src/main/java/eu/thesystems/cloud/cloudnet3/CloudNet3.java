@@ -4,12 +4,16 @@ package eu.thesystems.cloud.cloudnet3;
  */
 
 import de.dytanic.cloudnet.driver.CloudNetDriver;
+import de.dytanic.cloudnet.driver.network.protocol.IPacketListenerRegistry;
 import de.dytanic.cloudnet.driver.permission.IPermissionUser;
 import de.dytanic.cloudnet.driver.service.ServiceEnvironmentType;
 import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.CloudSystem;
+import eu.thesystems.cloud.cloudnet3.network.PacketInNodeChannelMessage;
+import eu.thesystems.cloud.cloudnet3.network.PacketOutNodeChannelMessage;
+import eu.thesystems.cloud.cloudnet3.node.cluster.ClusterPacketProvider;
 import eu.thesystems.cloud.cloudsystem.cloudnet.CloudNet;
 import eu.thesystems.cloud.cloudnet3.module.CloudNet3ModuleManager;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
@@ -46,7 +50,12 @@ public abstract class CloudNet3 extends CloudNet {
     public CloudNet3(SupportedCloudSystem componentType, String name, String version, IPlayerManager playerManager) {
         super(componentType, name, version);
         this.cloudNetDriver.getEventManager().registerListener(new CloudNet3EventCaller(this, this.eventManager, playerManager));
+        this.getPacketRegistry().addListener(PacketOutNodeChannelMessage.CHANNEL, new PacketInNodeChannelMessage(this));
     }
+
+    public abstract IPacketListenerRegistry getPacketRegistry();
+
+    public abstract ClusterPacketProvider getClusterPacketProvider();
 
     @Override
     public boolean distinguishesProxiesAndServers() {
@@ -67,6 +76,9 @@ public abstract class CloudNet3 extends CloudNet {
     public ProxyManagement getProxyManagement() {
         return this.proxyManagement;
     }
+
+    @Override
+    public abstract CloudNet3ChannelMessenger getChannelMessenger();
 
     @Override
     public CloudObjectConverter getConverter() {

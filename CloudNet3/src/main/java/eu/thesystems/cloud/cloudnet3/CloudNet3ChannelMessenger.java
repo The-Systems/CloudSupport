@@ -6,14 +6,31 @@ import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.service.ServiceEnvironmentType;
 import eu.thesystems.cloud.ChannelMessenger;
 
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 public abstract class CloudNet3ChannelMessenger implements ChannelMessenger {
 
     private CloudNetDriver cloudNetDriver;
 
+    private Map<UUID, CompletableFuture<JsonObject>> pendingQueries = new ConcurrentHashMap<>();
+
     public CloudNet3ChannelMessenger(CloudNetDriver cloudNetDriver) {
         this.cloudNetDriver = cloudNetDriver;
+    }
+
+    public void completeQuery(UUID queryId, JsonObject result) {
+        CompletableFuture<JsonObject> future = this.pendingQueries.remove(queryId);
+        if (future != null) {
+            future.complete(result);
+        }
+    }
+
+    protected CompletableFuture<JsonObject> beginQuery(UUID queryId) {
+        return this.pendingQueries.put(queryId, new CompletableFuture<>());
     }
 
     @Override

@@ -5,7 +5,7 @@ import eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent;
 
 import java.util.concurrent.CompletableFuture;
 
-public interface ChannelMessenger { // todo not tested
+public interface ChannelMessenger { // todo not tested (except for the queries in CloudNet 2)
 
     void sendChannelMessage(String channel, String message, JsonObject data);
 
