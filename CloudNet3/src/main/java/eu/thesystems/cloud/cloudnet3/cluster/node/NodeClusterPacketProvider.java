@@ -1,17 +1,18 @@
-package eu.thesystems.cloud.cloudnet3.node.cluster.node;
+package eu.thesystems.cloud.cloudnet3.cluster.node;
 
 import de.dytanic.cloudnet.CloudNet;
 import de.dytanic.cloudnet.cluster.IClusterNodeServer;
 import de.dytanic.cloudnet.driver.DriverEnvironment;
+import de.dytanic.cloudnet.driver.event.EventListener;
 import de.dytanic.cloudnet.driver.network.INetworkChannel;
-import de.dytanic.cloudnet.driver.network.protocol.Packet;
+import de.dytanic.cloudnet.driver.network.protocol.IPacket;
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
+import de.dytanic.cloudnet.event.cluster.NetworkChannelAuthClusterNodeSuccessEvent;
+import de.dytanic.cloudnet.event.network.NetworkChannelAuthCloudServiceSuccessEvent;
 import de.dytanic.cloudnet.service.ICloudService;
-import eu.thesystems.cloud.cloudnet3.node.cluster.ClusterPacketProvider;
-import eu.thesystems.cloud.cloudnet3.node.cluster.ClusterPacketReceiver;
-import eu.thesystems.cloud.cloudnet3.node.cluster.PacketClusterOutRedirectPacket;
-import eu.thesystems.cloud.cloudnet3.node.cluster.PacketSendResult;
-import eu.thesystems.cloud.cloudnet3.node.cluster.node.local.LocalNetworkChannel;
+import eu.thesystems.cloud.cloudnet3.cluster.*;
+import eu.thesystems.cloud.cloudnet3.cluster.node.local.LocalNetworkChannel;
+import eu.thesystems.cloud.cloudnet3.node.CloudNet3Node;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,11 +21,13 @@ import java.util.Map;
 
 public class NodeClusterPacketProvider implements ClusterPacketProvider {
 
+    private CloudNet3Node node;
     private CloudNet cloudNet;
     private INetworkChannel localNetworkChannel;
 
-    public NodeClusterPacketProvider(CloudNet cloudNet) {
-        this.cloudNet = cloudNet;
+    public NodeClusterPacketProvider(CloudNet3Node node) {
+        this.node = node;
+        this.cloudNet = node.getCloudNet();
         this.localNetworkChannel = new LocalNetworkChannel(cloudNet.getNetworkServer().getPacketRegistry());
     }
 
@@ -33,8 +36,19 @@ public class NodeClusterPacketProvider implements ClusterPacketProvider {
         return this.localNetworkChannel;
     }
 
+
+    @EventListener
+    public void handleNodeConnected(NetworkChannelAuthClusterNodeSuccessEvent event) {
+        event.getChannel().getPacketRegistry().addListener(PacketClusterOutRedirectPacket.CHANNEL, new PacketClusterInRedirectPacket(this.node));
+    }
+
+    @EventListener
+    public void handleServiceConnected(NetworkChannelAuthCloudServiceSuccessEvent event) {
+        event.getChannel().getPacketRegistry().addListener(PacketClusterOutRedirectPacket.CHANNEL, new PacketClusterInRedirectPacket(this.node));
+    }
+
     @Override
-    public PacketSendResult sendPacket(INetworkChannel packetSender, ClusterPacketReceiver receiver, Packet packet) {
+    public PacketSendResult sendPacket(INetworkChannel packetSender, ClusterPacketReceiver receiver, IPacket packet) {
         if (receiver.getTargetType() == DriverEnvironment.CLOUDNET) {
             if (receiver.getTargetIdentifier().equals(this.cloudNet.getCurrentNetworkClusterNodeInfoSnapshot().getNode().getUniqueId())) {
                 this.cloudNet.getNetworkServer().getPacketRegistry().handlePacket(packetSender, packet);
@@ -61,7 +75,7 @@ public class NodeClusterPacketProvider implements ClusterPacketProvider {
     }
 
     @Override
-    public PacketSendResult[] sendMultiplePackets(INetworkChannel packetSender, ClusterPacketReceiver[] receivers, Packet packet) {
+    public PacketSendResult[] sendMultiplePackets(INetworkChannel packetSender, ClusterPacketReceiver[] receivers, IPacket packet) {
         if (receivers.length == 0) {
             return new PacketSendResult[0];
         }
@@ -114,7 +128,7 @@ public class NodeClusterPacketProvider implements ClusterPacketProvider {
         return results;
     }
 
-    private WrapperSendResult sendPacketToWrapper(ClusterPacketReceiver receiver, Packet packet) {
+    private WrapperSendResult sendPacketToWrapper(ClusterPacketReceiver receiver, IPacket packet) {
         ICloudService service = this.cloudNet.getCloudServiceManager().getCloudService(cloudService -> cloudService.getServiceId().getName().equalsIgnoreCase(receiver.getTargetIdentifier()));
         if (service != null) {
             if (service.getNetworkChannel() == null) {

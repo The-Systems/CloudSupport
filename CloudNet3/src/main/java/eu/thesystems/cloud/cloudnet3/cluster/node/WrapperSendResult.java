@@ -1,7 +1,7 @@
-package eu.thesystems.cloud.cloudnet3.node.cluster.node;
+package eu.thesystems.cloud.cloudnet3.cluster.node;
 
 import de.dytanic.cloudnet.cluster.IClusterNodeServer;
-import eu.thesystems.cloud.cloudnet3.node.cluster.PacketSendResult;
+import eu.thesystems.cloud.cloudnet3.cluster.PacketSendResult;
 
 public class WrapperSendResult {
 

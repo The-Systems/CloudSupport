@@ -26,7 +26,7 @@ public abstract class OnlinePlayer extends OfflinePlayer {
     /**
      * Sends a message to this player
      * <p>
-     * Works currently on every supported cloud (CloudNet 2/3 and ReformCloud 1/2), but this may change later with more supported cloud systems.
+     * Works currently on every supported cloud (CloudNet 2/3 and ReformCloud 2), but this may change later with more supported cloud systems.
      *
      * @param message the message to be sent to the player
      * @throws CloudSupportException if the selected cloud system does not support this method
@@ -60,7 +60,7 @@ public abstract class OnlinePlayer extends OfflinePlayer {
     /**
      * Connects this player to the given server, it if exists and is running in the network
      * <p>
-     * Works currently on every supported cloud (CloudNet 2/3 and ReformCloud 1/2), but this may change later with more supported cloud systems.
+     * Works currently on every supported cloud (CloudNet 2/3 and ReformCloud 2), but this may change later with more supported cloud systems.
      *
      * @param server the name of the server to send this player to
      * @throws CloudSupportException if the selected cloud system does not support this method
@@ -70,7 +70,7 @@ public abstract class OnlinePlayer extends OfflinePlayer {
     /**
      * Kicks this player from the proxy with the given kick reason
      * <p>
-     * Works currently on every supported cloud (CloudNet 2/3 and ReformCloud 1/2), but this may change later with more supported cloud systems.
+     * Works currently on every supported cloud (CloudNet 2/3 and ReformCloud 2), but this may change later with more supported cloud systems.
      *
      * @param reason the reason to kick the player with
      * @throws CloudSupportException if the selected cloud system does not support this method

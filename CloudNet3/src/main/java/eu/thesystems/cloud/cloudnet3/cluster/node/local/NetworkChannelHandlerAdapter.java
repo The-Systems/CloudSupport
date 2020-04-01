@@ -1,4 +1,4 @@
-package eu.thesystems.cloud.cloudnet3.node.cluster.node.local;
+package eu.thesystems.cloud.cloudnet3.cluster.node.local;
 
 import de.dytanic.cloudnet.driver.network.INetworkChannel;
 import de.dytanic.cloudnet.driver.network.INetworkChannelHandler;

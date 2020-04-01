@@ -61,7 +61,7 @@ public interface CloudSystem {
     /**
      * Gets the module manager instance which is used to manage the modules loaded in the cloud
      * <p>
-     * This method is available in CloudNet 2 Master; CloudNet 3 every component; ReformCloud 1 Controller and Client;
+     * This method is available in CloudNet 2 Master; CloudNet 3 every component;
      * ReformCloud 2 Node, Controller and Client.
      *
      * @return the final instance of the module manager

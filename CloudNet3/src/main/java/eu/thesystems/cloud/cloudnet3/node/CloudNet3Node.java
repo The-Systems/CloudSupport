@@ -8,8 +8,8 @@ import de.dytanic.cloudnet.driver.network.protocol.IPacketListenerRegistry;
 import de.dytanic.cloudnet.ext.bridge.node.player.NodePlayerManager;
 import eu.thesystems.cloud.cloudnet3.CloudNet3;
 import eu.thesystems.cloud.cloudnet3.CloudNet3ChannelMessenger;
-import eu.thesystems.cloud.cloudnet3.node.cluster.ClusterPacketProvider;
-import eu.thesystems.cloud.cloudnet3.node.cluster.node.NodeClusterPacketProvider;
+import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketProvider;
+import eu.thesystems.cloud.cloudnet3.cluster.node.NodeClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.node.command.CloudNet3NodeCommandMap;
 import eu.thesystems.cloud.cloudnet3.node.database.CloudNet3NodeDatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
@@ -21,7 +21,7 @@ public class CloudNet3Node extends CloudNet3 {
 
     private final DatabaseProvider databaseProvider = new CloudNet3NodeDatabaseProvider(this.cloudNet);
     private final CloudNet3ChannelMessenger channelMessenger = new CloudNet3NodeChannelMessenger(this);
-    private final ClusterPacketProvider clusterPacketProvider = new NodeClusterPacketProvider(this.cloudNet);
+    private final ClusterPacketProvider clusterPacketProvider = new NodeClusterPacketProvider(this);
 
     public CloudNet3Node() {
         super(
@@ -31,6 +31,8 @@ public class CloudNet3Node extends CloudNet3 {
                 NodePlayerManager.getInstance()
         );
         super.commandMap = new CloudNet3NodeCommandMap(this);
+        this.cloudNet.getEventManager().registerListener(this.clusterPacketProvider); // todo unregister?
+        this.cloudNet.getEventManager().registerListener(this.getChannelMessenger()); // todo unregister?
     }
 
     public CloudNet getCloudNet() {
@@ -45,11 +47,6 @@ public class CloudNet3Node extends CloudNet3 {
     @Override
     public DatabaseProvider getDatabaseProvider() {
         return this.databaseProvider;
-    }
-
-    @Override
-    public IPacketListenerRegistry getPacketRegistry() {
-        return this.cloudNet.getNetworkServer().getPacketRegistry();
     }
 
     @Override

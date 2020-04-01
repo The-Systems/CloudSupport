@@ -4,3 +4,4 @@ author: "derrop"
 main: "eu.thesystems.cloud.loader.BukkitPlugin"
 softdepend:
   - 'CloudNetAPI' # CloudNet 2 Bridge
+  - 'CloudNet-Bridge' # CloudNet 3 Bridge

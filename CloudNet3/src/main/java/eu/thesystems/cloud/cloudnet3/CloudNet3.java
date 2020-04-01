@@ -4,23 +4,16 @@ package eu.thesystems.cloud.cloudnet3;
  */
 
 import de.dytanic.cloudnet.driver.CloudNetDriver;
-import de.dytanic.cloudnet.driver.network.protocol.IPacketListenerRegistry;
 import de.dytanic.cloudnet.driver.permission.IPermissionUser;
-import de.dytanic.cloudnet.driver.service.ServiceEnvironmentType;
-import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
-import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.CloudSystem;
-import eu.thesystems.cloud.cloudnet3.network.PacketInNodeChannelMessage;
-import eu.thesystems.cloud.cloudnet3.network.PacketOutNodeChannelMessage;
-import eu.thesystems.cloud.cloudnet3.node.cluster.ClusterPacketProvider;
-import eu.thesystems.cloud.cloudsystem.cloudnet.CloudNet;
+import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.module.CloudNet3ModuleManager;
+import eu.thesystems.cloud.cloudsystem.cloudnet.CloudNet;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.event.EventManager;
 import eu.thesystems.cloud.event.defaults.DefaultEventManager;
-import eu.thesystems.cloud.exception.CloudSupportException;
 import eu.thesystems.cloud.global.info.*;
 import eu.thesystems.cloud.global.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
@@ -50,12 +43,13 @@ public abstract class CloudNet3 extends CloudNet {
     public CloudNet3(SupportedCloudSystem componentType, String name, String version, IPlayerManager playerManager) {
         super(componentType, name, version);
         this.cloudNetDriver.getEventManager().registerListener(new CloudNet3EventCaller(this, this.eventManager, playerManager));
-        this.getPacketRegistry().addListener(PacketOutNodeChannelMessage.CHANNEL, new PacketInNodeChannelMessage(this));
     }
 
-    public abstract IPacketListenerRegistry getPacketRegistry();
-
     public abstract ClusterPacketProvider getClusterPacketProvider();
+
+    public CloudNetDriver getCloudNetDriver() {
+        return this.cloudNetDriver;
+    }
 
     @Override
     public boolean distinguishesProxiesAndServers() {

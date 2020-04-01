@@ -14,6 +14,7 @@ import de.dytanic.cloudnet.ext.bridge.event.BridgeProxyPlayerLoginSuccessEvent;
 import de.dytanic.cloudnet.ext.bridge.event.BridgeUpdateCloudOfflinePlayerEvent;
 import de.dytanic.cloudnet.ext.bridge.event.BridgeUpdateCloudPlayerEvent;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
+import eu.thesystems.cloud.GsonUtil;
 import eu.thesystems.cloud.cloudnet3.util.CloudNet3Util;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.event.EventManager;
@@ -82,7 +83,7 @@ public class CloudNet3EventCaller {
 
     @EventListener
     public void handleChannelMessage(ChannelMessageReceiveEvent event) {
-        this.eventManager.callEvent(new eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent(event.getChannel(), event.getMessage(), JsonParser.parseString(event.getData().toJson()).getAsJsonObject(), false, null));
+        this.eventManager.callEvent(new eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent(event.getChannel(), event.getMessage(), GsonUtil.parseString(event.getData().toJson()).getAsJsonObject(), false, null));
     }
 
     @EventListener

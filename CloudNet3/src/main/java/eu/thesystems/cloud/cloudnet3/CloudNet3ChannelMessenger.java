@@ -30,7 +30,9 @@ public abstract class CloudNet3ChannelMessenger implements ChannelMessenger {
     }
 
     protected CompletableFuture<JsonObject> beginQuery(UUID queryId) {
-        return this.pendingQueries.put(queryId, new CompletableFuture<>());
+        CompletableFuture<JsonObject> future = new CompletableFuture<>();
+        this.pendingQueries.put(queryId, future);
+        return future;
     }
 
     @Override

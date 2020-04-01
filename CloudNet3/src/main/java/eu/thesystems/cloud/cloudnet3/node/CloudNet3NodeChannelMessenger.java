@@ -1,12 +1,15 @@
 package eu.thesystems.cloud.cloudnet3.node;
 
 import com.google.gson.JsonObject;
-import de.dytanic.cloudnet.CloudNet;
 import de.dytanic.cloudnet.driver.DriverEnvironment;
+import de.dytanic.cloudnet.driver.event.EventListener;
+import de.dytanic.cloudnet.event.cluster.NetworkChannelAuthClusterNodeSuccessEvent;
+import de.dytanic.cloudnet.event.network.NetworkChannelAuthCloudServiceSuccessEvent;
 import eu.thesystems.cloud.cloudnet3.CloudNet3ChannelMessenger;
+import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketReceiver;
+import eu.thesystems.cloud.cloudnet3.cluster.PacketSendResult;
+import eu.thesystems.cloud.cloudnet3.network.PacketInNodeChannelMessage;
 import eu.thesystems.cloud.cloudnet3.network.PacketOutNodeChannelMessage;
-import eu.thesystems.cloud.cloudnet3.node.cluster.ClusterPacketReceiver;
-import eu.thesystems.cloud.cloudnet3.node.cluster.PacketSendResult;
 import eu.thesystems.cloud.exception.CloudSupportException;
 
 import java.util.UUID;
@@ -23,6 +26,16 @@ public class CloudNet3NodeChannelMessenger extends CloudNet3ChannelMessenger {
     @Override
     public void sendChannelMessageToCloud(String channel, String message, JsonObject data) {
         throw new CloudSupportException(this.node);
+    }
+
+    @EventListener
+    public void handleServiceAuthSuccess(NetworkChannelAuthCloudServiceSuccessEvent event) {
+        event.getChannel().getPacketRegistry().addListener(PacketOutNodeChannelMessage.CHANNEL, new PacketInNodeChannelMessage(this.node));
+    }
+
+    @EventListener
+    public void handleNodeAuthSuccess(NetworkChannelAuthClusterNodeSuccessEvent event) {
+        event.getChannel().getPacketRegistry().addListener(PacketOutNodeChannelMessage.CHANNEL, new PacketInNodeChannelMessage(this.node));
     }
 
     @Override

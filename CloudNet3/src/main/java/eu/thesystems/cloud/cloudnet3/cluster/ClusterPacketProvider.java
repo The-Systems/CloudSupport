@@ -1,8 +1,8 @@
-package eu.thesystems.cloud.cloudnet3.node.cluster;
+package eu.thesystems.cloud.cloudnet3.cluster;
 
 import de.dytanic.cloudnet.driver.DriverEnvironment;
 import de.dytanic.cloudnet.driver.network.INetworkChannel;
-import de.dytanic.cloudnet.driver.network.protocol.Packet;
+import de.dytanic.cloudnet.driver.network.protocol.IPacket;
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
 
 public interface ClusterPacketProvider { // todo not tested
@@ -17,15 +17,15 @@ public interface ClusterPacketProvider { // todo not tested
 
     INetworkChannel getLocalNetworkChannel();
 
-    PacketSendResult sendPacket(INetworkChannel packetSender, ClusterPacketReceiver receiver, Packet packet);
+    PacketSendResult sendPacket(INetworkChannel packetSender, ClusterPacketReceiver receiver, IPacket packet);
 
-    PacketSendResult[] sendMultiplePackets(INetworkChannel packetSender, ClusterPacketReceiver[] receivers, Packet packet);
+    PacketSendResult[] sendMultiplePackets(INetworkChannel packetSender, ClusterPacketReceiver[] receivers, IPacket packet);
 
-    default PacketSendResult sendPacket(ClusterPacketReceiver receiver, Packet packet) {
+    default PacketSendResult sendPacket(ClusterPacketReceiver receiver, IPacket packet) {
         return this.sendPacket(this.getLocalNetworkChannel(), receiver, packet);
     }
 
-    default PacketSendResult[] sendMultiplePackets(ClusterPacketReceiver[] receivers, Packet packet) {
+    default PacketSendResult[] sendMultiplePackets(ClusterPacketReceiver[] receivers, IPacket packet) {
         return this.sendMultiplePackets(this.getLocalNetworkChannel(), receivers, packet);
     }
 

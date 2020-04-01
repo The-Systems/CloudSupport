@@ -1,6 +1,6 @@
-package eu.thesystems.cloud.cloudnet3.node.cluster.node;
+package eu.thesystems.cloud.cloudnet3.cluster.node;
 
-import eu.thesystems.cloud.cloudnet3.node.cluster.ClusterPacketReceiver;
+import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketReceiver;
 
 public class IndexedPacketReceiver {
 

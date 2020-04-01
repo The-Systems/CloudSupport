@@ -6,6 +6,7 @@ import de.dytanic.cloudnet.common.document.gson.JsonDocument;
 import de.dytanic.cloudnet.driver.network.INetworkChannel;
 import de.dytanic.cloudnet.driver.network.protocol.IPacket;
 import de.dytanic.cloudnet.driver.network.protocol.IPacketListener;
+import eu.thesystems.cloud.GsonUtil;
 import eu.thesystems.cloud.cloudnet3.CloudNet3;
 import eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent;
 
@@ -25,7 +26,7 @@ public class PacketInNodeChannelMessage implements IPacketListener {
 
         String channel = document.getString("channel");
         String message = document.getString("message");
-        JsonObject data = JsonParser.parseString(document.getString("data")).getAsJsonObject();
+        JsonObject data = GsonUtil.parseString(document.getString("data")).getAsJsonObject();
         boolean query = document.getBoolean("query");
         UUID queryId = document.get("queryId", UUID.class);
 

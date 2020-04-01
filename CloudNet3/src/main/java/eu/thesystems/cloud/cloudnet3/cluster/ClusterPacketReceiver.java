@@ -1,7 +1,11 @@
-package eu.thesystems.cloud.cloudnet3.node.cluster;
+package eu.thesystems.cloud.cloudnet3.cluster;
 
 import de.dytanic.cloudnet.driver.DriverEnvironment;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@ToString
+@EqualsAndHashCode
 public class ClusterPacketReceiver {
 
     private DriverEnvironment targetType;

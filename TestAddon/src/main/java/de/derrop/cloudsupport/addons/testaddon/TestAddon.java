@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 public class TestAddon extends CloudAddon {
@@ -29,7 +31,24 @@ public class TestAddon extends CloudAddon {
             while (!Thread.interrupted()) {
                 System.out.println("All processes: " + this.getCloud().getProcesses().stream().map(ProcessInfo::getName).collect(Collectors.toList()));
 
-                if (this.getCloud().getComponentType() != SupportedCloudSystem.CLOUDNET_2_MASTER) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
+
+                if (this.getCloud().getProcesses().isEmpty()) {
+                    continue;
+                }
+                String target = this.getCloud().getProcesses().toArray(new ProcessInfo[0])[0].getName();
+                System.out.println(target);
+                try {
+                    System.out.println(this.getCloud().getChannelMessenger().sendQueryChannelMessage(target, "test channel from " + this.getCloud().getOwnComponentName(), "msg to " + target, new JsonObject()).get(5, TimeUnit.SECONDS));
+                } catch (InterruptedException | ExecutionException | TimeoutException exception) {
+                    exception.printStackTrace();
+                }
+
+                /*if (this.getCloud().getComponentType() != SupportedCloudSystem.CLOUDNET_2_MASTER) {
                     try {
                         System.out.println("Response from master: " + this.getCloud().getChannelMessenger().sendQueryChannelMessageToCloud(
                                 "test-master-channel", "msg to master from " + this.getCloud().getOwnComponentName(),
@@ -52,17 +71,11 @@ public class TestAddon extends CloudAddon {
                             exception.printStackTrace();
                         }
                     }
-                }
-
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException exception) {
-                    exception.printStackTrace();
-                }
+                }*/
             }
         }).start();
 
-        this.getCloud().getProxyManagement().addLoginConfig(new ProxyLoginConfig(
+        /*this.getCloud().getProxyManagement().addLoginConfig(new ProxyLoginConfig(
                 "Test", true, 5, new ArrayList<>(Arrays.asList("Test")),
                 Arrays.asList(new ProxyMOTD("a", "b", true, new String[]{"c", "d"}, "test", false, 1)),
                 Arrays.asList(new ProxyMOTD("e", "f", true, new String[]{"c", "d"}, "test", false, 1)),
@@ -76,7 +89,7 @@ public class TestAddon extends CloudAddon {
         ));
 
         System.out.println(Arrays.toString(this.getCloud().getProxyManagement().getLoginConfigs()));
-        System.out.println(Arrays.toString(this.getCloud().getProxyManagement().getTabListConfigs()));
+        System.out.println(Arrays.toString(this.getCloud().getProxyManagement().getTabListConfigs()));*/
     }
 
     @EventHandler
