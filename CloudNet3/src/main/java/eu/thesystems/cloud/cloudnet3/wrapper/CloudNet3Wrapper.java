@@ -19,7 +19,7 @@ public class CloudNet3Wrapper extends CloudNet3 {
 
     private final DatabaseProvider databaseProvider = new CloudNet3WrapperDatabaseProvider(this.wrapper);
     private final CloudNet3ChannelMessenger channelMessenger = new CloudNet3WrapperChannelMessenger(this);
-    private final ClusterPacketProvider clusterPacketProvider = new WrapperClusterPacketProvider(this.wrapper);
+    private final ClusterPacketProvider clusterPacketProvider = new WrapperClusterPacketProvider(this);
 
     public CloudNet3Wrapper(SupportedCloudSystem supportedCloudSystem) {
         super(
@@ -29,6 +29,10 @@ public class CloudNet3Wrapper extends CloudNet3 {
                 BridgePlayerManager.getInstance()
         );
         this.wrapper.getEventManager().registerListener(this.getChannelMessenger()); // todo unregister?
+    }
+
+    public Wrapper getWrapper() {
+        return this.wrapper;
     }
 
     @Override

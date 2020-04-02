@@ -85,8 +85,7 @@ public class TestAddon extends CloudAddon {
 
     @EventHandler
     public void handle(ChannelMessageReceiveEvent event) {
-        System.out.println("received message: " + event.getChannel() + ": " + event.getMessage() + " -> " + event.getData());
-        System.out.println("query: " + event.isQuery());
+        System.out.println("received message: " + event.getChannel() + ": " + event.getMessage() + " -> " + event.getData() + " (Query: " + event.isQuery() + ")");
         if (event.isQuery()) {
             JsonObject result = new JsonObject();
             result.addProperty(UUID.randomUUID().toString(), UUID.randomUUID().toString());
