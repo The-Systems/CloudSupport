@@ -16,6 +16,6 @@ public class PacketOutNodeChannelMessage extends Packet {
     }
 
     public PacketOutNodeChannelMessage(UUID queryId, JsonObject result) {
-        super(CHANNEL, new JsonDocument().append("queryId", queryId).append("result", true).append("data", result.toString()));
+        super(CHANNEL, new JsonDocument().append("queryId", queryId).append("result", true).append("data", result != null ? result.toString() : null));
     }
 }
