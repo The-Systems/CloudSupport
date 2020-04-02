@@ -22,11 +22,12 @@ public abstract class CloudNet3ChannelMessenger implements ChannelMessenger {
         this.cloudNetDriver = cloudNetDriver;
     }
 
-    public void completeQuery(UUID queryId, JsonObject result) {
+    public boolean completeQuery(UUID queryId, JsonObject result) {
         CompletableFuture<JsonObject> future = this.pendingQueries.remove(queryId);
         if (future != null) {
             future.complete(result);
         }
+        return future != null;
     }
 
     protected CompletableFuture<JsonObject> beginQuery(UUID queryId) {

@@ -5,17 +5,10 @@ package de.derrop.cloudsupport.addons.testaddon;
 
 import com.google.gson.JsonObject;
 import eu.thesystems.cloud.addon.CloudAddon;
-import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.event.EventHandler;
 import eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent;
 import eu.thesystems.cloud.global.info.ProcessInfo;
-import eu.thesystems.cloud.proxy.ProxyLoginConfig;
-import eu.thesystems.cloud.proxy.ProxyMOTD;
-import eu.thesystems.cloud.proxy.ProxyTabList;
-import eu.thesystems.cloud.proxy.ProxyTabListConfig;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -40,10 +33,8 @@ public class TestAddon extends CloudAddon {
                 if (this.getCloud().getProcesses().isEmpty()) {
                     continue;
                 }
-                String target = this.getCloud().getProcesses().toArray(new ProcessInfo[0])[0].getName();
-                System.out.println(target);
                 try {
-                    System.out.println(this.getCloud().getChannelMessenger().sendQueryChannelMessage(target, "test channel from " + this.getCloud().getOwnComponentName(), "msg to " + target, new JsonObject()).get(5, TimeUnit.SECONDS));
+                    System.out.println(this.getCloud().getChannelMessenger().sendQueryChannelMessage("Lobby-1", "test channel from " + this.getCloud().getOwnComponentName(), "msg to " + "Lobby-1 from Master", new JsonObject()).get(5, TimeUnit.SECONDS));
                 } catch (InterruptedException | ExecutionException | TimeoutException exception) {
                     exception.printStackTrace();
                 }

@@ -13,7 +13,7 @@ public class GsonUtil {
     private static final JsonParser PARSER = new JsonParser();
 
     public static JsonElement parseString(String input) {
-        return PARSER.parse(input);
+        return input == null ? new JsonObject() : PARSER.parse(input);
     }
 
     public static JsonObject parseStringAsObject(String input) {

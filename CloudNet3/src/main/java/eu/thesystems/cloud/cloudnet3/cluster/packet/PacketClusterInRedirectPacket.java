@@ -1,4 +1,4 @@
-package eu.thesystems.cloud.cloudnet3.cluster;
+package eu.thesystems.cloud.cloudnet3.cluster.packet;
 
 import com.google.common.base.Preconditions;
 import de.dytanic.cloudnet.cluster.IClusterNodeServer;
@@ -6,6 +6,7 @@ import de.dytanic.cloudnet.driver.network.INetworkChannel;
 import de.dytanic.cloudnet.driver.network.protocol.IPacket;
 import de.dytanic.cloudnet.driver.network.protocol.IPacketListener;
 import de.dytanic.cloudnet.driver.network.protocol.Packet;
+import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketReceiver;
 import eu.thesystems.cloud.cloudnet3.cluster.channel.RedirectingNetworkChannel;
 import eu.thesystems.cloud.cloudnet3.node.CloudNet3Node;
 

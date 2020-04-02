@@ -1,6 +1,5 @@
 package eu.thesystems.cloud.cloudnet3.cluster.channel;
 
-import com.google.common.base.Preconditions;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.DriverEnvironment;
 import de.dytanic.cloudnet.driver.network.HostAndPort;
@@ -11,7 +10,7 @@ import de.dytanic.cloudnet.driver.network.protocol.IPacket;
 import de.dytanic.cloudnet.driver.network.protocol.IPacketListenerRegistry;
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
 import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketReceiver;
-import eu.thesystems.cloud.cloudnet3.cluster.PacketClusterOutRedirectPacket;
+import eu.thesystems.cloud.cloudnet3.cluster.packet.PacketClusterOutRedirectPacket;
 import org.jetbrains.annotations.NotNull;
 
 public class RedirectingNetworkChannel implements INetworkChannel {

@@ -1,8 +1,9 @@
-package eu.thesystems.cloud.cloudnet3.cluster;
+package eu.thesystems.cloud.cloudnet3.cluster.packet;
 
 import de.dytanic.cloudnet.common.document.gson.JsonDocument;
 import de.dytanic.cloudnet.driver.network.protocol.IPacket;
 import de.dytanic.cloudnet.driver.network.protocol.Packet;
+import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketReceiver;
 
 public class PacketClusterOutRedirectPacket extends Packet {
 

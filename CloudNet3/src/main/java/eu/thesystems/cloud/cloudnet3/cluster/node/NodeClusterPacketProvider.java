@@ -12,6 +12,8 @@ import de.dytanic.cloudnet.event.network.NetworkChannelAuthCloudServiceSuccessEv
 import de.dytanic.cloudnet.service.ICloudService;
 import eu.thesystems.cloud.cloudnet3.cluster.*;
 import eu.thesystems.cloud.cloudnet3.cluster.node.local.LocalNetworkChannel;
+import eu.thesystems.cloud.cloudnet3.cluster.packet.PacketClusterInRedirectPacket;
+import eu.thesystems.cloud.cloudnet3.cluster.packet.PacketClusterOutRedirectPacket;
 import eu.thesystems.cloud.cloudnet3.node.CloudNet3Node;
 
 import java.util.ArrayList;

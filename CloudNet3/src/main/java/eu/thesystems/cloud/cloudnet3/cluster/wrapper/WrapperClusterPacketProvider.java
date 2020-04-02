@@ -6,7 +6,7 @@ import de.dytanic.cloudnet.driver.network.protocol.IPacket;
 import de.dytanic.cloudnet.wrapper.Wrapper;
 import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketReceiver;
-import eu.thesystems.cloud.cloudnet3.cluster.PacketClusterOutRedirectPacket;
+import eu.thesystems.cloud.cloudnet3.cluster.packet.PacketClusterOutRedirectPacket;
 import eu.thesystems.cloud.cloudnet3.cluster.PacketSendResult;
 
 import java.util.Arrays;
