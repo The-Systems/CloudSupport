@@ -4,7 +4,6 @@ package eu.thesystems.cloud.cloudnet3.node;
  */
 
 import de.dytanic.cloudnet.CloudNet;
-import de.dytanic.cloudnet.driver.network.protocol.IPacketListenerRegistry;
 import de.dytanic.cloudnet.ext.bridge.node.player.NodePlayerManager;
 import eu.thesystems.cloud.cloudnet3.CloudNet3;
 import eu.thesystems.cloud.cloudnet3.CloudNet3ChannelMessenger;
@@ -13,7 +12,7 @@ import eu.thesystems.cloud.cloudnet3.cluster.node.NodeClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.node.command.CloudNet3NodeCommandMap;
 import eu.thesystems.cloud.cloudnet3.node.database.CloudNet3NodeDatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
-import eu.thesystems.cloud.global.database.DatabaseProvider;
+import eu.thesystems.cloud.database.DatabaseProvider;
 
 public class CloudNet3Node extends CloudNet3 {
 

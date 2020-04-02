@@ -4,9 +4,8 @@ package eu.thesystems.cloud.cloudnet3.node.command;
  */
 
 import eu.thesystems.cloud.cloudnet3.node.CloudNet3Node;
-import eu.thesystems.cloud.global.command.CloudCommand;
-import eu.thesystems.cloud.global.command.CommandMap;
-import eu.thesystems.cloud.global.command.EmptyCommandMap;
+import eu.thesystems.cloud.command.CloudCommand;
+import eu.thesystems.cloud.command.EmptyCommandMap;
 
 public class CloudNet3NodeCommandMap extends EmptyCommandMap {
 

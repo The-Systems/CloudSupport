@@ -11,12 +11,12 @@ import eu.thesystems.cloud.cloudnet2.network.PacketInMasterChannelMessage;
 import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.exception.CloudSupportException;
-import eu.thesystems.cloud.global.database.DatabaseProvider;
-import eu.thesystems.cloud.global.info.ProxyGroup;
-import eu.thesystems.cloud.global.info.ProxyInfo;
-import eu.thesystems.cloud.global.info.ServerGroup;
-import eu.thesystems.cloud.global.info.ServerInfo;
-import eu.thesystems.cloud.global.permission.PermissionUser;
+import eu.thesystems.cloud.database.DatabaseProvider;
+import eu.thesystems.cloud.info.ProxyGroup;
+import eu.thesystems.cloud.info.ProxyInfo;
+import eu.thesystems.cloud.info.ServerGroup;
+import eu.thesystems.cloud.info.ServerInfo;
+import eu.thesystems.cloud.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
 import eu.thesystems.cloud.proxy.ProxyManagement;
 

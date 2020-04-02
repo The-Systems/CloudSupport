@@ -7,8 +7,8 @@ import de.dytanic.cloudnet.api.CloudAPI;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.database.CloudNet2Database;
 import eu.thesystems.cloud.exception.CloudSupportException;
-import eu.thesystems.cloud.global.database.Database;
-import eu.thesystems.cloud.global.database.DatabaseProvider;
+import eu.thesystems.cloud.database.Database;
+import eu.thesystems.cloud.database.DatabaseProvider;
 
 import java.util.Collection;
 

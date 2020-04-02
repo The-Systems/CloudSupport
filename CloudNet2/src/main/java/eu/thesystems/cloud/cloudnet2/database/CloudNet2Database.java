@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import de.dytanic.cloudnet.lib.utility.document.Document;
 import eu.thesystems.cloud.cloudsystem.cloudnet.CloudNet;
 import eu.thesystems.cloud.exception.CloudSupportException;
-import eu.thesystems.cloud.global.database.Database;
+import eu.thesystems.cloud.database.Database;
 
 public class CloudNet2Database implements Database {
 

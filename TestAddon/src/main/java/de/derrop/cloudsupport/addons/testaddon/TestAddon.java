@@ -6,8 +6,8 @@ package de.derrop.cloudsupport.addons.testaddon;
 import com.google.gson.JsonObject;
 import eu.thesystems.cloud.addon.CloudAddon;
 import eu.thesystems.cloud.event.EventHandler;
-import eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent;
-import eu.thesystems.cloud.global.info.ProcessInfo;
+import eu.thesystems.cloud.events.channel.ChannelMessageReceiveEvent;
+import eu.thesystems.cloud.info.ProcessInfo;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;

@@ -4,7 +4,7 @@ package eu.thesystems.cloud.cloudnet2.permission;
  */
 
 import de.dytanic.cloudnet.lib.user.User;
-import eu.thesystems.cloud.global.permission.PermissionUser;
+import eu.thesystems.cloud.permission.PermissionUser;
 
 import java.util.Collection;
 import java.util.UUID;

@@ -7,7 +7,7 @@ import de.dytanic.cloudnet.command.Command;
 import de.dytanic.cloudnet.command.ICommandSender;
 import de.dytanic.cloudnet.command.ITabCompleter;
 import de.dytanic.cloudnet.common.Properties;
-import eu.thesystems.cloud.global.command.CloudCommand;
+import eu.thesystems.cloud.command.CloudCommand;
 
 import java.util.Collection;
 

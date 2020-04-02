@@ -11,7 +11,7 @@ import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.cluster.wrapper.WrapperClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.wrapper.database.CloudNet3WrapperDatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
-import eu.thesystems.cloud.global.database.DatabaseProvider;
+import eu.thesystems.cloud.database.DatabaseProvider;
 
 public class CloudNet3Wrapper extends CloudNet3 {
 

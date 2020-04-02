@@ -4,8 +4,8 @@ package eu.thesystems.cloud.cloudnet3.node.database;
  */
 
 import de.dytanic.cloudnet.CloudNet;
-import eu.thesystems.cloud.global.database.Database;
-import eu.thesystems.cloud.global.database.DatabaseProvider;
+import eu.thesystems.cloud.database.Database;
+import eu.thesystems.cloud.database.DatabaseProvider;
 
 import java.util.Collection;
 

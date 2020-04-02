@@ -3,10 +3,10 @@ package eu.thesystems.cloud.converter;
  * Created by derrop on 25.10.2019
  */
 
-import eu.thesystems.cloud.global.info.*;
-import eu.thesystems.cloud.global.permission.PermissionUser;
-import eu.thesystems.cloud.global.player.OfflinePlayer;
-import eu.thesystems.cloud.global.player.OnlinePlayer;
+import eu.thesystems.cloud.info.*;
+import eu.thesystems.cloud.permission.PermissionUser;
+import eu.thesystems.cloud.player.OfflinePlayer;
+import eu.thesystems.cloud.player.OnlinePlayer;
 import eu.thesystems.cloud.modules.ModuleInfo;
 
 /**

@@ -16,7 +16,6 @@ import eu.thesystems.cloud.cloudnet3.cluster.channel.RedirectingNetworkChannel;
 import eu.thesystems.cloud.cloudnet3.cluster.packet.PacketClusterInRedirectPacket;
 import eu.thesystems.cloud.cloudnet3.cluster.packet.PacketClusterOutRedirectPacket;
 import eu.thesystems.cloud.cloudnet3.node.CloudNet3Node;
-import eu.thesystems.cloud.global.events.player.CloudOfflinePlayerUpdateEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -7,7 +7,7 @@ import de.dytanic.cloudnet.driver.network.protocol.IPacket;
 import de.dytanic.cloudnet.driver.network.protocol.IPacketListener;
 import eu.thesystems.cloud.GsonUtil;
 import eu.thesystems.cloud.cloudnet3.CloudNet3;
-import eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent;
+import eu.thesystems.cloud.events.channel.ChannelMessageReceiveEvent;
 
 import java.util.UUID;
 

@@ -7,8 +7,8 @@ import de.dytanic.cloudnet.common.document.gson.JsonDocument;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import eu.thesystems.cloud.CloudSystem;
 import eu.thesystems.cloud.exception.CloudSupportException;
-import eu.thesystems.cloud.global.network.NetworkAddress;
-import eu.thesystems.cloud.global.player.OnlinePlayer;
+import eu.thesystems.cloud.network.NetworkAddress;
+import eu.thesystems.cloud.player.OnlinePlayer;
 
 import java.util.UUID;
 

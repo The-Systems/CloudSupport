@@ -5,8 +5,8 @@ package eu.thesystems.cloud.cloudnet2.player;
 
 import de.dytanic.cloudnet.api.CloudAPI;
 import de.dytanic.cloudnet.lib.utility.document.Document;
-import eu.thesystems.cloud.global.network.NetworkAddress;
-import eu.thesystems.cloud.global.player.OnlinePlayer;
+import eu.thesystems.cloud.network.NetworkAddress;
+import eu.thesystems.cloud.player.OnlinePlayer;
 
 import java.util.UUID;
 

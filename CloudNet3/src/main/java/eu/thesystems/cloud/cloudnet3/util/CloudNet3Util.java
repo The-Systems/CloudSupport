@@ -5,7 +5,7 @@ package eu.thesystems.cloud.cloudnet3.util;
 
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
-import eu.thesystems.cloud.global.info.ProcessInfo;
+import eu.thesystems.cloud.info.ProcessInfo;
 
 public class CloudNet3Util {
 

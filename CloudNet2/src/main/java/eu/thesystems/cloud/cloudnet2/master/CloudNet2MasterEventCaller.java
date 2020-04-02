@@ -10,12 +10,12 @@ import de.dytanic.cloudnetcore.api.event.server.*;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.event.EventManager;
-import eu.thesystems.cloud.global.events.process.proxy.CloudProxyStartEvent;
-import eu.thesystems.cloud.global.events.process.proxy.CloudProxyStopEvent;
-import eu.thesystems.cloud.global.events.process.proxy.CloudProxyUpdateEvent;
-import eu.thesystems.cloud.global.events.process.server.CloudServerStartEvent;
-import eu.thesystems.cloud.global.events.process.server.CloudServerStopEvent;
-import eu.thesystems.cloud.global.events.process.server.CloudServerUpdateEvent;
+import eu.thesystems.cloud.events.process.proxy.CloudProxyStartEvent;
+import eu.thesystems.cloud.events.process.proxy.CloudProxyStopEvent;
+import eu.thesystems.cloud.events.process.proxy.CloudProxyUpdateEvent;
+import eu.thesystems.cloud.events.process.server.CloudServerStartEvent;
+import eu.thesystems.cloud.events.process.server.CloudServerStopEvent;
+import eu.thesystems.cloud.events.process.server.CloudServerUpdateEvent;
 
 import java.util.Arrays;
 

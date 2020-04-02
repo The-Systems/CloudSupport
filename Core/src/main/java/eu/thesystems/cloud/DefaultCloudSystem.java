@@ -5,9 +5,8 @@ package eu.thesystems.cloud;
 
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.event.EventManager;
-import eu.thesystems.cloud.exception.CloudSupportException;
-import eu.thesystems.cloud.global.command.CommandMap;
-import eu.thesystems.cloud.global.command.EmptyCommandMap;
+import eu.thesystems.cloud.command.CommandMap;
+import eu.thesystems.cloud.command.EmptyCommandMap;
 
 public abstract class DefaultCloudSystem implements CloudSystem {
 

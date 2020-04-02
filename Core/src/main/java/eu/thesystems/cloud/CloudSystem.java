@@ -7,10 +7,9 @@ import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.event.EventManager;
 import eu.thesystems.cloud.exception.CloudSupportException;
-import eu.thesystems.cloud.global.command.CommandMap;
-import eu.thesystems.cloud.global.database.DatabaseProvider;
-import eu.thesystems.cloud.global.info.*;
-import eu.thesystems.cloud.global.permission.PermissionUser;
+import eu.thesystems.cloud.command.CommandMap;
+import eu.thesystems.cloud.database.DatabaseProvider;
+import eu.thesystems.cloud.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
 import eu.thesystems.cloud.proxy.ProxyManagement;
 

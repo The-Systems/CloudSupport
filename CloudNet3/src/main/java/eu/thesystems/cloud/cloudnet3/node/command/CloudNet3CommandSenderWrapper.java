@@ -4,7 +4,7 @@ package eu.thesystems.cloud.cloudnet3.node.command;
  */
 
 import de.dytanic.cloudnet.command.ICommandSender;
-import eu.thesystems.cloud.global.command.CloudCommandSender;
+import eu.thesystems.cloud.command.CloudCommandSender;
 
 public class CloudNet3CommandSenderWrapper implements CloudCommandSender {
 

@@ -4,11 +4,10 @@ package eu.thesystems.cloud.cloudnet3.wrapper.database;
  */
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import de.dytanic.cloudnet.common.document.gson.JsonDocument;
 import de.dytanic.cloudnet.wrapper.database.IDatabase;
 import eu.thesystems.cloud.GsonUtil;
-import eu.thesystems.cloud.global.database.Database;
+import eu.thesystems.cloud.database.Database;
 
 public class CloudNet3WrapperDatabase implements Database {
 

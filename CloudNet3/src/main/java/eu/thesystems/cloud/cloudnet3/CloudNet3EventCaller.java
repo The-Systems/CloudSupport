@@ -3,7 +3,6 @@ package eu.thesystems.cloud.cloudnet3;
  * Created by derrop on 26.10.2019
  */
 
-import com.google.gson.JsonParser;
 import de.dytanic.cloudnet.driver.event.EventListener;
 import de.dytanic.cloudnet.driver.event.events.channel.ChannelMessageReceiveEvent;
 import de.dytanic.cloudnet.driver.event.events.service.CloudServiceInfoUpdateEvent;
@@ -18,19 +17,19 @@ import eu.thesystems.cloud.GsonUtil;
 import eu.thesystems.cloud.cloudnet3.util.CloudNet3Util;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.event.EventManager;
-import eu.thesystems.cloud.global.events.player.*;
-import eu.thesystems.cloud.global.events.process.CloudProcessStartEvent;
-import eu.thesystems.cloud.global.events.process.CloudProcessStopEvent;
-import eu.thesystems.cloud.global.events.process.CloudProcessUpdateEvent;
-import eu.thesystems.cloud.global.events.process.proxy.CloudProxyStartEvent;
-import eu.thesystems.cloud.global.events.process.proxy.CloudProxyStopEvent;
-import eu.thesystems.cloud.global.events.process.proxy.CloudProxyUpdateEvent;
-import eu.thesystems.cloud.global.events.process.server.CloudServerStartEvent;
-import eu.thesystems.cloud.global.events.process.server.CloudServerStopEvent;
-import eu.thesystems.cloud.global.events.process.server.CloudServerUpdateEvent;
-import eu.thesystems.cloud.global.info.ProcessInfo;
-import eu.thesystems.cloud.global.info.ProxyInfo;
-import eu.thesystems.cloud.global.info.ServerInfo;
+import eu.thesystems.cloud.events.player.*;
+import eu.thesystems.cloud.events.process.CloudProcessStartEvent;
+import eu.thesystems.cloud.events.process.CloudProcessStopEvent;
+import eu.thesystems.cloud.events.process.CloudProcessUpdateEvent;
+import eu.thesystems.cloud.events.process.proxy.CloudProxyStartEvent;
+import eu.thesystems.cloud.events.process.proxy.CloudProxyStopEvent;
+import eu.thesystems.cloud.events.process.proxy.CloudProxyUpdateEvent;
+import eu.thesystems.cloud.events.process.server.CloudServerStartEvent;
+import eu.thesystems.cloud.events.process.server.CloudServerStopEvent;
+import eu.thesystems.cloud.events.process.server.CloudServerUpdateEvent;
+import eu.thesystems.cloud.info.ProcessInfo;
+import eu.thesystems.cloud.info.ProxyInfo;
+import eu.thesystems.cloud.info.ServerInfo;
 
 public class CloudNet3EventCaller {
 
@@ -83,7 +82,7 @@ public class CloudNet3EventCaller {
 
     @EventListener
     public void handleChannelMessage(ChannelMessageReceiveEvent event) {
-        this.eventManager.callEvent(new eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent(event.getChannel(), event.getMessage(), GsonUtil.parseString(event.getData().toJson()).getAsJsonObject(), false, null));
+        this.eventManager.callEvent(new eu.thesystems.cloud.events.channel.ChannelMessageReceiveEvent(event.getChannel(), event.getMessage(), GsonUtil.parseString(event.getData().toJson()).getAsJsonObject(), false, null));
     }
 
     @EventListener

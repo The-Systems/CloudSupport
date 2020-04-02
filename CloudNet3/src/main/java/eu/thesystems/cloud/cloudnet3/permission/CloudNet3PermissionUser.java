@@ -5,7 +5,7 @@ package eu.thesystems.cloud.cloudnet3.permission;
 
 import de.dytanic.cloudnet.driver.permission.IPermissionUser;
 import de.dytanic.cloudnet.ext.cloudperms.CloudPermissionsManagement;
-import eu.thesystems.cloud.global.permission.PermissionUser;
+import eu.thesystems.cloud.permission.PermissionUser;
 
 import java.util.Collection;
 import java.util.UUID;

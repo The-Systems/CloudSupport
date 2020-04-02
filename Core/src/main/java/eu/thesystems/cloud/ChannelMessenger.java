@@ -1,7 +1,7 @@
 package eu.thesystems.cloud;
 
 import com.google.gson.JsonObject;
-import eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent;
+import eu.thesystems.cloud.events.channel.ChannelMessageReceiveEvent;
 
 import java.util.concurrent.CompletableFuture;
 

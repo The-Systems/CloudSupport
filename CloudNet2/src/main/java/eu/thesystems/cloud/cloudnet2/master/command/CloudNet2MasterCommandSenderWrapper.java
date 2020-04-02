@@ -4,7 +4,7 @@ package eu.thesystems.cloud.cloudnet2.master.command;
  */
 
 import de.dytanic.cloudnet.command.CommandSender;
-import eu.thesystems.cloud.global.command.CloudCommandSender;
+import eu.thesystems.cloud.command.CloudCommandSender;
 
 public class CloudNet2MasterCommandSenderWrapper implements CloudCommandSender {
 

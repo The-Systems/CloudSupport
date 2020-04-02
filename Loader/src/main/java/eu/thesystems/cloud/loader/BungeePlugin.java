@@ -4,7 +4,7 @@ package eu.thesystems.cloud.loader;
  */
 
 import eu.thesystems.cloud.CloudSupport;
-import eu.thesystems.cloud.global.command.player.BungeePlayerCommandSender;
+import eu.thesystems.cloud.command.player.BungeePlayerCommandSender;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

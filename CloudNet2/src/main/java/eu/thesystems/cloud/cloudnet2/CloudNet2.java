@@ -7,10 +7,10 @@ import de.dytanic.cloudnet.lib.NetworkUtils;
 import eu.thesystems.cloud.cloudsystem.cloudnet.CloudNet;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
-import eu.thesystems.cloud.global.info.ProcessGroup;
-import eu.thesystems.cloud.global.info.ProcessInfo;
-import eu.thesystems.cloud.global.info.ProxyGroup;
-import eu.thesystems.cloud.global.info.ServerInfo;
+import eu.thesystems.cloud.info.ProcessGroup;
+import eu.thesystems.cloud.info.ProcessInfo;
+import eu.thesystems.cloud.info.ProxyGroup;
+import eu.thesystems.cloud.info.ServerInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;

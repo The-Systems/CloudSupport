@@ -4,7 +4,7 @@ package eu.thesystems.cloud.loader;
  */
 
 import eu.thesystems.cloud.CloudSupport;
-import eu.thesystems.cloud.global.command.player.BukkitPlayerCommandSender;
+import eu.thesystems.cloud.command.player.BukkitPlayerCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;

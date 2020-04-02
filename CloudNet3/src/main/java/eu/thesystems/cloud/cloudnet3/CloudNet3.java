@@ -14,8 +14,8 @@ import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.event.EventManager;
 import eu.thesystems.cloud.event.defaults.DefaultEventManager;
-import eu.thesystems.cloud.global.info.*;
-import eu.thesystems.cloud.global.permission.PermissionUser;
+import eu.thesystems.cloud.info.*;
+import eu.thesystems.cloud.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
 import eu.thesystems.cloud.proxy.ProxyManagement;
 

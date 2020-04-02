@@ -6,7 +6,7 @@ import de.dytanic.cloudnet.lib.network.protocol.packet.PacketInHandler;
 import de.dytanic.cloudnet.lib.network.protocol.packet.PacketSender;
 import de.dytanic.cloudnet.lib.utility.document.Document;
 import eu.thesystems.cloud.CloudSupport;
-import eu.thesystems.cloud.global.events.channel.ChannelMessageReceiveEvent;
+import eu.thesystems.cloud.events.channel.ChannelMessageReceiveEvent;
 
 public class PacketInMasterChannelMessage extends PacketInHandler {
 
