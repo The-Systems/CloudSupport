@@ -7,18 +7,15 @@ import com.google.gson.Gson;
 import de.dytanic.cloudnet.lib.MultiValue;
 import de.dytanic.cloudnet.lib.player.CloudPlayer;
 import de.dytanic.cloudnet.lib.server.template.TemplateResource;
-import de.dytanic.cloudnet.lib.user.User;
 import de.dytanic.cloudnet.modules.ModuleConfig;
-import eu.thesystems.cloud.cloudnet2.permission.CloudNet2PermissionUser;
 import eu.thesystems.cloud.cloudnet2.player.CloudNet2Player;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.info.*;
-import eu.thesystems.cloud.network.NetworkAddress;
-import eu.thesystems.cloud.permission.PermissionUser;
-import eu.thesystems.cloud.player.OfflinePlayer;
-import eu.thesystems.cloud.player.OnlinePlayer;
 import eu.thesystems.cloud.modules.DefaultModuleInfo;
 import eu.thesystems.cloud.modules.ModuleInfo;
+import eu.thesystems.cloud.network.NetworkAddress;
+import eu.thesystems.cloud.player.OfflinePlayer;
+import eu.thesystems.cloud.player.OnlinePlayer;
 
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -125,11 +122,6 @@ public class CloudNet2ObjectConverter implements CloudObjectConverter {
 
     private Template mapTemplate(String name, de.dytanic.cloudnet.lib.server.template.Template cloudnetTemplate) {
         return new Template(name, cloudnetTemplate.getName(), name + "/" + cloudnetTemplate.getName(), this.gson.toJsonTree(cloudnetTemplate).getAsJsonObject());
-    }
-
-    @Override
-    public PermissionUser convertPermissionUser(Object cloudPermissionUser) {
-        return new CloudNet2PermissionUser((User) cloudPermissionUser);
     }
 
     @Override

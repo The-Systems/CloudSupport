@@ -13,7 +13,11 @@ public class CloudSupportException extends RuntimeException {
     private CloudSystem cloudSystem;
 
     public CloudSupportException(CloudSystem cloudSystem) {
-        super("Not supported in " + cloudSystem.getName());
+        this(cloudSystem, false);
+    }
+
+    public CloudSupportException(CloudSystem cloudSystem, boolean scheduledForImplementation) {
+        super("Not supported in " + cloudSystem.getName() + (scheduledForImplementation ? " (Will be implemented soon)" : ""));
         this.cloudSystem = cloudSystem;
     }
 

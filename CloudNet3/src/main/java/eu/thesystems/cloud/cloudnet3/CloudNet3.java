@@ -9,12 +9,14 @@ import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import eu.thesystems.cloud.CloudSystem;
 import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.module.CloudNet3ModuleManager;
+import eu.thesystems.cloud.cloudnet3.permission.CloudNet3PermissionProvider;
 import eu.thesystems.cloud.cloudsystem.cloudnet.CloudNet;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.event.EventManager;
 import eu.thesystems.cloud.event.defaults.DefaultEventManager;
 import eu.thesystems.cloud.info.*;
+import eu.thesystems.cloud.permission.PermissionProvider;
 import eu.thesystems.cloud.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
 import eu.thesystems.cloud.proxy.ProxyManagement;
@@ -34,11 +36,12 @@ import java.util.stream.Collectors;
 public abstract class CloudNet3 extends CloudNet {
 
     private final CloudNetDriver cloudNetDriver = CloudNetDriver.getInstance();
-    private final CloudObjectConverter cloudObjectConverter = new CloudNet3ObjectConverter(this.cloudNetDriver, this);
+    private final CloudObjectConverter cloudObjectConverter = new CloudNet3ObjectConverter(this);
 
     private final EventManager eventManager = new DefaultEventManager();
     private final ProxyManagement proxyManagement = new CloudNet3ProxyManagement();
     private final ModuleManager moduleManager = new CloudNet3ModuleManager(this, this.cloudNetDriver.getModuleProvider());
+    private final PermissionProvider permissionProvider = new CloudNet3PermissionProvider(this);
 
     public CloudNet3(SupportedCloudSystem componentType, String name, String version, IPlayerManager playerManager) {
         super(componentType, name, version);
@@ -73,6 +76,11 @@ public abstract class CloudNet3 extends CloudNet {
 
     @Override
     public abstract CloudNet3ChannelMessenger getChannelMessenger();
+
+    @Override
+    public PermissionProvider getPermissionProvider() {
+        return this.permissionProvider;
+    }
 
     @Override
     public CloudObjectConverter getConverter() {
@@ -182,17 +190,6 @@ public abstract class CloudNet3 extends CloudNet {
     @Override
     public ProxyGroup getProxyGroup(String name) {
         return this.getConverter().convertProxyGroup(this.cloudNetDriver.getServiceTaskProvider().getServiceTask(name));
-    }
-
-    @Override
-    public PermissionUser getPermissionUser(String name) {
-        List<IPermissionUser> users = this.cloudNetDriver.getPermissionProvider().getUsers(name);
-        return users.isEmpty() ? null : this.getConverter().convertPermissionUser(users.get(0));
-    }
-
-    @Override
-    public PermissionUser getPermissionUser(UUID uniqueId) {
-        return this.getConverter().convertPermissionUser(this.cloudNetDriver.getPermissionProvider().getUser(uniqueId));
     }
 
     @Override

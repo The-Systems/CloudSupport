@@ -4,10 +4,9 @@ package eu.thesystems.cloud.converter;
  */
 
 import eu.thesystems.cloud.info.*;
-import eu.thesystems.cloud.permission.PermissionUser;
+import eu.thesystems.cloud.modules.ModuleInfo;
 import eu.thesystems.cloud.player.OfflinePlayer;
 import eu.thesystems.cloud.player.OnlinePlayer;
-import eu.thesystems.cloud.modules.ModuleInfo;
 
 /**
  * This class is used to convert the cloud-specific objects to our own objects which are compatible with every cloud we support.
@@ -24,8 +23,6 @@ public interface CloudObjectConverter {
     ProxyInfo convertProxyInfo(Object cloudProxyInfo);
 
     ProxyGroup convertProxyGroup(Object cloudProxyGroup);
-
-    PermissionUser convertPermissionUser(Object cloudPermissionUser);
 
     ModuleInfo convertModuleInfo(Object cloudModuleInfo);
 

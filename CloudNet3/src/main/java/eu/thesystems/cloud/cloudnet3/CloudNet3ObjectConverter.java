@@ -6,7 +6,6 @@ package eu.thesystems.cloud.cloudnet3;
 import com.google.gson.Gson;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.module.ModuleConfiguration;
-import de.dytanic.cloudnet.driver.permission.IPermissionUser;
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
 import de.dytanic.cloudnet.driver.service.ServiceTask;
 import de.dytanic.cloudnet.driver.service.ServiceTemplate;
@@ -15,16 +14,14 @@ import de.dytanic.cloudnet.ext.bridge.player.ICloudOfflinePlayer;
 import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
 import de.dytanic.cloudnet.ext.bridge.player.NetworkConnectionInfo;
 import de.dytanic.cloudnet.ext.bridge.player.ServicePlayer;
-import eu.thesystems.cloud.cloudnet3.permission.CloudNet3PermissionUser;
 import eu.thesystems.cloud.cloudnet3.player.CloudNet3Player;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
 import eu.thesystems.cloud.info.*;
-import eu.thesystems.cloud.network.NetworkAddress;
-import eu.thesystems.cloud.permission.PermissionUser;
-import eu.thesystems.cloud.player.OfflinePlayer;
-import eu.thesystems.cloud.player.OnlinePlayer;
 import eu.thesystems.cloud.modules.DefaultModuleInfo;
 import eu.thesystems.cloud.modules.ModuleInfo;
+import eu.thesystems.cloud.network.NetworkAddress;
+import eu.thesystems.cloud.player.OfflinePlayer;
+import eu.thesystems.cloud.player.OnlinePlayer;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,11 +31,9 @@ import java.util.stream.Collectors;
 public class CloudNet3ObjectConverter implements CloudObjectConverter {
 
     private final Gson gson = new Gson();
-    private CloudNetDriver cloudNetDriver;
     private CloudNet3 cloudNet3;
 
-    public CloudNet3ObjectConverter(CloudNetDriver cloudNetDriver, CloudNet3 cloudNet3) {
-        this.cloudNetDriver = cloudNetDriver;
+    public CloudNet3ObjectConverter(CloudNet3 cloudNet3) {
         this.cloudNet3 = cloudNet3;
     }
 
@@ -172,11 +167,6 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
 
     private Template mapTemplate(ServiceTemplate cloudnetTemplate) {
         return new Template(cloudnetTemplate.getPrefix(), cloudnetTemplate.getName(), cloudnetTemplate.getTemplatePath(), this.gson.toJsonTree(cloudnetTemplate).getAsJsonObject());
-    }
-
-    @Override
-    public PermissionUser convertPermissionUser(Object cloudPermissionUser) {
-        return cloudPermissionUser != null ? new CloudNet3PermissionUser((IPermissionUser) cloudPermissionUser) : null;
     }
 
     @Override

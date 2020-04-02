@@ -9,19 +9,18 @@ import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.bridge.database.CloudNet2BridgeDatabaseProvider;
 import eu.thesystems.cloud.cloudnet2.network.PacketInMasterChannelMessage;
 import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
+import eu.thesystems.cloud.database.DatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.exception.CloudSupportException;
-import eu.thesystems.cloud.database.DatabaseProvider;
 import eu.thesystems.cloud.info.ProxyGroup;
 import eu.thesystems.cloud.info.ProxyInfo;
 import eu.thesystems.cloud.info.ServerGroup;
 import eu.thesystems.cloud.info.ServerInfo;
-import eu.thesystems.cloud.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
+import eu.thesystems.cloud.permission.PermissionProvider;
 import eu.thesystems.cloud.proxy.ProxyManagement;
 
 import java.util.Collection;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class CloudNet2Bridge extends CloudNet2 {
@@ -64,6 +63,11 @@ public class CloudNet2Bridge extends CloudNet2 {
     @Override
     public ProxyManagement getProxyManagement() {
         return this.proxyManagement;
+    }
+
+    @Override
+    public PermissionProvider getPermissionProvider() {
+        return null;
     }
 
     @Override
@@ -130,16 +134,6 @@ public class CloudNet2Bridge extends CloudNet2 {
     public void sendCommandLine(String processName, String commandLine) {
         boolean isServer = this.cloudAPI.getServerInfo(processName) != null;
         this.cloudAPI.sendConsoleMessage(isServer ? DefaultType.BUKKIT : DefaultType.BUNGEE_CORD, processName, commandLine);
-    }
-
-    @Override
-    public PermissionUser getPermissionUser(String name) {
-        return null;
-    }
-
-    @Override
-    public PermissionUser getPermissionUser(UUID uniqueId) {
-        return null;
     }
 
 }

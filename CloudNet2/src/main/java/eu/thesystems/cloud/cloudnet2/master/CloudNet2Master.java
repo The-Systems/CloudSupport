@@ -19,6 +19,7 @@ import eu.thesystems.cloud.info.ProxyGroup;
 import eu.thesystems.cloud.info.ProxyInfo;
 import eu.thesystems.cloud.info.ServerGroup;
 import eu.thesystems.cloud.info.ServerInfo;
+import eu.thesystems.cloud.permission.PermissionProvider;
 import eu.thesystems.cloud.permission.PermissionUser;
 import eu.thesystems.cloud.loader.CloudNet2MasterLoader;
 import eu.thesystems.cloud.modules.ModuleManager;
@@ -75,6 +76,11 @@ public class CloudNet2Master extends CloudNet2 {
     @Override
     public ProxyManagement getProxyManagement() {
         return this.proxyManagement;
+    }
+
+    @Override
+    public PermissionProvider getPermissionProvider() {
+        return null;
     }
 
     @Override
@@ -157,16 +163,6 @@ public class CloudNet2Master extends CloudNet2 {
                 proxyServer.getWrapper().writeProxyCommand(commandLine, proxyServer.getProxyInfo());
             }
         }
-    }
-
-    @Override
-    public PermissionUser getPermissionUser(String name) {
-        return null;
-    }
-
-    @Override
-    public PermissionUser getPermissionUser(UUID uniqueId) {
-        return null;
     }
 
 }

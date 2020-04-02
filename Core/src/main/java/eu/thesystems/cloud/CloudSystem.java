@@ -3,19 +3,18 @@ package eu.thesystems.cloud;
  * Created by derrop on 25.10.2019
  */
 
+import eu.thesystems.cloud.command.CommandMap;
 import eu.thesystems.cloud.converter.CloudObjectConverter;
+import eu.thesystems.cloud.database.DatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.event.EventManager;
 import eu.thesystems.cloud.exception.CloudSupportException;
-import eu.thesystems.cloud.command.CommandMap;
-import eu.thesystems.cloud.database.DatabaseProvider;
 import eu.thesystems.cloud.info.*;
-import eu.thesystems.cloud.permission.PermissionUser;
 import eu.thesystems.cloud.modules.ModuleManager;
+import eu.thesystems.cloud.permission.PermissionProvider;
 import eu.thesystems.cloud.proxy.ProxyManagement;
 
 import java.util.Collection;
-import java.util.UUID;
 
 public interface CloudSystem {
 
@@ -104,6 +103,15 @@ public interface CloudSystem {
      * @return the final {@link ProxyManagement} instance
      */
     ProxyManagement getProxyManagement();
+
+    /**
+     * Gets the permission provider which is used to manage the cloud-specific permission management.
+     * <p>
+     * This method is available on every component of every cloud.
+     *
+     * @return the final {@link PermissionProvider} instance
+     */
+    PermissionProvider getPermissionProvider();
 
     /**
      * Gets the converter instance which converts all cloud-specific objects to our global objects
@@ -277,9 +285,5 @@ public interface CloudSystem {
     ProcessGroup getGroup(String name);
 
     void sendCommandLine(String processName, String commandLine);
-
-    PermissionUser getPermissionUser(String name);
-
-    PermissionUser getPermissionUser(UUID uniqueId);
 
 }
