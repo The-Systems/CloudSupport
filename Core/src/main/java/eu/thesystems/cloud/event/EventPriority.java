@@ -9,6 +9,6 @@ public class EventPriority {
         throw new UnsupportedOperationException();
     }
 
-    public static final byte LOWEST = -2, LOW = -1, NORMAL = 0, HIGH = 1, HIGHEST = 2;
+    public static final byte LOWEST = -64, LOW = -32, NORMAL = 0, HIGH = 32, HIGHEST = 64;
 
 }
