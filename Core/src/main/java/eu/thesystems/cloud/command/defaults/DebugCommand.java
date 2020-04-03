@@ -12,6 +12,6 @@ public class DebugCommand extends CloudCommand {
     @Override
     public void execute(CloudCommandSender sender, String[] args) {
         CloudSupport.getInstance().setDebugging(!CloudSupport.getInstance().isDebugging());
-        sender.sendMessage("Debugging was successfully " + (CloudSupport.getInstance().isDebugging() ? "enabled" : "disabled"));
+        sender.sendMessage("[CloudSupport] Debugging was successfully " + (CloudSupport.getInstance().isDebugging() ? "enabled" : "disabled"));
     }
 }
