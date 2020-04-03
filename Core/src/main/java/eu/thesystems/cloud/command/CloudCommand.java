@@ -21,6 +21,12 @@ public abstract class CloudCommand {
         this.name = name;
     }
 
+    public CloudCommand(String name, String permission, String... aliases) {
+        this.name = name;
+        this.permission = permission;
+        this.aliases = aliases;
+    }
+
     public CloudCommand(String name, String[] aliases, String permission) {
         this.name = name;
         this.aliases = aliases;

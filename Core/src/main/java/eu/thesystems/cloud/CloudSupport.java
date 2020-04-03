@@ -5,6 +5,7 @@ package eu.thesystems.cloud;
 
 import eu.thesystems.cloud.addon.loader.CloudAddonManager;
 import eu.thesystems.cloud.addon.loader.DefaultCloudAddonManager;
+import eu.thesystems.cloud.command.defaults.DebugCommand;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 
 import java.util.Objects;
@@ -19,6 +20,8 @@ public class CloudSupport {
 
     private CloudSystem selectedCloudSystem;
     private CloudAddonManager addonManager = new DefaultCloudAddonManager();
+
+    private boolean debugging = false;
 
     public SupportedCloudSystem findAvailableCloudSystem() {
         System.out.println("[CloudSupport] Searching for cloud system...");
@@ -43,6 +46,7 @@ public class CloudSupport {
     public void selectCloudSystem(CloudSystem cloudSystem) {
         this.selectedCloudSystem = cloudSystem;
         System.out.println("[CloudSupport] Selected cloud system: " + cloudSystem.getName());
+        this.selectedCloudSystem.getCommandMap().registerCommand(new DebugCommand());
     }
 
     public void debug(String message) {
@@ -51,8 +55,12 @@ public class CloudSupport {
         }
     }
 
-    public boolean isDebugging() {//todo
-        return false;
+    public boolean isDebugging() {
+        return this.debugging;
+    }
+
+    public void setDebugging(boolean debugging) {
+        this.debugging = debugging;
     }
 
     public CloudAddonManager getAddonManager() {
