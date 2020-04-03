@@ -30,9 +30,11 @@ public class CloudNet2Bridge extends CloudNet2 {
     private final CloudNet2BridgeChannelMessenger channelMessenger = new CloudNet2BridgeChannelMessenger(this, this.cloudAPI);
     private final DatabaseProvider databaseProvider = new CloudNet2BridgeDatabaseProvider(this.cloudAPI, this);
     private final ProxyManagement proxyManagement = new CloudNet2BridgeProxyManagement();
+    private final PermissionProvider permissionProvider;
 
     public CloudNet2Bridge(SupportedCloudSystem supportedCloudSystem) {
         super(supportedCloudSystem, "CloudNet2-Bridge");
+        this.permissionProvider = new CloudNet2BridgePermissionProvider(this);
         this.cloudAPI.getNetworkHandlerProvider().registerHandler(new CloudNet2BridgeEventCaller(this.getEventManager(), this, this.getConverter()));
         this.cloudAPI.getNetworkConnection().getPacketManager().registerHandler(PacketOutMasterChannelMessage.ID, PacketInMasterChannelMessage.class);
 

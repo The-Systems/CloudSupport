@@ -55,8 +55,9 @@ public class CloudNet3PermissionUser extends CloudNet3Permissible implements Per
     }
 
     @Override
-    public void setPassword(String password) {
+    public boolean setPassword(String password) {
         this.permissionUser.changePassword(password);
+        return true;
     }
 
     @Override

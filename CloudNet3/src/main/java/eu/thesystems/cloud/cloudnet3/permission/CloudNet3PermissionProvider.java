@@ -116,7 +116,7 @@ public class CloudNet3PermissionProvider implements PermissionProvider {
         return this.cachedGroups.values().stream()
                 .filter(PermissionGroup::isDefaultGroup)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No defaultGroup found"));
+                .orElseThrow(() -> new IllegalStateException("No defaultGroup defined"));
     }
 
     @Override

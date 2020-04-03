@@ -103,12 +103,13 @@ public interface Permissible {
     /**
      * Checks whether this group has the given permission. Uses the given processGroup to
      * determine the specific-group-only permissions by using {@link #getAllPermissions(String)}.
+     * The global permissions are always tested, even if a processGroup is defined.
      *
      * @param permission   the case-insensitive permission
      * @param processGroup the name of the group for {@link #getAllPermissions(String)} (case-sensitive)
      * @return {@code true} if this group has the given permission or {@code false} otherwise
      */
-    boolean hasPermission(String permission, String processGroup);
+    boolean hasPermission(String permission, @Nullable String processGroup);
 
     /**
      * Gets the properties of this permissible as a modifiable Json Object.

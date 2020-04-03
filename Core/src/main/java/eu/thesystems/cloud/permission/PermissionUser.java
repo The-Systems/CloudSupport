@@ -38,8 +38,9 @@ public interface PermissionUser extends Permissible {
      * This requires an update using {@link #update()}.
      *
      * @param password the new password or null to remove it
+     * @return {@code true} if the password has been successfully changed or {@code false} if this user doesn't support passwords
      */
-    void setPassword(@Nullable String password);
+    boolean setPassword(@Nullable String password);
 
     /**
      * Checks whether the given password is correct or not.

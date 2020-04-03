@@ -15,6 +15,7 @@ import eu.thesystems.cloud.cloudnet2.master.includes.MasterPluginIncludeListener
 import eu.thesystems.cloud.cloudnet2.master.module.CloudNet2ModuleManager;
 import eu.thesystems.cloud.cloudnet2.network.PacketInMasterChannelMessage;
 import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
+import eu.thesystems.cloud.cloudnet2.permission.CloudNet2PermissionProvider;
 import eu.thesystems.cloud.database.DatabaseProvider;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.info.ProxyGroup;
@@ -42,10 +43,12 @@ public class CloudNet2Master extends CloudNet2 {
     private final ModuleManager moduleManager = new CloudNet2ModuleManager(this.cloudNet, this);
     private final DatabaseProvider databaseProvider = new CloudNet2MasterDatabaseProvider(this, this.cloudNet);
     private final ProxyManagement proxyManagement = new CloudNet2MasterProxyManagement(this.cloudNet);
+    private final CloudNet2PermissionProvider permissionProvider;
     private CloudNet2MasterEventCaller eventCaller = new CloudNet2MasterEventCaller();
 
     public CloudNet2Master() {
         super(SupportedCloudSystem.CLOUDNET_2_MASTER, "CloudNet2-Master");
+        this.permissionProvider = new CloudNet2MasterPermissionProvider(this);
         super.commandMap = new CloudNet2MasterCommandMap(this);
         this.cloudNet.getPacketManager().registerHandler(PacketOutMasterChannelMessage.ID, PacketInMasterChannelMessage.class);
     }
@@ -98,7 +101,7 @@ public class CloudNet2Master extends CloudNet2 {
 
     @Override
     public PermissionProvider getPermissionProvider() {
-        return null;
+        return this.permissionProvider;
     }
 
     @Override

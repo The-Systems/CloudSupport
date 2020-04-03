@@ -3,7 +3,7 @@ package eu.thesystems.cloud.permission;
 import java.util.Collection;
 import java.util.UUID;
 
-public interface PermissionProvider { // todo not tested
+public interface PermissionProvider {
 
     boolean isAvailable();
 
