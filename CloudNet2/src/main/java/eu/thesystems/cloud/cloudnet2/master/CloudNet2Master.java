@@ -10,23 +10,28 @@ import eu.thesystems.cloud.ChannelMessenger;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.master.command.CloudNet2MasterCommandMap;
 import eu.thesystems.cloud.cloudnet2.master.database.CloudNet2MasterDatabaseProvider;
+import eu.thesystems.cloud.cloudnet2.master.includes.MasterAddonIncludeHandler;
+import eu.thesystems.cloud.cloudnet2.master.includes.MasterPluginIncludeListener;
 import eu.thesystems.cloud.cloudnet2.master.module.CloudNet2ModuleManager;
 import eu.thesystems.cloud.cloudnet2.network.PacketInMasterChannelMessage;
 import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
-import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.database.DatabaseProvider;
+import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.info.ProxyGroup;
 import eu.thesystems.cloud.info.ProxyInfo;
 import eu.thesystems.cloud.info.ServerGroup;
 import eu.thesystems.cloud.info.ServerInfo;
-import eu.thesystems.cloud.permission.PermissionProvider;
-import eu.thesystems.cloud.permission.PermissionUser;
 import eu.thesystems.cloud.loader.CloudNet2MasterLoader;
 import eu.thesystems.cloud.modules.ModuleManager;
+import eu.thesystems.cloud.permission.PermissionProvider;
 import eu.thesystems.cloud.proxy.ProxyManagement;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Collection;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class CloudNet2Master extends CloudNet2 {
@@ -47,6 +52,19 @@ public class CloudNet2Master extends CloudNet2 {
 
     public void init(CloudNet2MasterLoader loader) {
         this.eventCaller.register(loader, this, this.getEventManager(), this.cloudNet);
+
+        this.cloudNet.getEventManager().registerListener(loader, new MasterPluginIncludeListener());
+
+        new MasterAddonIncludeHandler(this);
+
+        Path source = loader.getModuleConfig().getFile().toPath();
+        Path target = Paths.get("local", "plugins", "CloudSupport.jar");
+
+        try {
+            Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public CloudNet getCloudNet() {

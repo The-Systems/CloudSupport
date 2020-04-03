@@ -7,6 +7,7 @@ import de.dytanic.cloudnet.api.CloudAPI;
 import de.dytanic.cloudnet.lib.DefaultType;
 import eu.thesystems.cloud.cloudnet2.CloudNet2;
 import eu.thesystems.cloud.cloudnet2.bridge.database.CloudNet2BridgeDatabaseProvider;
+import eu.thesystems.cloud.cloudnet2.bridge.includes.BridgeAddonLoader;
 import eu.thesystems.cloud.cloudnet2.network.PacketInMasterChannelMessage;
 import eu.thesystems.cloud.cloudnet2.network.PacketOutMasterChannelMessage;
 import eu.thesystems.cloud.database.DatabaseProvider;
@@ -34,6 +35,11 @@ public class CloudNet2Bridge extends CloudNet2 {
         super(supportedCloudSystem, "CloudNet2-Bridge");
         this.cloudAPI.getNetworkHandlerProvider().registerHandler(new CloudNet2BridgeEventCaller(this.getEventManager(), this, this.getConverter()));
         this.cloudAPI.getNetworkConnection().getPacketManager().registerHandler(PacketOutMasterChannelMessage.ID, PacketInMasterChannelMessage.class);
+
+        BridgeAddonLoader addonLoader = new BridgeAddonLoader(this);
+        System.out.println("Loading addons from the Master...");
+        addonLoader.load();
+        System.out.println("Successfully loaded addons from the Master!");
     }
 
     public CloudAPI getCloudAPI() {
