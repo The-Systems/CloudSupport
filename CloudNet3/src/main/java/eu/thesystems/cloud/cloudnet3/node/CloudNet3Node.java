@@ -11,6 +11,7 @@ import eu.thesystems.cloud.cloudnet3.cluster.ClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.cluster.node.NodeClusterPacketProvider;
 import eu.thesystems.cloud.cloudnet3.node.command.CloudNet3NodeCommandMap;
 import eu.thesystems.cloud.cloudnet3.node.database.CloudNet3NodeDatabaseProvider;
+import eu.thesystems.cloud.cloudnet3.node.listener.NodeIncludePluginListener;
 import eu.thesystems.cloud.detection.SupportedCloudSystem;
 import eu.thesystems.cloud.database.DatabaseProvider;
 
@@ -32,6 +33,7 @@ public class CloudNet3Node extends CloudNet3 {
         super.commandMap = new CloudNet3NodeCommandMap(this);
         this.cloudNet.getEventManager().registerListener(this.clusterPacketProvider); // todo unregister?
         this.cloudNet.getEventManager().registerListener(this.getChannelMessenger()); // todo unregister?
+        this.cloudNet.getEventManager().registerListener(new NodeIncludePluginListener(this)); // todo unregister?
     }
 
     public CloudNet getCloudNet() {

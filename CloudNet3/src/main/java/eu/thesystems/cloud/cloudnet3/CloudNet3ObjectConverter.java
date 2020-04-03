@@ -6,6 +6,7 @@ package eu.thesystems.cloud.cloudnet3;
 import com.google.gson.Gson;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.module.ModuleConfiguration;
+import de.dytanic.cloudnet.driver.service.ServiceEnvironmentType;
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
 import de.dytanic.cloudnet.driver.service.ServiceTask;
 import de.dytanic.cloudnet.driver.service.ServiceTemplate;
@@ -52,8 +53,28 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
                 new NetworkAddress(serviceInfoSnapshot.getAddress().getHost(), serviceInfoSnapshot.getAddress().getPort()),
                 Arrays.stream(serviceInfoSnapshot.getConfiguration().getTemplates()).map(this::mapTemplate).collect(Collectors.toList()),
                 players.stream().map(ServicePlayer::getName).collect(Collectors.toList()),
+                this.convertProcessType(serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment()),
                 this.gson.toJsonTree(serviceInfoSnapshot).getAsJsonObject()
         );
+    }
+
+    private ProcessType convertProcessType(ServiceEnvironmentType environment) {
+        switch (environment) {
+            case BUNGEECORD:
+                return ProcessType.BUNGEE_CORD;
+            case MINECRAFT_SERVER:
+                return ProcessType.MINECRAFT_SERVER;
+            case NUKKIT:
+                return ProcessType.NUKKIT;
+            case VELOCITY:
+                return ProcessType.VELOCITY;
+            case WATERDOG:
+                return ProcessType.WATERDOG;
+            case GLOWSTONE:
+                return ProcessType.GLOWSTONE;
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -74,6 +95,7 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
                     Arrays.stream(serviceInfoSnapshot.getConfiguration().getTemplates()).map(this::mapTemplate).collect(Collectors.toList()),
                     players.stream().map(ServicePlayer::getName).collect(Collectors.toList()),
                     serviceInfoSnapshot.getProperty(BridgeServiceProperty.MAX_PLAYERS).orElse(0),
+                    this.convertProcessType(serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment()),
                     this.gson.toJsonTree(serviceInfoSnapshot).getAsJsonObject(),
                     serviceInfoSnapshot.getProperty(BridgeServiceProperty.MOTD).orElse(null),
                     serviceInfoSnapshot.getProperty(BridgeServiceProperty.STATE).orElse(null)
@@ -137,6 +159,7 @@ public class CloudNet3ObjectConverter implements CloudObjectConverter {
                     new NetworkAddress(serviceInfoSnapshot.getAddress().getHost(), serviceInfoSnapshot.getAddress().getPort()),
                     Arrays.stream(serviceInfoSnapshot.getConfiguration().getTemplates()).map(this::mapTemplate).collect(Collectors.toList()),
                     players.stream().map(ServicePlayer::getName).collect(Collectors.toList()),
+                    this.convertProcessType(serviceInfoSnapshot.getConfiguration().getProcessConfig().getEnvironment()),
                     this.gson.toJsonTree(serviceInfoSnapshot).getAsJsonObject()
             );
         }

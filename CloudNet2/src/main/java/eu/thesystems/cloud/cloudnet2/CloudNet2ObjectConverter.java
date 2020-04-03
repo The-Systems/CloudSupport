@@ -48,6 +48,7 @@ public class CloudNet2ObjectConverter implements CloudObjectConverter {
                 Collections.singletonList(this.mapTemplate(serverInfo.getServiceId().getGroup(), serverInfo.getTemplate())),
                 serverInfo.getPlayers(),
                 serverInfo.getMaxPlayers(),
+                ProcessType.MINECRAFT_SERVER,
                 this.gson.toJsonTree(serverInfo).getAsJsonObject(),
                 serverInfo.getMotd(),
                 serverInfo.getServerState().toString()
@@ -98,6 +99,7 @@ public class CloudNet2ObjectConverter implements CloudObjectConverter {
                         this.mapTemplate(proxyInfo.getServiceId().getGroup(), new de.dytanic.cloudnet.lib.server.template.Template("default", TemplateResource.LOCAL, null, new String[0], Collections.emptyList()))
                 ),
                 proxyInfo.getPlayers().stream().map(MultiValue::getSecond).collect(Collectors.toList()),
+                ProcessType.BUNGEE_CORD,
                 this.gson.toJsonTree(proxyInfo).getAsJsonObject()
         );
     }

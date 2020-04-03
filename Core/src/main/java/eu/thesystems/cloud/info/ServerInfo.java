@@ -16,8 +16,8 @@ public class ServerInfo extends ProcessInfo {
     private String state;
     private int maxPlayers;
 
-    public ServerInfo(String group, String name, String uniqueId, String launcher, NetworkAddress host, Collection<Template> templates, Collection<String> onlinePlayers, int maxPlayers, JsonObject availableProxyData, String motd, String state) {
-        super(group, name, uniqueId, launcher, host, templates, onlinePlayers, availableProxyData);
+    public ServerInfo(String group, String name, String uniqueId, String launcher, NetworkAddress host, Collection<Template> templates, Collection<String> onlinePlayers, int maxPlayers, ProcessType processType, JsonObject availableProxyData, String motd, String state) {
+        super(group, name, uniqueId, launcher, host, templates, onlinePlayers, processType, availableProxyData);
         this.motd = motd;
         this.state = state;
         this.maxPlayers = maxPlayers;

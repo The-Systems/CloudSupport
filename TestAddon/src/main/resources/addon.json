@@ -3,6 +3,9 @@
   "version": "1.0",
   "authors": ["derrop"],
   "main": "de.derrop.cloudsupport.addons.testaddon.TestAddon",
+  "copyToProcesses": [
+    "ALL"
+  ],
   "dependencies": [
     {
       "groupId": "com.google.code.gson",

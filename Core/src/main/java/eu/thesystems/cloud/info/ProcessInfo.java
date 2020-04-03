@@ -22,6 +22,7 @@ public class ProcessInfo {
     private NetworkAddress host;
     private Collection<Template> templates;
     private Collection<String> onlinePlayers;
+    private ProcessType type;
     /**
      * The different server infos are different in the clouds, so I can't implement everything in this object,
      * this json object contains EVERYTHING of the server info object that I get from the cloud,
