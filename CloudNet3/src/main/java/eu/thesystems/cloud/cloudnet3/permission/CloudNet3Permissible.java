@@ -37,12 +37,12 @@ public abstract class CloudNet3Permissible implements Permissible {
     }
 
     private void forEachGroups(Consumer<IPermissionGroup> consumer) {
-        this.forEachGroups(null, this.getGroups(), consumer, 0);
+        this.forEachGroups(this.getName(), this.getGroups(), consumer, 0);
     }
 
     private void forEachGroups(String firstGroup, Collection<String> groups, Consumer<IPermissionGroup> consumer, int layer) {
-        if (layer >= 20 + this.permissionProvider.getGroups().size()) {
-            throw new IllegalArgumentException("Detected recursive group implementations on group " + firstGroup); // todo test if this works
+        if (layer >= 15 + this.permissionProvider.getGroups().size()) {
+            throw new IllegalArgumentException("Detected recursive group implementations on group " + firstGroup);
         }
         ++layer;
 

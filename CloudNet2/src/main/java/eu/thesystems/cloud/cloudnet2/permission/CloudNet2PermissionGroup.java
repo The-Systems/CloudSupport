@@ -33,12 +33,12 @@ public class CloudNet2PermissionGroup extends CloudNet2Permissible implements Pe
     }
 
     private void forEachGroups(Consumer<de.dytanic.cloudnet.lib.player.permission.PermissionGroup> consumer) {
-        this.forEachGroups(null, this.getGroups(), consumer, 0);
+        this.forEachGroups(this.getName(), this.getGroups(), consumer, 0);
     }
 
     private void forEachGroups(String firstGroup, Collection<String> groups, Consumer<de.dytanic.cloudnet.lib.player.permission.PermissionGroup> consumer, int layer) {
-        if (layer >= 20 + this.permissionProvider.getGroupCount()) {
-            throw new IllegalArgumentException("Detected recursive group implementations on group " + firstGroup); // todo test if this works
+        if (layer >= 15 + this.permissionProvider.getGroupCount()) {
+            throw new IllegalArgumentException("Detected recursive group implementations on group " + firstGroup);
         }
         ++layer;
 
