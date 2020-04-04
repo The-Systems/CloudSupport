@@ -50,7 +50,6 @@ public class CloudNet3EventCaller {
     @EventListener
     public void handleServiceStart(CloudServiceStartEvent event) {
         ProcessInfo processInfo = CloudNet3Util.getProcessInfoFromService(this.converter(), event.getServiceInfo());
-        this.eventManager.callEvent(new CloudProcessStartEvent(processInfo));
         if (processInfo instanceof ServerInfo) {
             this.eventManager.callEvent(new CloudServerStartEvent((ServerInfo) processInfo));
         } else if (processInfo instanceof ProxyInfo) {
@@ -61,7 +60,6 @@ public class CloudNet3EventCaller {
     @EventListener
     public void handleServiceUpdate(CloudServiceInfoUpdateEvent event) {
         ProcessInfo processInfo = CloudNet3Util.getProcessInfoFromService(this.converter(), event.getServiceInfo());
-        this.eventManager.callEvent(new CloudProcessUpdateEvent(processInfo));
         if (processInfo instanceof ServerInfo) {
             this.eventManager.callEvent(new CloudServerUpdateEvent((ServerInfo) processInfo));
         } else if (processInfo instanceof ProxyInfo) {
@@ -72,7 +70,6 @@ public class CloudNet3EventCaller {
     @EventListener
     public void handleServiceStop(CloudServiceStopEvent event) {
         ProcessInfo processInfo = CloudNet3Util.getProcessInfoFromService(this.converter(), event.getServiceInfo());
-        this.eventManager.callEvent(new CloudProcessStopEvent(processInfo));
         if (processInfo instanceof ServerInfo) {
             this.eventManager.callEvent(new CloudServerStopEvent((ServerInfo) processInfo));
         } else if (processInfo instanceof ProxyInfo) {

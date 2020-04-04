@@ -46,37 +46,31 @@ public class CloudNet2BridgeEventCaller implements NetworkHandler {
     @Override
     public void onServerAdd(ServerInfo serverInfo) {
         this.eventManager.callEvent(new CloudServerStartEvent(this.converter.convertServerInfo(serverInfo)));
-        this.eventManager.callEvent(new CloudProcessStartEvent(this.converter.convertServerInfo(serverInfo)));
     }
 
     @Override
     public void onServerInfoUpdate(ServerInfo serverInfo) {
         this.eventManager.callEvent(new CloudServerUpdateEvent(this.converter.convertServerInfo(serverInfo)));
-        this.eventManager.callEvent(new CloudProcessUpdateEvent(this.converter.convertServerInfo(serverInfo)));
     }
 
     @Override
     public void onServerRemove(ServerInfo serverInfo) {
         this.eventManager.callEvent(new CloudServerStopEvent(this.converter.convertServerInfo(serverInfo)));
-        this.eventManager.callEvent(new CloudProcessStopEvent(this.converter.convertServerInfo(serverInfo)));
     }
 
     @Override
     public void onProxyAdd(ProxyInfo proxyInfo) {
         this.eventManager.callEvent(new CloudProxyStartEvent(this.converter.convertProxyInfo(proxyInfo)));
-        this.eventManager.callEvent(new CloudProcessStartEvent(this.converter.convertProxyInfo(proxyInfo)));
     }
 
     @Override
     public void onProxyInfoUpdate(ProxyInfo proxyInfo) {
         this.eventManager.callEvent(new CloudProxyUpdateEvent(this.converter.convertProxyInfo(proxyInfo)));
-        this.eventManager.callEvent(new CloudProcessUpdateEvent(this.converter.convertProxyInfo(proxyInfo)));
     }
 
     @Override
     public void onProxyRemove(ProxyInfo proxyInfo) {
         this.eventManager.callEvent(new CloudProxyStopEvent(this.converter.convertProxyInfo(proxyInfo)));
-        this.eventManager.callEvent(new CloudProcessStopEvent(this.converter.convertProxyInfo(proxyInfo)));
     }
 
     @Override
