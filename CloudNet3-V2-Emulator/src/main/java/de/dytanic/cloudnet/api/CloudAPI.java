@@ -400,6 +400,7 @@ public final class CloudAPI {
     public Map<String, SimpleServerGroup> getServerGroupMap() {
         return CloudNetDriver.getInstance().getServiceTaskProvider().getPermanentServiceTasks()
                 .stream()
+                .filter(task -> task.getProcessConfiguration().getEnvironment() == ServiceEnvironmentType.MINECRAFT_SERVER)
                 .map(serviceTask -> this.converter.convertToServerGroup(serviceTask).toSimple())
                 .collect(Collectors.toMap(SimpleServerGroup::getName, simpleServerGroup -> simpleServerGroup));
     }
@@ -407,6 +408,7 @@ public final class CloudAPI {
     public Map<String, ProxyGroup> getProxyGroupMap() {
         return CloudNetDriver.getInstance().getServiceTaskProvider().getPermanentServiceTasks()
                 .stream()
+                .filter(task -> task.getProcessConfiguration().getEnvironment() == ServiceEnvironmentType.BUNGEECORD)
                 .map(this.converter::convertToProxyGroup)
                 .collect(Collectors.toMap(ProxyGroup::getName, proxyGroup -> proxyGroup));
     }
